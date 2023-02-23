@@ -3,6 +3,13 @@
  * Sequelize is a promise-based Node.j ORM that supports the dialects for Postgres, MysQL, and SQL server
  * Sequelize with MySQL
  */
+import { Category } from "@src/domain/entities/category";
+import { Order } from "@src/domain/entities/order";
+import { Payment } from "@src/domain/entities/payment";
+import { Product } from "@src/domain/entities/product";
+import { ProductOrder } from "@src/domain/entities/product-order";
+import { SubCategory } from "@src/domain/entities/sub-category";
+import { User } from "@src/domain/entities/user";
 import { Sequelize } from "sequelize-typescript";
 
 export class DbConfig {
@@ -18,7 +25,7 @@ export class DbConfig {
             port: 5432,
             host: "localhost",
             dialect: "postgres",
-            models: [],
+            models: [User, SubCategory, Order, ProductOrder, Product, Category, Payment],
             logging: false,
             pool: {
                 max: 5,
