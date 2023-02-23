@@ -7,10 +7,10 @@ import {
   DataType,
   BelongsToMany
 } from "sequelize-typescript";
-import { Category } from "./Category";
-import { Order } from "./Order";
-import { ProductOrder } from "./ProductOrder";
-import { SubCategory } from "./SubCategory";
+import { Category } from "./category";
+import { Order } from "./order";
+import { ProductOrder } from "./product-order";
+import { SubCategory } from "./sub-category";
 import { uuid } from "uuidv4";
 
 @Table({

@@ -1,4 +1,4 @@
-import { IBaseResponse } from "./BaseResponse";
+import { IBaseResponse } from "./base-response";
 
 export interface IPayment {
   id: string;

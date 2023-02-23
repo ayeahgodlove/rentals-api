@@ -1,6 +1,6 @@
 import { Table, Model, Column, DataType, HasMany } from "sequelize-typescript";
-import { Product } from "./Product";
-import { SubCategory } from "./SubCategory";
+import { Product } from "./product";
+import { SubCategory } from "./sub-category";
 import { uuid } from "uuidv4";
 
 @Table({

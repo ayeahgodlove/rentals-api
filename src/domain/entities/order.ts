@@ -5,16 +5,21 @@ import {
   ForeignKey,
   BelongsTo,
   DataType,
+  BelongsToMany,
+  HasMany
 } from "sequelize-typescript";
-import { User } from "./User";
+import { Product } from "./product";
+import { ProductOrder } from "./product-order";
+import { User } from "./user";
+import { uuid } from "uuidv4";
 
 @Table({
   timestamps: true,
   paranoid: true,
-  tableName: "Payments",
-  modelName: "Payment"
+  tableName: "Orders",
+  modelName: "Order"
 })
-export class Payment extends Model {
+export class Order extends Model {
   @Column({
     type: DataType.STRING(50),
     allowNull: false,
@@ -33,18 +38,41 @@ export class Payment extends Model {
   @ForeignKey(() => User)
   userId!: string;
 
+  // @Column({
+  //   type: DataType.STRING(50),
+  //   allowNull: false,
+  //   references: {
+  //     model: Product,
+  //     key: "id",
+  //   },
+  // })
+  // @ForeignKey(() => Product)
+  // productId!: string;
+
+  @Column({
+    type: DataType.FLOAT,
+    allowNull: false,
+  })
+  unitPrice!: number;
+
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: false,
+  })
+  quantity!: number;
+
+  @Column({
+    type: DataType.FLOAT,
+    allowNull: false,
+  })
+  total!: number;
+
   @Column({
     type: DataType.STRING(40),
     allowNull: false,
     unique: true,
   })
   orderNo!: string;
-
-  @Column({
-    type: DataType.FLOAT,
-    allowNull: false,
-  })
-  amount!: number;
 
   @Column({
     type: DataType.STRING(10),
@@ -61,4 +89,7 @@ export class Payment extends Model {
 
   @BelongsTo(() => User)
   user!: User;
+
+  // @HasMany(() => Product)
+  // products!: Product[]
 }

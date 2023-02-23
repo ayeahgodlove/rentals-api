@@ -7,8 +7,8 @@ import {
   DataType,
   HasMany,
 } from "sequelize-typescript";
-import { Category } from "./Category";
-import { Product } from "./Product";
+import { Category } from "./category";
+import { Product } from "./product";
 
 @Table({
   timestamps: true,
