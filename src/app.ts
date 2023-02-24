@@ -6,9 +6,10 @@ import bodyParser from "body-parser";
 import session from "express-session";
 import cookieParser from "cookie-parser";
 
-import { DbConfig } from "./adapters/database/postgres/db.config";
+import { PostgresDbConfig } from "./adapters/database/postgres/db-postgres.config";
 import { errorHandler } from "./adapters/middlewares/error.middleware";
 import { notFoundHandler } from "./adapters/middlewares/not-found.middleware";
+import { checkJwt } from "./adapters/middlewares/authz.middleware";
 
 dotenv.config();
 /**
@@ -49,7 +50,7 @@ app.use(
 app.use(express.json());
 app.use(cookieParser());
 
-const db = new DbConfig();
+const db = new PostgresDbConfig();
 db.connection();
 
 //routes
@@ -57,6 +58,9 @@ app.get("/api", (req: Request, res: Response) => {
     res.send("Express + TypeScript Server");
 });
 
+app.get("/api/private", checkJwt, (req, res) => {
+    res.send("This is a private route, authenicate before you can see it")
+})
 
 
 
@@ -69,5 +73,5 @@ app.use(notFoundHandler);
  * Server Activation
  */
 app.listen(PORT, () => {
-  console.log(`⚡️[server]: Listening on port ${PORT}`);
+    console.log(`⚡️[server]: Listening on port ${PORT}`);
 });

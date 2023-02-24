@@ -13,7 +13,7 @@ import { Sequelize } from "sequelize-typescript";
 // import { Category } from "../../../domain/entities/category";
 // import { Payment } from "../../../domain/entities/payment";
 
-export class DbConfig {
+export class PostgresDbConfig {
   private readonly sequelize!: Sequelize;
   /**
    *
@@ -48,9 +48,9 @@ export class DbConfig {
   connection = async () => {
     try {
       await this.sequelize.authenticate();
-      console.log("Connection has been established successfully.");
+      console.log("Postgres connection has been established successfully.");
     } catch (error) {
-      console.error("Unable to connect to the database:", error);
+      console.error("Unable to connect to the postgres database:", error);
     }
   };
 }
