@@ -15,10 +15,6 @@
     "noImplicitAny": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,
-    "paths": {
-      "@src/*": ["src/*"]
-    },
     "forceConsistentCasingInFileNames": true, 
-    "charset": "utf8"
   }
 }
