@@ -5,13 +5,13 @@
  */
 
 import { Sequelize } from "sequelize-typescript";
-import { User } from "../../../domain/entities/user";
-import { SubCategory } from "../../../domain/entities/sub-category";
-import { Order } from "../../../domain/entities/order";
-import { ProductOrder } from "../../../domain/entities/product-order";
-import { Product } from "../../../domain/entities/product";
-import { Category } from "../../../domain/entities/category";
-import { Payment } from "../../../domain/entities/payment";
+// import { User } from "../../../domain/entities/user";
+// import { SubCategory } from "../../../domain/entities/sub-category";
+// import { Order } from "../../../domain/entities/order";
+// import { ProductOrder } from "../../../domain/entities/product-order";
+// import { Product } from "../../../domain/entities/product";
+// import { Category } from "../../../domain/entities/category";
+// import { Payment } from "../../../domain/entities/payment";
 
 export class DbConfig {
   private readonly sequelize!: Sequelize;
@@ -27,13 +27,13 @@ export class DbConfig {
       host: "localhost",
       dialect: "postgres",
       models: [
-        User,
-        SubCategory,
-        Order,
-        ProductOrder,
-        Product,
-        Category,
-        Payment,
+        // User,
+        // SubCategory,
+        // Order,
+        // ProductOrder,
+        // Product,
+        // Category,
+        // Payment,
       ],
       logging: false,
       pool: {
