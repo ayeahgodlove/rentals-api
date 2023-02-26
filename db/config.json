@@ -1,0 +1,25 @@
+{
+    "development": {
+      "username": "postgres",
+      "password": "admin@2022",
+      "database": "honeyman_db",
+      "host": "localhost",
+      "dialect": "postgres",
+      "port": 5432
+    },
+    "test": {
+      "username": "root",
+      "password": "",
+      "database": "database_test",
+      "host": "localhost",
+      "dialect": "mysql"
+    },
+    "production": {
+      "username": "root",
+      "password": "",
+      "database": "database_production",
+      "host": "localhost",
+      "dialect": "mysql"
+    }
+  }
+  

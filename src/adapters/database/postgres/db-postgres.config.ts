@@ -5,13 +5,13 @@
  */
 
 import { Sequelize } from "sequelize-typescript";
-import { User } from "../../../domain/entities/user";
-import { SubCategory } from "../../../domain/entities/sub-category";
-import { Order } from "../../../domain/entities/order";
-import { ProductOrder } from "../../../domain/entities/product-order";
-import { Product } from "../../../domain/entities/product";
 import { Category } from "../../../domain/entities/category";
+import { Order } from "../../../domain/entities/order";
 import { Payment } from "../../../domain/entities/payment";
+import { Product } from "../../../domain/entities/product";
+import { SubCategory } from "../../../domain/entities/sub-category";
+import { User } from "../../../domain/entities/user";
+import { ProductOrder } from "../../../domain/entities/product-order";
 
 export class PostgresDbConfig {
   private readonly _sequelize!: Sequelize;
