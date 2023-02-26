@@ -5,21 +5,21 @@
  */
 
 import { Sequelize } from "sequelize-typescript";
-// import { User } from "../../../domain/entities/user";
-// import { SubCategory } from "../../../domain/entities/sub-category";
-// import { Order } from "../../../domain/entities/order";
-// import { ProductOrder } from "../../../domain/entities/product-order";
-// import { Product } from "../../../domain/entities/product";
-// import { Category } from "../../../domain/entities/category";
-// import { Payment } from "../../../domain/entities/payment";
+import { User } from "../../../domain/entities/user";
+import { SubCategory } from "../../../domain/entities/sub-category";
+import { Order } from "../../../domain/entities/order";
+import { ProductOrder } from "../../../domain/entities/product-order";
+import { Product } from "../../../domain/entities/product";
+import { Category } from "../../../domain/entities/category";
+import { Payment } from "../../../domain/entities/payment";
 
 export class PostgresDbConfig {
-  private readonly sequelize!: Sequelize;
+  private readonly _sequelize!: Sequelize;
   /**
    *
    */
   constructor() {
-    this.sequelize = new Sequelize({
+    this._sequelize = new Sequelize({
       username: "postgres",
       password: "admin@2022",
       database: "honeyman_db",
@@ -27,13 +27,13 @@ export class PostgresDbConfig {
       host: "localhost",
       dialect: "postgres",
       models: [
-        // User,
-        // SubCategory,
-        // Order,
-        // ProductOrder,
-        // Product,
-        // Category,
-        // Payment,
+        User,
+        SubCategory,
+        Order,
+        ProductOrder,
+        Product,
+        Category,
+        Payment,
       ],
       logging: false,
       pool: {
@@ -43,6 +43,10 @@ export class PostgresDbConfig {
         idle: 10000,
       },
     });
+  }
+
+  public get sequelize(){
+    return this._sequelize;
   }
 
   connection = async () => {
