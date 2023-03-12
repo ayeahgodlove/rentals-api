@@ -13,6 +13,9 @@ import { SubCategory } from "../../../domain/entities/sub-category";
 import { User } from "../../../domain/entities/user";
 import { ProductOrder } from "../../../domain/entities/product-order";
 
+import * as dotenv from "dotenv";
+dotenv.config();
+
 export class PostgresDbConfig {
   private readonly _sequelize!: Sequelize;
   /**
@@ -20,11 +23,11 @@ export class PostgresDbConfig {
    */
   constructor() {
     this._sequelize = new Sequelize({
-      username: "postgres",
-      password: "admin@2022",
-      database: "honeyman_db",
-      port: 5432,
-      host: "localhost",
+      username: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB,
+      port: parseInt(process.env.DB_PORT!),
+      host: process.env.HOST,
       dialect: "postgres",
       models: [
         User,
@@ -43,7 +46,7 @@ export class PostgresDbConfig {
         idle: 10000,
       },
     });
-  }
+  } 
 
   public get sequelize(){
     return this._sequelize;
