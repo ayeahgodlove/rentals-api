@@ -6,10 +6,11 @@ import bodyParser from "body-parser";
 import session from "express-session";
 import cookieParser from "cookie-parser";
 
-import { PostgresDbConfig } from "./adapters/database/postgres/db-postgres.config";
-import { errorHandler } from "./adapters/middlewares/error.middleware";
-import { notFoundHandler } from "./adapters/middlewares/not-found.middleware";
-import { checkJwt } from "./adapters/middlewares/authz.middleware";
+import { PostgresDbConfig } from "./infrastructure/database/postgres/db-postgres.config";
+import { errorHandler } from "./infrastructure/middlewares/error.middleware";
+import { notFoundHandler } from "./infrastructure/middlewares/not-found.middleware";
+import { checkJwt } from "./infrastructure/middlewares/authz.middleware";
+import categoryRouter from "./presentation/routes/category-route";
 
 dotenv.config();
 /**
@@ -53,10 +54,13 @@ app.use(cookieParser());
 const db = new PostgresDbConfig();
 db.connection();
 
+
 //routes
 app.get("/api", (req: Request, res: Response) => {
     res.send("Express + TypeScript Server");
 });
+
+app.post('/api/categories', checkJwt, categoryRouter);
 
 app.get("/api/private", checkJwt, (req, res) => {
     res.send("This is a private route, authenicate before you can see it")

@@ -5,13 +5,13 @@
  */
 
 import { Sequelize } from "sequelize-typescript";
-import { Category } from "../../../domain/entities/category";
-import { Order } from "../../../domain/entities/order";
-import { Payment } from "../../../domain/entities/payment";
-import { Product } from "../../../domain/entities/product";
-import { SubCategory } from "../../../domain/entities/sub-category";
-import { User } from "../../../domain/entities/user";
-import { ProductOrder } from "../../../domain/entities/product-order";
+import { Category } from "../../../data/entities/category";
+import { Order } from "../../../data/entities/order";
+import { Payment } from "../../../data/entities/payment";
+import { Product } from "../../../data/entities/product";
+import { SubCategory } from "../../../data/entities/sub-category";
+import { User } from "../../../data/entities/user";
+import { ProductOrder } from "../../../data/entities/product-order";
 
 import * as dotenv from "dotenv";
 dotenv.config();

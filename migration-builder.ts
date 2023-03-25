@@ -2,7 +2,7 @@ import { join } from "path";
 import dotenv from "dotenv";
 
 import { SequelizeTypescriptMigration } from "sequelize-typescript-migration-lts";
-import { PostgresDbConfig } from "./src/adapters/database/postgres/db-postgres.config";
+import { PostgresDbConfig } from "./src/infrastructure/database/postgres/db-postgres.config";
 
 dotenv.config();
 
