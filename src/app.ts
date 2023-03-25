@@ -37,7 +37,7 @@ app.use(
 app.use(helmet());
 app.use(
     cors({
-        origin: "http://localhost:3000",
+        origin: "*",
         credentials: true,
     })
 );
@@ -54,13 +54,12 @@ app.use(cookieParser());
 const db = new PostgresDbConfig();
 db.connection();
 
-
 //routes
 app.get("/api", (req: Request, res: Response) => {
     res.send("Express + TypeScript Server");
 });
 
-app.post('/api/categories', checkJwt, categoryRouter);
+app.use('/api/categories', categoryRouter);
 
 app.get("/api/private", checkJwt, (req, res) => {
     res.send("This is a private route, authenicate before you can see it")

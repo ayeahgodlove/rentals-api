@@ -23,7 +23,7 @@ export const emptyCategory: ICategory = {
 };
 
 export interface ICategoryResponse extends IBaseResponse {
-  data: ICategory | null;
+  data: ICategory | null | ICategory[];
 }
 
 export const emptySubCategory: ISubCategory = {

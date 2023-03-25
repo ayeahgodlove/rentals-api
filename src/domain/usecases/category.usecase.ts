@@ -20,6 +20,10 @@ export class CategoryUseCase {
         return this.categoryRepository.create(category);
       }
     
+      async getAll(): Promise<Category[]> {
+        return this.categoryRepository.getAll();
+      }
+
       async getCategoryById(id: string): Promise<Category | null> {
         return this.categoryRepository.findById(id);
       }

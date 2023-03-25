@@ -6,9 +6,10 @@ const categoryController = new CategoriesController();
 
 const categoryRouter = Router();
 
-categoryRouter.post('/api/categories', categoryController.createCategory);
-categoryRouter.get('/api/categories/:id', categoryController.getCategoryById);
-categoryRouter.put('/api/categories/:id', categoryController.updateCategory);
-categoryRouter.delete('/api/categories/:id', categoryController.deleteCategory);
+categoryRouter.get('', categoryController.getAll);
+categoryRouter.get('/:id', categoryController.getCategoryById);
+categoryRouter.post('', categoryController.createCategory);
+categoryRouter.put('/:id', categoryController.updateCategory);
+categoryRouter.delete('/:id', categoryController.deleteCategory);
 
 export default categoryRouter;

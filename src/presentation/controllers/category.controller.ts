@@ -8,9 +8,11 @@ import { CategoryUseCase } from "../../domain/usecases/category.usecase";
 import slugify from "slugify";
 import { v4 } from "uuid";
 import { CategoryRepository } from "../../data/repositories/impl/category.repository";
+import { CategoryMapper } from "../mappers/category-mapper";
 
 const categoryRepository = new CategoryRepository();
 const categoryUseCase = new CategoryUseCase(categoryRepository);
+const categoryMapper = new CategoryMapper();
 
 export class CategoriesController {
   async createCategory(req: Request, res: Response<ICategoryResponse>): Promise<void> {
@@ -25,22 +27,48 @@ export class CategoriesController {
         slug: slugify(name, "-"),
       };
       const categoryResponse = await categoryUseCase.createCategory(category);
+      const categoryDTO = categoryMapper.toDTO(categoryResponse) //convert entity to DTO
+
       res.status(201).json({
-        data: categoryResponse as any,
-        message: "Category d Successfully!",
+        data: categoryDTO,
+        message: "Category created Successfully!",
         validationErrors: [],
         success: true,
       });
     } catch (error: any) {
       res.status(400).json({
         data: null,
-        message: "Category Creation Failed!" + error.message,
-        validationErrors: error,
-        success: true,
+        message: error.message,
+        validationErrors: [],
+        success: false,
       });
     }
 
     res.status(201).send();
+  }
+
+  async getAll(
+    req: Request,
+    res: Response<ICategoryResponse>
+  ): Promise<void> {
+    try {
+
+      const categories = await categoryUseCase.getAll();
+      const categoryDTOs = categoryMapper.toDTOs(categories)
+      res.json({
+        data: categories as any,
+        message: "Success",
+        validationErrors: [],
+        success: true,
+      });
+    } catch (error: any) {
+      res.status(400).json({
+        data: null,
+        message: error.message,
+        validationErrors: [],
+        success: false,
+      });
+    }
   }
 
   async getCategoryById(
@@ -51,7 +79,7 @@ export class CategoriesController {
       const id = req.params.id;
 
       const category = await categoryUseCase.getCategoryById(id);
-
+      
       if (!category) {
         res.status(404).json({
           data: null,
@@ -61,9 +89,9 @@ export class CategoriesController {
         });
         return;
       }
-
+      const categoryDTO = categoryMapper.toDTO(category)
       res.json({
-        data: category as any,
+        data: categoryDTO,
         message: "Category Found!",
         validationErrors: [],
         success: true,
@@ -105,18 +133,13 @@ export class CategoriesController {
         category.description = description;
       }
 
-      const obj: ICategory = {
-        id: `${category.id}`,
-        name,
-        description,
-        slug: `${category.slug}`,
-        createdAt: new Date(category.createdAt),
-        updatedAt: new Date(category.updatedAt),
-      };
-      const updatedCategory = await categoryUseCase.updateCategory(obj);
+      const categoryDTO1 = categoryMapper.toDTO(category)
+
+      const updatedCategory = await categoryUseCase.updateCategory(categoryDTO1);
+      const categoryDTO2 = categoryMapper.toDTO(updatedCategory);
 
       res.json({
-        data: updatedCategory as any,
+        data: categoryDTO2,
         message: "Category Updated Successfully!",
         validationErrors: [],
         success: true,
@@ -143,18 +166,19 @@ export class CategoriesController {
       if (!category) {
         res
           .status(404)
-          .json({
-            data: null,
-            message: "Category not found",
-            validationErrors: [],
-            success: false,
-          });
-        return;
+          throw new Error(`Category not found!`);
       }
+
+      const categoryDTO = categoryMapper.toDTO(category)
 
       await categoryUseCase.deleteCategory(id);
 
-      res.sendStatus(204);
+      res.status(204).json({
+        message: `${categoryDTO.name}`,
+        validationErrors: [],
+        success: true,
+        data: null
+      });
     } catch (error: any) {
       res
         .status(400)
