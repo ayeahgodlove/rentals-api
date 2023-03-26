@@ -10,7 +10,7 @@ export interface ICategory {
 }
 
 export interface ISubCategory extends ICategory {
-  categoryId: number;
+  categoryId: string;
 }
 
 export const emptyCategory: ICategory = {
@@ -28,8 +28,8 @@ export interface ICategoryResponse extends IBaseResponse {
 
 export const emptySubCategory: ISubCategory = {
   ...emptyCategory,
-  categoryId: 0,
+  categoryId: '',
 };
 export interface ISubCategoryResponse extends IBaseResponse {
-  data: ISubCategory | null;
+  data: ISubCategory | null |ISubCategory[];
 }

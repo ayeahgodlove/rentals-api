@@ -28,7 +28,7 @@ export class CategoryUseCase {
         return this.categoryRepository.findById(id);
       }
     
-      async getCategoryByNameAndPassword(category: ICategory): Promise<Category | null> {
+      async getCategoryByName(category: ICategory): Promise<Category | null> {
         const _category = await this.categoryRepository.findByName(category.name);
     
         if (!_category) {

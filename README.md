@@ -23,3 +23,7 @@ It contains the following modules;
 
 #### Tests
 unit test files
+
+
+<!-- Validation -->
+```npm install class-validator class-transformer```

@@ -18,6 +18,9 @@ export class CategoriesController {
   async createCategory(req: Request, res: Response<ICategoryResponse>): Promise<void> {
     const { name, description } = req.body;
 
+    // if(!name) {
+    //   res
+    // }
     try {
       const category: ICategory = {
         ...emptyCategory,
