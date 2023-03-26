@@ -6,11 +6,12 @@ import bodyParser from "body-parser";
 import session from "express-session";
 import cookieParser from "cookie-parser";
 
-import { PostgresDbConfig } from "./adapters/database/postgres/db-postgres.config";
-import { errorHandler } from "./adapters/middlewares/error.middleware";
-import { notFoundHandler } from "./adapters/middlewares/not-found.middleware";
-import { checkJwt } from "./adapters/middlewares/authz.middleware";
-import path from "path";
+import { PostgresDbConfig } from "./infrastructure/database/postgres/db-postgres.config";
+import { errorHandler } from "./shared/middlewares/error.middleware";
+import { notFoundHandler } from "./shared/middlewares/not-found.middleware";
+import { checkJwt } from "./shared/middlewares/authz.middleware";
+import categoryRouter from "./presentation/routes/category.route";
+import subCategoryRouter from "./presentation/routes/sub-category.route";
 
 dotenv.config();
 /**
@@ -36,10 +37,10 @@ app.use(
 );
 app.use(helmet());
 app.use(
-  cors({
-    origin: "http://localhost:3000",
-    credentials: true,
-  })
+    cors({
+        origin: "*",
+        credentials: true,
+    })
 );
 app.use(
   session({
@@ -55,12 +56,15 @@ const db = new PostgresDbConfig();
 db.connection();
 
 //routes
-app.get("/", function (req, res) {
-  res.sendFile(path.join(__dirname, "../public/index.html"));
-});
+// app.get("/", function (req, res) {
+//   res.sendFile(path.join(__dirname, "../public/index.html"));
+// });
 app.get("/api", (req: Request, res: Response) => {
   res.send("Express + TypeScript Server");
 });
+
+app.use('/api/categories', categoryRouter);
+app.use('/api/sub-categories', subCategoryRouter);
 
 app.get("/api/private", checkJwt, (req, res) => {
   res.send("This is a private route, authenicate before you can see it");

@@ -7,6 +7,8 @@ import {
   DataType,
   HasMany,
 } from "sequelize-typescript";
+import { IsNotEmpty, Min, IsString, Max } from "class-validator";
+// import { Transform } from "class-transformer";
 import { Category } from "./category";
 import { Product } from "./product";
 
@@ -32,6 +34,9 @@ export class SubCategory extends Model {
       key: "id",
     },
   })
+  @IsNotEmpty()
+  @IsString()
+  @Max(50)
   @ForeignKey(() => Category)
   categoryId!: string;
 
@@ -40,6 +45,9 @@ export class SubCategory extends Model {
     allowNull: false,
     unique: true,
   })
+  @IsNotEmpty()
+  @IsString()
+  @Max(128)
   name!: string;
 
   @Column({
@@ -53,6 +61,7 @@ export class SubCategory extends Model {
     type: DataType.TEXT,
     allowNull: false,
   })
+  @IsNotEmpty()
   description!: string;
 
   /**
