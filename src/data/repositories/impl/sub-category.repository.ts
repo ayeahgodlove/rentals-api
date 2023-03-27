@@ -75,7 +75,7 @@ export class SubCategoryRepository implements ISubCategoryRepository {
           id,
           categoryId,
           name,
-          slug: slugify(name, "-"),
+          slug:  slugify(name, {lower: true, replacement: "-"}),
           description,
           updatedAt,
         });

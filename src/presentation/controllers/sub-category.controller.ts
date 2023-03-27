@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import {
-  ISubCategory,
   ISubCategoryResponse,
   emptySubCategory,
 } from "../../domain/models/category";
@@ -10,8 +9,9 @@ import { v4 } from "uuid";
 import { SubCategoryRepository } from "../../data/repositories/impl/sub-category.repository";
 import { SubCategoryMapper } from "../mappers/sub-category-mapper";
 import { validate } from "class-validator";
-import { SubCategory } from "../../data/entities/sub-category";
 import { displayValidationErrors } from "../../utils/displayValidationErrors";
+import { SubCategoryRequestDto } from "../dtos/sub-category-request.dto";
+import { NotFoundException } from "../../shared/exceptions/not-found.exception";
 
 const subCategoryRepository = new SubCategoryRepository();
 const subCategoryUseCase = new SubCategoryUseCase(subCategoryRepository);
@@ -22,16 +22,9 @@ export class SubCategoriesController {
     req: Request,
     res: Response<ISubCategoryResponse>
   ): Promise<void> {
-    const { name, description, categoryId } = req.body;
-    const subCategory = new SubCategory({
-      id: v4(),
-      name,
-      description,
-      slug: slugify(name, "-"),
-      categoryId,
-    });
+    const dto = new SubCategoryRequestDto(req.body);
+    const validationErrors = await validate(dto);
 
-    const validationErrors = await validate(subCategory);
     if (validationErrors.length > 0) {
       res.status(400).json({
         data: null,
@@ -43,14 +36,7 @@ export class SubCategoriesController {
     else {
       try {
      
-        const subCategoryResponse = await subCategoryUseCase.createSubCategory({
-          ...emptySubCategory,
-          id: v4(),
-          name,
-          description,
-          slug: slugify(name, "-"),
-          categoryId,
-        });
+        const subCategoryResponse = await subCategoryUseCase.createSubCategory(dto.toData());
   
         res.status(201).json({
           data: subCategoryResponse as any,
@@ -62,7 +48,7 @@ export class SubCategoriesController {
         res.status(500).json({
           data: null,
           message: error.message,
-          validationErrors: [],
+          validationErrors: [error],
           success: false,
         });
       }
@@ -102,13 +88,7 @@ export class SubCategoriesController {
       const subCategory = await subCategoryUseCase.getSubCategoryById(id);
 
       if (!subCategory) {
-        res.status(404).json({
-          data: null,
-          message: "Sub Category not found",
-          validationErrors: [],
-          success: false,
-        });
-        return;
+        throw new NotFoundException("SubCategory", id);
       }
       const subCategoryDTO = subCategoryMapper.toDTO(subCategory);
       res.json({
@@ -131,52 +111,58 @@ export class SubCategoriesController {
     req: Request,
     res: Response<ISubCategoryResponse>
   ): Promise<void> {
-    try {
-      const id = req.params.id;
+    const dto = new SubCategoryRequestDto(req.body)
+    const validationErrors = await validate(dto);
 
-      const subCategory = await subCategoryUseCase.getSubCategoryById(id);
-
-      if (!subCategory) {
-        res.status(404).json({
+    if (validationErrors.length > 0) {
+      res.status(400).json({ 
+        validationErrors: displayValidationErrors(validationErrors) as any,
+        success: false,
+        data: null,
+        message: "Attention!"
+      });
+    }
+    else {
+      try {
+        const id = req.params.id;
+        const subCategory = await subCategoryUseCase.getSubCategoryById(id);
+  
+        if (!subCategory) {
+          throw new NotFoundException("SubCategory", id)
+        }
+  
+        const { name, description, categoryId } = req.body;
+        if (name) {
+          subCategory.name = name;
+        }
+        if (description) {
+          subCategory.description = description;
+        }
+        if (categoryId) {
+          subCategory.categoryId = categoryId;
+        }
+        subCategory.updatedAt = new Date();
+  
+        const subCategoryDTO1 = subCategoryMapper.toDTO(subCategory);
+  
+        const updatedSubCategory = await subCategoryUseCase.updateSubCategory(
+          dto.toUpdateData(subCategoryDTO1)
+        );
+  
+        res.json({
+          data: updatedSubCategory as any,
+          message: "SubCategory Updated Successfully!",
+          validationErrors: [],
+          success: true,
+        });
+      } catch (error: any) {
+        res.status(400).json({
           data: null,
-          message: "SubCategory not found",
+          message: error.message,
           validationErrors: [],
           success: false,
         });
-        return;
       }
-
-      const { name, description, categoryId } = req.body;
-      if (name) {
-        subCategory.name = name;
-      }
-      if (description) {
-        subCategory.description = description;
-      }
-      if (categoryId) {
-        subCategory.categoryId = categoryId;
-      }
-
-      const subCategoryDTO1 = subCategoryMapper.toDTO(subCategory);
-
-      const updatedSubCategory = await subCategoryUseCase.updateSubCategory(
-        subCategoryDTO1
-      );
-      // const subCategoryDTO2 = subCategoryMapper.toDTO(updatedSubCategory);
-
-      res.json({
-        data: updatedSubCategory as any,
-        message: "SubCategory Updated Successfully!",
-        validationErrors: [],
-        success: true,
-      });
-    } catch (error: any) {
-      res.status(400).json({
-        data: null,
-        message: error.message,
-        validationErrors: [],
-        success: false,
-      });
     }
   }
 
@@ -190,8 +176,7 @@ export class SubCategoriesController {
       const subCategory = await subCategoryUseCase.getSubCategoryById(id);
 
       if (!subCategory) {
-        res.status(404);
-        throw new Error(`SubCategory not found!`);
+        throw new NotFoundException("SubCategory", id);
       }
 
       const subCategoryDTO = subCategoryMapper.toDTO(subCategory);

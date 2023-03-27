@@ -1,14 +1,15 @@
 import { Request, Response } from "express";
 import {
-  ICategory,
   ICategoryResponse,
-  emptyCategory,
 } from "../../domain/models/category";
 import { CategoryUseCase } from "../../domain/usecases/category.usecase";
 import slugify from "slugify";
-import { v4 } from "uuid";
 import { CategoryRepository } from "../../data/repositories/impl/category.repository";
 import { CategoryMapper } from "../mappers/category-mapper";
+import { CategoryRequestDto } from "../dtos/category-request.dto";
+import { validate } from "class-validator";
+import { displayValidationErrors } from "../../utils/displayValidationErrors";
+import { NotFoundException } from "../../shared/exceptions/not-found.exception";
 
 const categoryRepository = new CategoryRepository();
 const categoryUseCase = new CategoryUseCase(categoryRepository);
@@ -16,38 +17,38 @@ const categoryMapper = new CategoryMapper();
 
 export class CategoriesController {
   async createCategory(req: Request, res: Response<ICategoryResponse>): Promise<void> {
-    const { name, description } = req.body;
+    const dto = new CategoryRequestDto(req.body);
+    const validationErrors = await validate(dto);
 
-    // if(!name) {
-    //   res
-    // }
-    try {
-      const category: ICategory = {
-        ...emptyCategory,
-        id: v4(),
-        name,
-        description,
-        slug: slugify(name, "-"),
-      };
-      const categoryResponse = await categoryUseCase.createCategory(category);
-      const categoryDTO = categoryMapper.toDTO(categoryResponse) //convert entity to DTO
-
-      res.status(201).json({
-        data: categoryDTO,
-        message: "Category created Successfully!",
-        validationErrors: [],
-        success: true,
-      });
-    } catch (error: any) {
-      res.status(400).json({
-        data: null,
-        message: error.message,
-        validationErrors: [],
+    if (validationErrors.length > 0) {
+      res.status(400).json({ 
+        validationErrors: displayValidationErrors(validationErrors) as any,
         success: false,
+        data: null,
+        message: "Attention!"
       });
     }
-
-    res.status(201).send();
+    else {
+      try {
+        
+        const categoryResponse = await categoryUseCase.createCategory(dto.toData());
+        const categoryDTO = categoryMapper.toDTO(categoryResponse) //convert entity to DTO
+  
+        res.status(201).json({
+          data: categoryDTO,
+          message: "Category created Successfully!",
+          validationErrors: [],
+          success: true,
+        });
+      } catch (error: any) {
+        res.status(400).json({
+          data: null,
+          message: error.message,
+          validationErrors: [error],
+          success: false,
+        });
+      }
+    }
   }
 
   async getAll(
@@ -57,7 +58,6 @@ export class CategoriesController {
     try {
 
       const categories = await categoryUseCase.getAll();
-      const categoryDTOs = categoryMapper.toDTOs(categories)
       res.json({
         data: categories as any,
         message: "Success",
@@ -68,7 +68,7 @@ export class CategoriesController {
       res.status(400).json({
         data: null,
         message: error.message,
-        validationErrors: [],
+        validationErrors: [error],
         success: false,
       });
     }
@@ -84,18 +84,12 @@ export class CategoriesController {
       const category = await categoryUseCase.getCategoryById(id);
       
       if (!category) {
-        res.status(404).json({
-          data: null,
-          message: "Category not found",
-          validationErrors: [],
-          success: false,
-        });
-        return;
+        throw new NotFoundException("Category", id);
       }
       const categoryDTO = categoryMapper.toDTO(category)
       res.json({
         data: categoryDTO,
-        message: "Category Found!",
+        message: "Success",
         validationErrors: [],
         success: true,
       });
@@ -103,7 +97,7 @@ export class CategoriesController {
       res.status(400).json({
         data: null,
         message: error.message,
-        validationErrors: error,
+        validationErrors: [error],
         success: false,
       });
     }
@@ -113,47 +107,51 @@ export class CategoriesController {
     req: Request,
     res: Response<ICategoryResponse>
   ): Promise<void> {
-    try {
-      const id = req.params.id;
+    const dto = new CategoryRequestDto(req.body)
+    const validationErrors = await validate(dto);
 
-      const category = await categoryUseCase.getCategoryById(id);
-
-      if (!category) {
-        res.status(404).json({
-          data: null,
-          message: "Category not found",
+    if (validationErrors.length > 0) {
+      res.status(400).json({ 
+        validationErrors: displayValidationErrors(validationErrors) as any,
+        success: false,
+        data: null,
+        message: "Attention!"
+      });
+    }
+    else {
+      try {
+        const id = req.params.id;
+      
+        const category = await categoryUseCase.getCategoryById(id);
+        
+        if (!category) {
+          throw new NotFoundException("Category", id);
+        }
+  
+        category.name = dto.name;
+        category.description = dto.description;
+        category.slug =  slugify(category.name, {lower: true, replacement: "-"});
+        category.updatedAt = new Date();
+  
+        const categoryDTO1 = categoryMapper.toDTO(category)
+  
+        const updatedCategory = await categoryUseCase.updateCategory(dto.toUpdateData(categoryDTO1));
+        const categoryDTO2 = categoryMapper.toDTO(updatedCategory);
+  
+        res.json({
+          data: categoryDTO2,
+          message: "Category Updated Successfully!",
           validationErrors: [],
+          success: true,
+        });
+      } catch (error: any) {
+        res.status(400).json({
+          data: null,
+          message: error.message,
+          validationErrors: [error],
           success: false,
         });
-        return;
       }
-
-      const { name, description } = req.body;
-      if (name) {
-        category.name = name;
-      }
-      if (description) {
-        category.description = description;
-      }
-
-      const categoryDTO1 = categoryMapper.toDTO(category)
-
-      const updatedCategory = await categoryUseCase.updateCategory(categoryDTO1);
-      const categoryDTO2 = categoryMapper.toDTO(updatedCategory);
-
-      res.json({
-        data: categoryDTO2,
-        message: "Category Updated Successfully!",
-        validationErrors: [],
-        success: true,
-      });
-    } catch (error: any) {
-      res.status(400).json({
-        data: null,
-        message: error.message,
-        validationErrors: [],
-        success: false,
-      });
     }
   }
 
@@ -167,9 +165,7 @@ export class CategoriesController {
       const category = await categoryUseCase.getCategoryById(id);
 
       if (!category) {
-        res
-          .status(404)
-          throw new Error(`Category not found!`);
+          throw new NotFoundException("Category", id);
       }
 
       const categoryDTO = categoryMapper.toDTO(category)
@@ -188,7 +184,7 @@ export class CategoriesController {
         .json({
           message: error.message,
           data: null,
-          validationErrors: [],
+          validationErrors: [error],
           success: true,
         });
     }

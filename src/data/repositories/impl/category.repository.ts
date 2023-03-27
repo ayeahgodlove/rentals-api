@@ -74,7 +74,7 @@ export class CategoryRepository implements ICategoryRepository {
         return await categoryItem?.update({
           id,
           name,
-          slug: slugify(name, "-"),
+          slug: slugify(name, {lower: true, replacement: "-"}),
           description,
           updatedAt,
         });
