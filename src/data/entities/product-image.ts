@@ -1,4 +1,4 @@
-import { Table, Model, Column, DataType, HasMany, BelongsTo } from "sequelize-typescript";
+import { Table, Model, Column, DataType, HasMany, BelongsTo, ForeignKey } from "sequelize-typescript";
 import { Product } from "./product";
 import { User } from "./user";
 
@@ -26,7 +26,8 @@ export class ProductImage extends Model<ProductImage> {
       key: "id",
     },
   })
-  productId!: string;
+  @ForeignKey(() => Product)
+  productId!: string; 
 
   @Column({
     type: DataType.STRING(128),

@@ -40,10 +40,11 @@ export class Payment extends Model {
     unique: true,
     references: {
       model: Order,
-      key: "orderNo",
+      key: "id",
     }
   })
-  orderNo!: string;
+  @ForeignKey(() => Order)
+  orderId!: string;
 
   @Column({
     type: DataType.FLOAT,

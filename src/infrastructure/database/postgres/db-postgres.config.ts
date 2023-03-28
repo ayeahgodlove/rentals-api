@@ -11,9 +11,10 @@ import { Payment } from "../../../data/entities/payment";
 import { Product } from "../../../data/entities/product";
 import { SubCategory } from "../../../data/entities/sub-category";
 import { User } from "../../../data/entities/user";
-import { ProductOrder } from "../../../data/entities/product-order";
 
 import * as dotenv from "dotenv";
+import { Review } from "../../../data/entities/review";
+import { ProductImage } from "../../../data/entities/product-image";
 dotenv.config();
 
 export class PostgresDbConfig {
@@ -33,10 +34,11 @@ export class PostgresDbConfig {
         User,
         SubCategory,
         Order,
-        ProductOrder,
         Product,
         Category,
         Payment,
+        Review,
+        ProductImage
       ],
       logging: false,
       pool: {
