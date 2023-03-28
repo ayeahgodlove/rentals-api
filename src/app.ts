@@ -12,6 +12,8 @@ import { notFoundHandler } from "./shared/middlewares/not-found.middleware";
 import { checkJwt } from "./shared/middlewares/authz.middleware";
 import categoryRouter from "./presentation/routes/category.route";
 import subCategoryRouter from "./presentation/routes/sub-category.route";
+import orderRouter from "./presentation/routes/order.route";
+import userRouter from "./presentation/routes/user.route";
 
 dotenv.config();
 /**
@@ -65,6 +67,8 @@ app.get("/api", (req: Request, res: Response) => {
 
 app.use('/api/categories', categoryRouter);
 app.use('/api/sub-categories', subCategoryRouter);
+app.use('/api/users', userRouter);
+app.use('/api/orders', orderRouter);
 
 app.get("/api/private", checkJwt, (req, res) => {
   res.send("This is a private route, authenicate before you can see it");

@@ -1,4 +1,5 @@
 import { IBaseResponse } from "./base-response";
+import { IImage, emptyImage } from "./image.model";
 
 export interface IProduct {
   id: string;
@@ -7,10 +8,11 @@ export interface IProduct {
   description: string;
   categoryId: string;
   subCategoryId: string;
-  imagePath: string;
+  quantity: string;
   createdAt: Date;
   updatedAt: Date;
   slug: string;
+  images: IImage[]
 }
 
 export const emptyProduct: IProduct = {
@@ -20,10 +22,11 @@ export const emptyProduct: IProduct = {
   description: "",
   categoryId: "",
   subCategoryId: "",
-  imagePath: "",
+  quantity: "",
   createdAt: new Date(),
   updatedAt: new Date(),
-  slug:""
+  slug: "",
+  images: [emptyImage]
 };
 
 export interface IProductResponse extends IBaseResponse {

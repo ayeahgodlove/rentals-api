@@ -1,23 +1,24 @@
 import { Request, Response } from "express";
 import {
-  ICategoryResponse,
-} from "../../domain/models/category";
-import { CategoryUseCase } from "../../domain/usecases/category.usecase";
+  IUserResponse,
+} from "../../domain/models/user";
+import { UserUseCase } from "../../domain/usecases/user.usecase";
 import slugify from "slugify";
-import { CategoryRepository } from "../../data/repositories/impl/category.repository";
-import { CategoryMapper } from "../mappers/category-mapper";
-import { CategoryRequestDto } from "../dtos/category-request.dto";
+import { UserRepository } from "../../data/repositories/impl/user.repository";
+import { UserRequestDto } from "../dtos/user-request.dto";
 import { validate } from "class-validator";
 import { displayValidationErrors } from "../../utils/displayValidationErrors";
 import { NotFoundException } from "../../shared/exceptions/not-found.exception";
+import { UserMapper } from "../mappers/user-mapper";
+import * as bcrypt from "bcrypt";
 
-const categoryRepository = new CategoryRepository();
-const categoryUseCase = new CategoryUseCase(categoryRepository);
-const categoryMapper = new CategoryMapper();
+const userRepository = new UserRepository();
+const userUseCase = new UserUseCase(userRepository);
+const userMapper = new UserMapper();
 
-export class CategoriesController {
-  async createCategory(req: Request, res: Response<ICategoryResponse>): Promise<void> {
-    const dto = new CategoryRequestDto(req.body);
+export class UsersController {
+  async createUser(req: Request, res: Response<IUserResponse>): Promise<void> {
+    const dto = new UserRequestDto(req.body);
     const validationErrors = await validate(dto);
 
     if (validationErrors.length > 0) {
@@ -30,13 +31,13 @@ export class CategoriesController {
     }
     else {
       try {
-        
-        const categoryResponse = await categoryUseCase.createCategory(dto.toData());
-        const categoryDTO = categoryMapper.toDTO(categoryResponse) //convert entity to DTO
+        const hashPassword = await bcrypt.hash(req.body.password, 10);
+        dto.password = hashPassword;
+        const userResponse = await userUseCase.createUser(dto.toData());
   
         res.status(201).json({
-          data: categoryResponse as any,
-          message: "Category created Successfully!",
+          data: userResponse as any,
+          message: "User created Successfully!",
           validationErrors: [],
           success: true,
         });
@@ -53,11 +54,11 @@ export class CategoriesController {
 
   async getAll(
     req: Request,
-    res: Response<ICategoryResponse>
+    res: Response<IUserResponse>
   ): Promise<void> {
     try {
 
-      const categories = await categoryUseCase.getAll();
+      const categories = await userUseCase.getAll();
       res.json({
         data: categories as any,
         message: "Success",
@@ -74,21 +75,21 @@ export class CategoriesController {
     }
   }
 
-  async getCategoryById(
+  async getUserById(
     req: Request,
-    res: Response<ICategoryResponse>
+    res: Response<IUserResponse>
   ): Promise<void> {
     try {
       const id = req.params.id;
 
-      const category = await categoryUseCase.getCategoryById(id);
+      const user = await userUseCase.getUserById(id);
       
-      if (!category) {
-        throw new NotFoundException("Category", id);
+      if (!user) {
+        throw new NotFoundException("User", id);
       }
-      const categoryDTO = categoryMapper.toDTO(category)
+      const userDTO = userMapper.toDTO(user)
       res.json({
-        data: categoryDTO,
+        data: userDTO,
         message: "Success",
         validationErrors: [],
         success: true,
@@ -103,11 +104,11 @@ export class CategoriesController {
     }
   }
 
-  async updateCategory(
+  async updateUser(
     req: Request,
-    res: Response<ICategoryResponse>
+    res: Response<IUserResponse>
   ): Promise<void> {
-    const dto = new CategoryRequestDto(req.body)
+    const dto = new UserRequestDto(req.body)
     const validationErrors = await validate(dto);
 
     if (validationErrors.length > 0) {
@@ -122,25 +123,29 @@ export class CategoriesController {
       try {
         const id = req.params.id;
       
-        const category = await categoryUseCase.getCategoryById(id);
+        const user = await userUseCase.getUserById(id);
         
-        if (!category) {
-          throw new NotFoundException("Category", id);
+        if (!user) {
+          throw new NotFoundException("User", id);
         }
   
-        category.name = dto.name;
-        category.description = dto.description;
-        category.slug =  slugify(category.name, {lower: true, replacement: "-"});
-        category.updatedAt = new Date();
+        user.username = dto.username;
+        user.fullname = dto.fullname;
+        user.address = dto.address;
+        user.role = dto.role;
+        user.email = dto.email;
+        user.password = dto.password;
+        user.slug =  slugify(user.fullname, {lower: true, replacement: "-"});
+        user.updatedAt = new Date();
   
-        const categoryDTO1 = categoryMapper.toDTO(category)
+        const userDTO1 = userMapper.toDTO(user)
   
-        const updatedCategory = await categoryUseCase.updateCategory(dto.toUpdateData(categoryDTO1));
-        const categoryDTO2 = categoryMapper.toDTO(updatedCategory);
+        const updatedUser = await userUseCase.updateUser(dto.toUpdateData(userDTO1));
+        const userDTO2 = userMapper.toDTO(updatedUser);
   
         res.json({
-          data: categoryDTO2,
-          message: "Category Updated Successfully!",
+          data: userDTO2,
+          message: "User Updated Successfully!",
           validationErrors: [],
           success: true,
         });
@@ -155,25 +160,25 @@ export class CategoriesController {
     }
   }
 
-  async deleteCategory(
+  async deleteUser(
     req: Request,
-    res: Response<ICategoryResponse>
+    res: Response<IUserResponse>
   ): Promise<void> {
     try {
       const id = req.params.id;
 
-      const category = await categoryUseCase.getCategoryById(id);
+      const user = await userUseCase.getUserById(id);
 
-      if (!category) {
-          throw new NotFoundException("Category", id);
+      if (!user) {
+          throw new NotFoundException("User", id);
       }
 
-      const categoryDTO = categoryMapper.toDTO(category)
+      const userDTO = userMapper.toDTO(user)
 
-      await categoryUseCase.deleteCategory(id);
+      await userUseCase.deleteUser(id);
 
       res.status(204).json({
-        message: `${categoryDTO.name}`,
+        message: `${userDTO.username}`,
         validationErrors: [],
         success: true,
         data: null

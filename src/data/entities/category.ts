@@ -6,7 +6,7 @@ import { uuid } from "uuidv4";
 @Table({
   timestamps: true,
   paranoid: true,
-  tableName: "Categories",
+  tableName: "category",
   modelName: "Category"
 })
 export class Category extends Model {
@@ -43,7 +43,7 @@ export class Category extends Model {
    * subCategory: Suff, Rav4, Land Cruiser etc...
    */
   @HasMany(() => SubCategory)
-  subCategories!: SubCategory[];
+  sub_categories!: SubCategory[];
 
   @HasMany(() => Product)
   products!: Product[];

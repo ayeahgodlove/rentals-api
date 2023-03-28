@@ -5,20 +5,20 @@ const Sequelize = require('sequelize');
 /**
  * Actions summary:
  *
- * createTable "Users", deps: []
- * createTable "Categories", deps: []
- * createTable "SubCategories", deps: [Categories]
- * createTable "Orders", deps: [Users]
- * createTable "Products", deps: [Categories, SubCategories]
- * createTable "ProductOrders", deps: [Products, Orders]
- * createTable "Payments", deps: [Users]
+ * createTable "user", deps: []
+ * createTable "category", deps: []
+ * createTable "sub_category", deps: [category]
+ * createTable "order", deps: [user]
+ * createTable "product", deps: [category, sub_category]
+ * createTable "product_order", deps: [product, order]
+ * createTable "payment", deps: [user]
  *
  **/
 
 const info = {
     "revision": 1,
     "name": "init-migrations",
-    "created": "2023-02-26T03:37:15.165Z",
+    "created": "2023-03-27T19:02:27.923Z",
     "comment": ""
 };
 
@@ -62,7 +62,7 @@ const migrationCommands = [
             [{
                 revision: info.revision,
                 name: info.name,
-                state: '{"revision":1,"tables":{"Users":{"tableName":"Users","schema":{"id":{"seqType":"Sequelize.STRING(50)","allowNull":false,"primaryKey":true},"username":{"seqType":"Sequelize.STRING(128)","allowNull":false,"unique":true},"fullname":{"seqType":"Sequelize.STRING(128)","allowNull":false,"unique":true},"email":{"seqType":"Sequelize.STRING(128)","allowNull":false,"unique":true},"password":{"seqType":"Sequelize.STRING(128)","allowNull":false,"unique":true},"address":{"seqType":"Sequelize.STRING(128)","allowNull":false},"role":{"seqType":"Sequelize.STRING(128)","allowNull":false},"slug":{"seqType":"Sequelize.STRING(128)","allowNull":false,"unique":true},"createdAt":{"seqType":"Sequelize.DATE","allowNull":false},"updatedAt":{"seqType":"Sequelize.DATE","allowNull":false},"deletedAt":{"seqType":"Sequelize.DATE"}},"indexes":{}},"SubCategories":{"tableName":"SubCategories","schema":{"id":{"seqType":"Sequelize.STRING(50)","allowNull":false,"primaryKey":true},"categoryId":{"seqType":"Sequelize.STRING(50)","allowNull":false,"references":{"model":"Categories","key":"id"},"onUpdate":"CASCADE","onDelete":"NO ACTION"},"name":{"seqType":"Sequelize.STRING(128)","allowNull":false,"unique":true},"slug":{"seqType":"Sequelize.STRING(128)","allowNull":false,"unique":true},"description":{"seqType":"Sequelize.TEXT","allowNull":false},"createdAt":{"seqType":"Sequelize.DATE","allowNull":false},"updatedAt":{"seqType":"Sequelize.DATE","allowNull":false},"deletedAt":{"seqType":"Sequelize.DATE"}},"indexes":{}},"Orders":{"tableName":"Orders","schema":{"id":{"seqType":"Sequelize.STRING(50)","allowNull":false,"primaryKey":true},"userId":{"seqType":"Sequelize.STRING(50)","allowNull":false,"references":{"model":"Users","key":"id"},"onUpdate":"CASCADE","onDelete":"NO ACTION"},"quantity":{"seqType":"Sequelize.INTEGER","allowNull":false},"orderNo":{"seqType":"Sequelize.STRING(40)","allowNull":false,"unique":true},"status":{"seqType":"Sequelize.STRING(10)","allowNull":false},"slug":{"seqType":"Sequelize.STRING(128)","allowNull":false,"unique":true},"createdAt":{"seqType":"Sequelize.DATE","allowNull":false},"updatedAt":{"seqType":"Sequelize.DATE","allowNull":false},"deletedAt":{"seqType":"Sequelize.DATE"}},"indexes":{}},"ProductOrders":{"tableName":"ProductOrders","schema":{"productId":{"seqType":"Sequelize.STRING(50)","allowNull":false,"primaryKey":true,"references":{"model":"Products","key":"id"},"onUpdate":"CASCADE","onDelete":"NO ACTION"},"orderId":{"seqType":"Sequelize.STRING(50)","allowNull":false,"primaryKey":true,"references":{"model":"Orders","key":"id"},"onUpdate":"CASCADE","onDelete":"NO ACTION"},"quantity":{"seqType":"Sequelize.INTEGER","allowNull":false},"createdAt":{"seqType":"Sequelize.DATE","allowNull":false},"updatedAt":{"seqType":"Sequelize.DATE","allowNull":false},"deletedAt":{"seqType":"Sequelize.DATE"}},"indexes":{}},"Products":{"tableName":"Products","schema":{"id":{"seqType":"Sequelize.STRING(50)","allowNull":false,"primaryKey":true},"categoryId":{"seqType":"Sequelize.STRING(50)","allowNull":false,"references":{"model":"Categories","key":"id"},"onUpdate":"CASCADE","onDelete":"NO ACTION"},"subCategoryId":{"seqType":"Sequelize.STRING(50)","allowNull":false,"references":{"model":"SubCategories","key":"id"},"onUpdate":"CASCADE","onDelete":"CASCADE"},"name":{"seqType":"Sequelize.STRING(128)","allowNull":false,"unique":true},"description":{"seqType":"Sequelize.TEXT","allowNull":false,"unique":true},"imagePath":{"seqType":"Sequelize.STRING(128)","allowNull":false,"unique":true},"slug":{"seqType":"Sequelize.STRING(128)","allowNull":false,"unique":true},"createdAt":{"seqType":"Sequelize.DATE","allowNull":false},"updatedAt":{"seqType":"Sequelize.DATE","allowNull":false},"deletedAt":{"seqType":"Sequelize.DATE"}},"indexes":{}},"Categories":{"tableName":"Categories","schema":{"id":{"seqType":"Sequelize.STRING(50)","allowNull":false,"primaryKey":true},"name":{"seqType":"Sequelize.STRING(128)","allowNull":false,"unique":true},"slug":{"seqType":"Sequelize.STRING(128)","allowNull":false,"unique":true},"description":{"seqType":"Sequelize.TEXT","allowNull":false},"createdAt":{"seqType":"Sequelize.DATE","allowNull":false},"updatedAt":{"seqType":"Sequelize.DATE","allowNull":false},"deletedAt":{"seqType":"Sequelize.DATE"}},"indexes":{}},"Payments":{"tableName":"Payments","schema":{"id":{"seqType":"Sequelize.STRING(50)","allowNull":false,"primaryKey":true},"userId":{"seqType":"Sequelize.STRING(50)","allowNull":false,"references":{"model":"Users","key":"id"},"onUpdate":"CASCADE","onDelete":"NO ACTION"},"orderNo":{"seqType":"Sequelize.STRING(40)","allowNull":false,"unique":true},"status":{"seqType":"Sequelize.STRING(10)","allowNull":false},"slug":{"seqType":"Sequelize.STRING(128)","allowNull":false,"unique":true},"createdAt":{"seqType":"Sequelize.DATE","allowNull":false},"updatedAt":{"seqType":"Sequelize.DATE","allowNull":false},"deletedAt":{"seqType":"Sequelize.DATE"}},"indexes":{}}}}'
+                state: '{"revision":1,"tables":{"user":{"tableName":"user","schema":{"id":{"seqType":"Sequelize.STRING(50)","allowNull":false,"primaryKey":true},"username":{"seqType":"Sequelize.STRING(128)","allowNull":false,"unique":true},"fullname":{"seqType":"Sequelize.STRING(128)","allowNull":false,"unique":true},"email":{"seqType":"Sequelize.STRING(128)","allowNull":false,"unique":true},"password":{"seqType":"Sequelize.STRING(128)","allowNull":false,"unique":true},"address":{"seqType":"Sequelize.STRING(128)","allowNull":false},"role":{"seqType":"Sequelize.STRING(128)","allowNull":false},"slug":{"seqType":"Sequelize.STRING(128)","allowNull":false,"unique":true},"createdAt":{"seqType":"Sequelize.DATE","allowNull":false},"updatedAt":{"seqType":"Sequelize.DATE","allowNull":false},"deletedAt":{"seqType":"Sequelize.DATE"}},"indexes":{}},"sub_category":{"tableName":"sub_category","schema":{"id":{"seqType":"Sequelize.STRING(50)","allowNull":false,"primaryKey":true},"categoryId":{"seqType":"Sequelize.STRING(50)","allowNull":false,"references":{"model":"category","key":"id"},"onUpdate":"CASCADE","onDelete":"NO ACTION"},"name":{"seqType":"Sequelize.STRING(128)","allowNull":false,"unique":true},"slug":{"seqType":"Sequelize.STRING(128)","allowNull":false,"unique":true},"description":{"seqType":"Sequelize.TEXT","allowNull":false},"createdAt":{"seqType":"Sequelize.DATE","allowNull":false},"updatedAt":{"seqType":"Sequelize.DATE","allowNull":false},"deletedAt":{"seqType":"Sequelize.DATE"}},"indexes":{}},"order":{"tableName":"order","schema":{"id":{"seqType":"Sequelize.STRING(50)","allowNull":false,"primaryKey":true},"userId":{"seqType":"Sequelize.STRING(50)","allowNull":false,"references":{"model":"user","key":"id"},"onUpdate":"CASCADE","onDelete":"NO ACTION"},"orderNo":{"seqType":"Sequelize.STRING(40)","allowNull":false,"unique":true},"status":{"seqType":"Sequelize.STRING(10)","allowNull":false},"slug":{"seqType":"Sequelize.STRING(128)","allowNull":false,"unique":true},"createdAt":{"seqType":"Sequelize.DATE","allowNull":false},"updatedAt":{"seqType":"Sequelize.DATE","allowNull":false},"deletedAt":{"seqType":"Sequelize.DATE"}},"indexes":{}},"product_order":{"tableName":"product_order","schema":{"productId":{"seqType":"Sequelize.STRING(50)","allowNull":false,"primaryKey":true,"references":{"model":"product","key":"id"},"onUpdate":"CASCADE","onDelete":"NO ACTION"},"orderId":{"seqType":"Sequelize.STRING(50)","allowNull":false,"primaryKey":true,"references":{"model":"order","key":"id"},"onUpdate":"CASCADE","onDelete":"NO ACTION"},"quantity":{"seqType":"Sequelize.INTEGER","allowNull":false},"createdAt":{"seqType":"Sequelize.DATE","allowNull":false},"updatedAt":{"seqType":"Sequelize.DATE","allowNull":false},"deletedAt":{"seqType":"Sequelize.DATE"}},"indexes":{}},"product":{"tableName":"product","schema":{"id":{"seqType":"Sequelize.STRING(50)","allowNull":false,"primaryKey":true},"categoryId":{"seqType":"Sequelize.STRING(50)","allowNull":false,"references":{"model":"category","key":"id"},"onUpdate":"CASCADE","onDelete":"NO ACTION"},"subCategoryId":{"seqType":"Sequelize.STRING(50)","allowNull":false,"references":{"model":"sub_category","key":"id"},"onUpdate":"CASCADE","onDelete":"CASCADE"},"name":{"seqType":"Sequelize.STRING(128)","allowNull":false,"unique":true},"description":{"seqType":"Sequelize.TEXT","allowNull":false,"unique":true},"imagePath":{"seqType":"Sequelize.STRING(128)","allowNull":false,"unique":true},"slug":{"seqType":"Sequelize.STRING(128)","allowNull":false,"unique":true},"createdAt":{"seqType":"Sequelize.DATE","allowNull":false},"updatedAt":{"seqType":"Sequelize.DATE","allowNull":false},"deletedAt":{"seqType":"Sequelize.DATE"}},"indexes":{}},"category":{"tableName":"category","schema":{"id":{"seqType":"Sequelize.STRING(50)","allowNull":false,"primaryKey":true},"name":{"seqType":"Sequelize.STRING(128)","allowNull":false,"unique":true},"slug":{"seqType":"Sequelize.STRING(128)","allowNull":false,"unique":true},"description":{"seqType":"Sequelize.TEXT","allowNull":false},"createdAt":{"seqType":"Sequelize.DATE","allowNull":false},"updatedAt":{"seqType":"Sequelize.DATE","allowNull":false},"deletedAt":{"seqType":"Sequelize.DATE"}},"indexes":{}},"payment":{"tableName":"payment","schema":{"id":{"seqType":"Sequelize.STRING(50)","allowNull":false,"primaryKey":true},"userId":{"seqType":"Sequelize.STRING(50)","allowNull":false,"references":{"model":"user","key":"id"},"onUpdate":"CASCADE","onDelete":"NO ACTION"},"orderNo":{"seqType":"Sequelize.STRING(40)","allowNull":false,"unique":true},"status":{"seqType":"Sequelize.STRING(10)","allowNull":false},"slug":{"seqType":"Sequelize.STRING(128)","allowNull":false,"unique":true},"createdAt":{"seqType":"Sequelize.DATE","allowNull":false},"updatedAt":{"seqType":"Sequelize.DATE","allowNull":false},"deletedAt":{"seqType":"Sequelize.DATE"}},"indexes":{}}}}'
             }],
             {}
         ]
@@ -74,7 +74,7 @@ const migrationCommands = [
     {
         fn: "createTable",
         params: [
-            "Users",
+            "user",
             {
                 "id": {
                     "primaryKey": true,
@@ -133,7 +133,7 @@ const migrationCommands = [
     {
         fn: "createTable",
         params: [
-            "Categories",
+            "category",
             {
                 "id": {
                     "primaryKey": true,
@@ -173,7 +173,7 @@ const migrationCommands = [
     {
         fn: "createTable",
         params: [
-            "SubCategories",
+            "sub_category",
             {
                 "id": {
                     "primaryKey": true,
@@ -184,7 +184,7 @@ const migrationCommands = [
                     "onDelete": "NO ACTION",
                     "onUpdate": "CASCADE",
                     "references": {
-                        "model": "Categories",
+                        "model": "category",
                         "key": "id"
                     },
                     "allowNull": false,
@@ -223,7 +223,7 @@ const migrationCommands = [
     {
         fn: "createTable",
         params: [
-            "Orders",
+            "order",
             {
                 "id": {
                     "primaryKey": true,
@@ -234,15 +234,11 @@ const migrationCommands = [
                     "onDelete": "NO ACTION",
                     "onUpdate": "CASCADE",
                     "references": {
-                        "model": "Users",
+                        "model": "user",
                         "key": "id"
                     },
                     "allowNull": false,
                     "type": Sequelize.STRING(50)
-                },
-                "quantity": {
-                    "allowNull": false,
-                    "type": Sequelize.INTEGER
                 },
                 "orderNo": {
                     "unique": true,
@@ -277,7 +273,7 @@ const migrationCommands = [
     {
         fn: "createTable",
         params: [
-            "Products",
+            "product",
             {
                 "id": {
                     "primaryKey": true,
@@ -288,7 +284,7 @@ const migrationCommands = [
                     "onDelete": "NO ACTION",
                     "onUpdate": "CASCADE",
                     "references": {
-                        "model": "Categories",
+                        "model": "category",
                         "key": "id"
                     },
                     "allowNull": false,
@@ -298,7 +294,7 @@ const migrationCommands = [
                     "onDelete": "CASCADE",
                     "onUpdate": "CASCADE",
                     "references": {
-                        "model": "SubCategories",
+                        "model": "sub_category",
                         "key": "id"
                     },
                     "allowNull": false,
@@ -343,13 +339,13 @@ const migrationCommands = [
     {
         fn: "createTable",
         params: [
-            "ProductOrders",
+            "product_order",
             {
                 "productId": {
                     "onDelete": "NO ACTION",
                     "onUpdate": "CASCADE",
                     "references": {
-                        "model": "Products",
+                        "model": "product",
                         "key": "id"
                     },
                     "primaryKey": true,
@@ -360,7 +356,7 @@ const migrationCommands = [
                     "onDelete": "NO ACTION",
                     "onUpdate": "CASCADE",
                     "references": {
-                        "model": "Orders",
+                        "model": "order",
                         "key": "id"
                     },
                     "primaryKey": true,
@@ -390,7 +386,7 @@ const migrationCommands = [
     {
         fn: "createTable",
         params: [
-            "Payments",
+            "payment",
             {
                 "id": {
                     "primaryKey": true,
@@ -401,7 +397,7 @@ const migrationCommands = [
                     "onDelete": "NO ACTION",
                     "onUpdate": "CASCADE",
                     "references": {
-                        "model": "Users",
+                        "model": "user",
                         "key": "id"
                     },
                     "allowNull": false,
@@ -455,31 +451,31 @@ const rollbackCommands = [
 
     {
         fn: "dropTable",
-        params: ["SubCategories"]
+        params: ["sub_category"]
     },
     {
         fn: "dropTable",
-        params: ["Orders"]
+        params: ["order"]
     },
     {
         fn: "dropTable",
-        params: ["Products"]
+        params: ["product"]
     },
     {
         fn: "dropTable",
-        params: ["ProductOrders"]
+        params: ["product_order"]
     },
     {
         fn: "dropTable",
-        params: ["Payments"]
+        params: ["payment"]
     },
     {
         fn: "dropTable",
-        params: ["Users"]
+        params: ["user"]
     },
     {
         fn: "dropTable",
-        params: ["Categories"]
+        params: ["category"]
     }
 ];
 

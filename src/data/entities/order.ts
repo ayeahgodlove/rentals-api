@@ -16,7 +16,7 @@ import { uuid } from "uuidv4";
 @Table({
   timestamps: true,
   paranoid: true,
-  tableName: "Orders",
+  tableName: "order",
   modelName: "Order"
 })
 export class Order extends Model {
@@ -49,20 +49,20 @@ export class Order extends Model {
   // @ForeignKey(() => Product)
   // productId!: string;
 
-  @Column({
-    type: DataType.FLOAT,
-    allowNull: false,
-  })
-  unitPrice!: number;
+  // @Column({
+  //   type: DataType.FLOAT,
+  //   allowNull: false,
+  // })
+  // unitPrice!: number;
+
+  // @Column({
+  //   type: DataType.INTEGER,
+  //   allowNull: false,
+  // })
+  // quantity!: number;
 
   @Column({
     type: DataType.INTEGER,
-    allowNull: false,
-  })
-  quantity!: number;
-
-  @Column({
-    type: DataType.FLOAT,
     allowNull: false,
   })
   total!: number;

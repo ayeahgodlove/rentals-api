@@ -13,7 +13,7 @@ import { Product } from "./product";
 @Table({
   timestamps: true,
   paranoid: true,
-  tableName: "SubCategories",
+  tableName: "sub_category",
   modelName: "SubCategory"
 })
 export class SubCategory extends Model {

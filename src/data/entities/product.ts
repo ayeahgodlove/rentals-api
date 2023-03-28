@@ -16,7 +16,7 @@ import { uuid } from "uuidv4";
 @Table({
   timestamps: true,
   paranoid: true,
-  tableName: "Products",
+  tableName: "product",
   modelName: "Product"
 })
 export class Product extends Model {

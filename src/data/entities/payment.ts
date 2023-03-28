@@ -11,7 +11,7 @@ import { User } from "./user";
 @Table({
   timestamps: true,
   paranoid: true,
-  tableName: "Payments",
+  tableName: "payment",
   modelName: "Payment"
 })
 export class Payment extends Model {

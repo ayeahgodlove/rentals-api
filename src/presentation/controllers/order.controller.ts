@@ -1,23 +1,23 @@
 import { Request, Response } from "express";
 import {
-  ICategoryResponse,
-} from "../../domain/models/category";
-import { CategoryUseCase } from "../../domain/usecases/category.usecase";
+  IOrderResponse,
+} from "../../domain/models/order";
+import { OrderUseCase } from "../../domain/usecases/order.usecase";
 import slugify from "slugify";
-import { CategoryRepository } from "../../data/repositories/impl/category.repository";
-import { CategoryMapper } from "../mappers/category-mapper";
-import { CategoryRequestDto } from "../dtos/category-request.dto";
+import { OrderRepository } from "../../data/repositories/impl/order.repository";
+import { OrderMapper } from "../mappers/order-mapper";
+import { OrderRequestDto } from "../dtos/order-request.dto";
 import { validate } from "class-validator";
 import { displayValidationErrors } from "../../utils/displayValidationErrors";
 import { NotFoundException } from "../../shared/exceptions/not-found.exception";
 
-const categoryRepository = new CategoryRepository();
-const categoryUseCase = new CategoryUseCase(categoryRepository);
-const categoryMapper = new CategoryMapper();
+const orderRepository = new OrderRepository();
+const orderUseCase = new OrderUseCase(orderRepository);
+const orderMapper = new OrderMapper();
 
-export class CategoriesController {
-  async createCategory(req: Request, res: Response<ICategoryResponse>): Promise<void> {
-    const dto = new CategoryRequestDto(req.body);
+export class OrdersController {
+  async createOrder(req: Request, res: Response<IOrderResponse>): Promise<void> {
+    const dto = new OrderRequestDto(req.body);
     const validationErrors = await validate(dto);
 
     if (validationErrors.length > 0) {
@@ -31,12 +31,11 @@ export class CategoriesController {
     else {
       try {
         
-        const categoryResponse = await categoryUseCase.createCategory(dto.toData());
-        const categoryDTO = categoryMapper.toDTO(categoryResponse) //convert entity to DTO
+        const orderResponse = await orderUseCase.createOrder(dto.toData());
   
         res.status(201).json({
-          data: categoryResponse as any,
-          message: "Category created Successfully!",
+          data: orderResponse as any,
+          message: "Order created Successfully!",
           validationErrors: [],
           success: true,
         });
@@ -53,13 +52,13 @@ export class CategoriesController {
 
   async getAll(
     req: Request,
-    res: Response<ICategoryResponse>
+    res: Response<IOrderResponse>
   ): Promise<void> {
     try {
 
-      const categories = await categoryUseCase.getAll();
+      const orders = await orderUseCase.getAll();
       res.json({
-        data: categories as any,
+        data: orders as any,
         message: "Success",
         validationErrors: [],
         success: true,
@@ -74,21 +73,21 @@ export class CategoriesController {
     }
   }
 
-  async getCategoryById(
+  async getOrderById(
     req: Request,
-    res: Response<ICategoryResponse>
+    res: Response<IOrderResponse>
   ): Promise<void> {
     try {
       const id = req.params.id;
 
-      const category = await categoryUseCase.getCategoryById(id);
+      const order = await orderUseCase.getOrderById(id);
       
-      if (!category) {
-        throw new NotFoundException("Category", id);
+      if (!order) {
+        throw new NotFoundException("Order", id);
       }
-      const categoryDTO = categoryMapper.toDTO(category)
+      const orderDTO = orderMapper.toDTO(order)
       res.json({
-        data: categoryDTO,
+        data: orderDTO,
         message: "Success",
         validationErrors: [],
         success: true,
@@ -103,11 +102,11 @@ export class CategoriesController {
     }
   }
 
-  async updateCategory(
+  async updateOrder(
     req: Request,
-    res: Response<ICategoryResponse>
+    res: Response<IOrderResponse>
   ): Promise<void> {
-    const dto = new CategoryRequestDto(req.body)
+    const dto = new OrderRequestDto(req.body)
     const validationErrors = await validate(dto);
 
     if (validationErrors.length > 0) {
@@ -122,25 +121,27 @@ export class CategoriesController {
       try {
         const id = req.params.id;
       
-        const category = await categoryUseCase.getCategoryById(id);
+        const order = await orderUseCase.getOrderById(id);
         
-        if (!category) {
-          throw new NotFoundException("Category", id);
+        if (!order) {
+          throw new NotFoundException("Order", id);
         }
   
-        category.name = dto.name;
-        category.description = dto.description;
-        category.slug =  slugify(category.name, {lower: true, replacement: "-"});
-        category.updatedAt = new Date();
+        order.orderNo = dto.orderNo;
+        order.userId = dto.userId;
+        order.total = dto.total;
+        order.status = dto.status;
+        order.slug =  slugify(order.orderNo, {lower: true, replacement: "-"});
+        order.updatedAt = new Date();
   
-        const categoryDTO1 = categoryMapper.toDTO(category)
+        const orderDTO1 = orderMapper.toDTO(order)
   
-        const updatedCategory = await categoryUseCase.updateCategory(dto.toUpdateData(categoryDTO1));
-        const categoryDTO2 = categoryMapper.toDTO(updatedCategory);
+        const updatedOrder = await orderUseCase.updateOrder(dto.toUpdateData(orderDTO1));
+        const orderDTO2 = orderMapper.toDTO(updatedOrder);
   
         res.json({
-          data: categoryDTO2,
-          message: "Category Updated Successfully!",
+          data: orderDTO2,
+          message: "Order Updated Successfully!",
           validationErrors: [],
           success: true,
         });
@@ -155,25 +156,25 @@ export class CategoriesController {
     }
   }
 
-  async deleteCategory(
+  async deleteOrder(
     req: Request,
-    res: Response<ICategoryResponse>
+    res: Response<IOrderResponse>
   ): Promise<void> {
     try {
       const id = req.params.id;
 
-      const category = await categoryUseCase.getCategoryById(id);
+      const order = await orderUseCase.getOrderById(id);
 
-      if (!category) {
-          throw new NotFoundException("Category", id);
+      if (!order) {
+          throw new NotFoundException("Order", id);
       }
 
-      const categoryDTO = categoryMapper.toDTO(category)
+      const orderDTO = orderMapper.toDTO(order)
 
-      await categoryUseCase.deleteCategory(id);
+      await orderUseCase.deleteOrder(id);
 
       res.status(204).json({
-        message: `${categoryDTO.name}`,
+        message: `${orderDTO.orderNo}`,
         validationErrors: [],
         success: true,
         data: null
