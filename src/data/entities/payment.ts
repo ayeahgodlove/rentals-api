@@ -7,6 +7,7 @@ import {
   DataType,
 } from "sequelize-typescript";
 import { User } from "./user";
+import { Order } from "./order";
 
 @Table({
   timestamps: true,
@@ -37,6 +38,10 @@ export class Payment extends Model {
     type: DataType.STRING(40),
     allowNull: false,
     unique: true,
+    references: {
+      model: Order,
+      key: "orderNo",
+    }
   })
   orderNo!: string;
 
@@ -61,4 +66,6 @@ export class Payment extends Model {
 
   @BelongsTo(() => User)
   user!: User;
+  @BelongsTo(() => Order)
+  order!: Order;
 }

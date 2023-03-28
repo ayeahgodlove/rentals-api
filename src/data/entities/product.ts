@@ -5,13 +5,15 @@ import {
   ForeignKey,
   BelongsTo,
   DataType,
-  BelongsToMany
+  BelongsToMany,
+  HasMany
 } from "sequelize-typescript";
 import { Category } from "./category";
 import { Order } from "./order";
-import { ProductOrder } from "./product-order";
 import { SubCategory } from "./sub-category";
 import { uuid } from "uuidv4";
+import { ProductImage } from "./product-image";
+import { Review } from "./review";
 
 @Table({
   timestamps: true,
@@ -83,12 +85,20 @@ export class Product extends Model {
   })
   slug!: string;
 
+  // one-to-many relationships
+  @HasMany(() => ProductImage)
+  productImages!: ProductImage[]
+
+  @HasMany(() => Review)
+  reviews!: Review[]
+
+  @HasMany(() => Order)
+  orders!: Order[]
+
+  // one-to-one relationships
   @BelongsTo(() => Category)
   category!: Category;
 
   @BelongsTo(() => SubCategory)
   subCategory!: SubCategory;
-
-  @BelongsToMany(() => Order, () => ProductOrder)
-  orders!: Order[];
 }

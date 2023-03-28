@@ -9,9 +9,7 @@ import {
   HasMany
 } from "sequelize-typescript";
 import { Product } from "./product";
-import { ProductOrder } from "./product-order";
 import { User } from "./user";
-import { uuid } from "uuidv4";
 
 @Table({
   timestamps: true,
@@ -38,28 +36,22 @@ export class Order extends Model {
   @ForeignKey(() => User)
   userId!: string;
 
-  // @Column({
-  //   type: DataType.STRING(50),
-  //   allowNull: false,
-  //   references: {
-  //     model: Product,
-  //     key: "id",
-  //   },
-  // })
-  // @ForeignKey(() => Product)
-  // productId!: string;
+  @Column({
+    type: DataType.STRING(50),
+    allowNull: false,
+    references: {
+      model: Product,
+      key: "id",
+    },
+  })
+  @ForeignKey(() => Product)
+  productId!: string;
 
-  // @Column({
-  //   type: DataType.FLOAT,
-  //   allowNull: false,
-  // })
-  // unitPrice!: number;
-
-  // @Column({
-  //   type: DataType.INTEGER,
-  //   allowNull: false,
-  // })
-  // quantity!: number;
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: false,
+  })
+  totalQtty!: number;
 
   @Column({
     type: DataType.INTEGER,
@@ -90,6 +82,6 @@ export class Order extends Model {
   @BelongsTo(() => User)
   user!: User;
 
-  // @HasMany(() => Product)
-  // products!: Product[]
+  @BelongsTo(() => Product)
+  product!: Product
 }

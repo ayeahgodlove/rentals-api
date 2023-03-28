@@ -1,4 +1,5 @@
-import { Table, Model, Column, DataType } from "sequelize-typescript";
+import { Table, Model, Column, DataType, HasMany } from "sequelize-typescript";
+import { Order } from "./order";
 
 @Table({
   timestamps: true,
@@ -60,4 +61,7 @@ export class User extends Model<User> {
     unique: true,
   })
   slug!: string;
+
+  @HasMany(() => Order)
+  order!: Order[];
 }

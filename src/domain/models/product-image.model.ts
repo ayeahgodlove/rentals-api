@@ -1,26 +1,28 @@
 import { IBaseResponse } from "./base-response";
 
-export interface IImage {
+export interface IProductImage {
   id: string;
   productId: string;
+  name: string;
   slug: string;
   url: string;
-  description: string;
+  shortDescription: string;
   createdAt: Date;
   updatedAt: Date;
 }
 
-export const emptyImage: IImage = {
+export const emptyProductImage: IProductImage = {
     id: "",
     productId: "",
     slug: "",
+    name: "",
     url: "",
-    description: "",
+    shortDescription: "",
     createdAt: new Date(),
     updatedAt: new Date(),
 };
 
-export interface IImageResponse extends IBaseResponse {
-  data: IImage | null;
+export interface IProductImageResponse extends IBaseResponse {
+  data: IProductImage | null;
   token?: string
 }
