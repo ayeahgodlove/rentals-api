@@ -3,23 +3,21 @@ import { IBaseResponse } from "./base-response";
 export interface IPayment {
   id: string;
   userId: number;
-  orderNo: string;
+  orderId: string;
   amount: number;
   status: string;
   createdAt: Date;
   updatedAt: Date;
-  slug: string;
 }
 
 export const emptyPayment: IPayment = {
   id: "",
   userId: 0,
-  orderNo: "",
+  orderId: "",
   amount: 0,
   status: "",
   createdAt: new Date(),
   updatedAt: new Date(),
-  slug: ""
 };
 
 export interface IPaymentResponse extends IBaseResponse {
