@@ -2,7 +2,7 @@ import { IBaseResponse } from "./base-response";
 
 export interface IPayment {
   id: string;
-  userId: number;
+  userId: string;
   orderId: string;
   amount: number;
   status: string;
@@ -12,7 +12,7 @@ export interface IPayment {
 
 export const emptyPayment: IPayment = {
   id: "",
-  userId: 0,
+  userId: "",
   orderId: "",
   amount: 0,
   status: "",

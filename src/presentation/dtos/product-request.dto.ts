@@ -20,6 +20,14 @@ export class ProductRequestDto {
 
   @IsNotEmpty()
   @IsString()
+  shortDescription: string;
+
+  @IsNotEmpty()
+  @IsString()
+  quantity: string;
+
+  @IsNotEmpty()
+  @IsString()
   categoryId: string;
 
   @IsNotEmpty()
@@ -34,6 +42,8 @@ export class ProductRequestDto {
     this.description = data.description;
     this.categoryId = data.categoryId;
     this.subCategoryId = data.subCategoryId;
+    this.shortDescription = data.shortDescription;
+    this.quantity = data.quantity;
   }
 
   toData(): IProduct {
@@ -45,7 +55,9 @@ export class ProductRequestDto {
       description: this.description,
       categoryId: this.categoryId,
       subCategoryId: this.subCategoryId,
-      price: this.price
+      price: this.price,
+      shortDescription: this.shortDescription,
+      quantity: this.quantity
     };
   }
 
@@ -60,8 +72,8 @@ export class ProductRequestDto {
       description: data.description,
       categoryId: data.categoryId,
       subCategoryId: data.subCategoryId,
-      images: data.images,
-      quantity: data.quantity
+      quantity: data.quantity,
+      shortDescription: data.shortDescription
     }
   }
 }
