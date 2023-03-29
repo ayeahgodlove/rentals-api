@@ -41,9 +41,9 @@ export class PaymentRepository implements IPaymentRepository {
    * @name
    * returns Payment
    */
-  async findByName(name: string): Promise<Payment | null> {
+  async findByOrderId(orderId: string): Promise<Payment | null> {
     try {
-      const paymentItem = await Payment.findOne({ where: { name } });
+      const paymentItem = await Payment.findOne({ where: { orderId } });
       return paymentItem;
     } catch (error) {
       throw error;
