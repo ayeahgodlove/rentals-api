@@ -35,6 +35,11 @@ export class ProductImage extends Model<ProductImage> {
   })
   name!: string;
 
+  @Column({
+    type: DataType.STRING(128),
+    allowNull: false,
+  })
+  slug!: string;
 
   @Column({
     type: DataType.STRING(255),

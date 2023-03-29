@@ -44,6 +44,12 @@ export class Review extends Model<Review> {
   })
   description!: string;
 
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: false,
+  })
+  rating!: number;
+
   @BelongsTo(() => Product)
   product!: Product
 

@@ -69,14 +69,21 @@ export class Product extends Model {
     allowNull: false,
     unique: true,
   })
-  description!: string;
+  shortDescription!: string;
 
   @Column({
-    type: DataType.STRING(128),
+    type: DataType.TEXT,
     allowNull: false,
     unique: true,
   })
-  imagePath!: string;
+  description!: string;
+
+  @Column({
+    type: DataType.STRING(5),
+    allowNull: false,
+    unique: true,
+  })
+  quantity!: string;
 
   @Column({
     type: DataType.STRING(128),
