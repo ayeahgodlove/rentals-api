@@ -15,7 +15,7 @@ const productRepository = new ProductRepository();
 const productUseCase = new ProductUseCase(productRepository);
 const productMapper = new ProductMapper();
 
-export class CategoriesController {
+export class ProductsController {
   async createProduct(req: Request, res: Response<IProductResponse>): Promise<void> {
     const dto = new ProductRequestDto(req.body);
     const validationErrors = await validate(dto);

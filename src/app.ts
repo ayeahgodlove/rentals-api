@@ -14,6 +14,9 @@ import categoryRouter from "./presentation/routes/category.route";
 import subCategoryRouter from "./presentation/routes/sub-category.route";
 import orderRouter from "./presentation/routes/order.route";
 import userRouter from "./presentation/routes/user.route";
+import productRouter from "./presentation/routes/product.route";
+import reviewRouter from "./presentation/routes/review.route";
+import paymentRouter from "./presentation/routes/payment.route";
 
 dotenv.config();
 /**
@@ -65,10 +68,13 @@ app.get("/api", (req: Request, res: Response) => {
   res.send("Express + TypeScript Server");
 });
 
-app.use('/api/categories', categoryRouter);
-app.use('/api/sub-categories', subCategoryRouter);
-app.use('/api/users', userRouter);
-app.use('/api/orders', orderRouter);
+app.use('/api/categories', checkJwt, categoryRouter);
+app.use('/api/sub-categories', checkJwt, subCategoryRouter);
+app.use('/api/users', checkJwt, userRouter);
+app.use('/api/orders', checkJwt, orderRouter);
+app.use('/api/payments', checkJwt, paymentRouter);
+app.use('/api/reviews', checkJwt, reviewRouter);
+app.use('/api/products', checkJwt, productRouter);
 
 app.get("/api/private", checkJwt, (req, res) => {
   res.send("This is a private route, authenicate before you can see it");

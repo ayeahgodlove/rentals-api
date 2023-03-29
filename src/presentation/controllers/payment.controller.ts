@@ -15,7 +15,7 @@ const paymentRepository = new PaymentRepository();
 const paymentUseCase = new PaymentUseCase(paymentRepository);
 const paymentMapper = new PaymentMapper();
 
-export class CategoriesController {
+export class PaymentsController {
   async createPayment(req: Request, res: Response<IPaymentResponse>): Promise<void> {
     const dto = new PaymentRequestDto(req.body);
     const validationErrors = await validate(dto);

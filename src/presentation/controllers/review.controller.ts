@@ -15,7 +15,7 @@ const reviewRepository = new ReviewRepository();
 const reviewUseCase = new ReviewUseCase(reviewRepository);
 const reviewMapper = new ReviewMapper();
 
-export class CategoriesController {
+export class ReviewsController {
   async createReview(req: Request, res: Response<IReviewResponse>): Promise<void> {
     const dto = new ReviewRequestDto(req.body);
     const validationErrors = await validate(dto);
