@@ -1,7 +1,6 @@
 import { ICategoryRepository } from "../../data/repositories/contracts/icategory.repository";
 import { Category } from "../../data/entities/category";
 import { ICategory } from "../models/category";
-
 export class CategoryUseCase {
     /**
      *
