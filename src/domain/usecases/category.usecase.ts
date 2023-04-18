@@ -15,7 +15,6 @@ export class CategoryUseCase {
           throw new Error('Category already exists');
         }
     
-        // const _category = new Category({category}); 
         //because it's already done in the Repository
         return this.categoryRepository.create(category);
       }

@@ -14,7 +14,7 @@ import { Review } from "./review";
   paranoid: true,
   tableName: "user",
   modelName: "User",
-  schema: "common",
+  deletedAt: false,
 })
 export class User extends Model<IUser> {
   @Column({
@@ -90,11 +90,8 @@ export class User extends Model<IUser> {
   password!: string;
 
   @ForeignKey(() => Role) // foreign key
-  @Column({
-    type: DataType.STRING(5),
-    allowNull: false,
-  })
-  roleId!: string;
+  @Column
+  roleId!: number;
 
   @HasMany(() => Review)
   reviews!: Review[];

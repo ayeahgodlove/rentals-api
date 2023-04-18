@@ -5,18 +5,12 @@ import { ICategory } from "../../domain/models/category";
   timestamps: true,
   paranoid: true,
   tableName: "category",
-  modelName: "Category"
+  modelName: "Category",
+  deletedAt: false,
 })
 export class Category extends Model<ICategory> {
   @Column({
     type: DataType.STRING(50),
-    allowNull: false,
-    primaryKey: true,
-  })
-  declare id?: string;
-
-  @Column({
-    type: DataType.STRING(128),
     allowNull: false,
     unique: true,
   })

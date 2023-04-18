@@ -14,7 +14,7 @@ import { IReview } from "../../domain/models/review";
   paranoid: true,
   tableName: "review",
   modelName: "Review",
-  schema: "common",
+  deletedAt: false,
 })
 export class Review extends Model<IReview> {
   @Column({
@@ -24,14 +24,7 @@ export class Review extends Model<IReview> {
   })
   declare id?: string;
 
-  @Column({
-    type: DataType.STRING(50),
-    allowNull: false,
-    references: {
-      model: User,
-      key: "id",
-    },
-  })
+  @Column
   @ForeignKey(() => User)
   userId!: string;
 

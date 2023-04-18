@@ -7,16 +7,9 @@ import { User } from "./user";
   paranoid: true,
   tableName: "role",
   modelName: "Role",
-  schema: 'common'
+  deletedAt: false,
 })
 export class Role extends Model<IRole> {
-  @Column({
-    allowNull: false,
-    primaryKey: true,
-    autoIncrement: true,
-  })
-  declare id?: string;
-
   @Column({
     type: DataType.STRING(128),
     allowNull: false,
