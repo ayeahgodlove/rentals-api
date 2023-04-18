@@ -1,6 +1,4 @@
 import { Table, Model, Column, DataType, HasMany } from "sequelize-typescript";
-import { Product } from "./product";
-import { SubCategory } from "./sub-category";
 import { uuid } from "uuidv4";
 
 @Table({
@@ -42,9 +40,9 @@ export class Category extends Model {
    *  category: Car
    * subCategory: Suff, Rav4, Land Cruiser etc...
    */
-  @HasMany(() => SubCategory)
-  sub_categories!: SubCategory[];
+  // @HasMany(() => SubCategory)
+  // sub_categories!: SubCategory[];
 
-  @HasMany(() => Product)
-  products!: Product[];
+  // @HasMany(() => Product)
+  // products!: Product[];
 }

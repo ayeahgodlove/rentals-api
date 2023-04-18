@@ -2,7 +2,7 @@
   "development": {
     "username": "postgres",
     "password": "admin@2022",
-    "database": "honeyman_db",
+    "database": "rentals_db",
     "host": "localhost",
     "dialect": "postgres",
     "port": 5432

@@ -1,5 +1,4 @@
 import { Table, Model, Column, DataType, HasMany, BelongsTo, ForeignKey } from "sequelize-typescript";
-import { Product } from "./product";
 import { User } from "./user";
 
 @Table({
@@ -27,16 +26,6 @@ export class Review extends Model<Review> {
   @ForeignKey(() => User)
   userId!: string;
 
-  @Column({
-    type: DataType.STRING(50),
-    allowNull: false,
-    references: {
-      model: Product,
-      key: "id",
-    },
-  })
-  @ForeignKey(() => Product)
-  productId!: string;
 
   @Column({
     type: DataType.TEXT,
@@ -50,9 +39,9 @@ export class Review extends Model<Review> {
   })
   rating!: number;
 
-  @BelongsTo(() => Product)
-  product!: Product
+  // @BelongsTo(() => Product)
+  // product!: Product
 
-  @BelongsTo(() => User)
-  user!: User;
+  // @BelongsTo(() => User)
+  // user!: User;
 }

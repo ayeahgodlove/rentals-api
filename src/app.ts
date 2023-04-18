@@ -9,14 +9,11 @@ import cookieParser from "cookie-parser";
 import { PostgresDbConfig } from "./infrastructure/database/postgres/db-postgres.config";
 import { errorHandler } from "./shared/middlewares/error.middleware";
 import { notFoundHandler } from "./shared/middlewares/not-found.middleware";
-import { checkJwt } from "./shared/middlewares/authz.middleware";
+import { checkJwt, checkScopes } from "./shared/middlewares/authz.middleware";
 import categoryRouter from "./presentation/routes/category.route";
-import subCategoryRouter from "./presentation/routes/sub-category.route";
-import orderRouter from "./presentation/routes/order.route";
 import userRouter from "./presentation/routes/user.route";
-import productRouter from "./presentation/routes/product.route";
 import reviewRouter from "./presentation/routes/review.route";
-import paymentRouter from "./presentation/routes/payment.route";
+import { requiredScopes } from "express-oauth2-jwt-bearer";
 
 dotenv.config();
 /**
@@ -42,10 +39,10 @@ app.use(
 );
 app.use(helmet());
 app.use(
-    cors({
-        origin: "*",
-        credentials: true,
-    })
+  cors({
+    origin: "*",
+    credentials: true,
+  })
 );
 app.use(
   session({
@@ -68,13 +65,18 @@ app.get("/api", (req: Request, res: Response) => {
   res.send("Express + TypeScript Server");
 });
 
-app.use('/api/categories', checkJwt, categoryRouter);
-app.use('/api/sub-categories', checkJwt, subCategoryRouter);
-app.use('/api/users', checkJwt, userRouter);
-app.use('/api/orders', checkJwt, orderRouter);
-app.use('/api/payments', checkJwt, paymentRouter);
-app.use('/api/reviews', checkJwt, reviewRouter);
-app.use('/api/products', checkJwt, productRouter);
+// const checkScopes = requiredScopes('read:messages');
+app.get("/api/private-scoped", checkScopes(["read:messages","read:products"]), function (req, res) {
+  res.json({
+    message:
+      "Hello from a private endpoint! You need to be authenticated and have a scope of read:messages to see this.",
+  });
+});
+
+
+app.use("/api/categories",categoryRouter);
+app.use("/api/users", checkJwt, userRouter);
+app.use("/api/reviews", checkJwt, reviewRouter);
 
 app.get("/api/private", checkJwt, (req, res) => {
   res.send("This is a private route, authenicate before you can see it");

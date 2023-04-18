@@ -6,15 +6,10 @@
 
 import { Sequelize } from "sequelize-typescript";
 import { Category } from "../../../data/entities/category";
-import { Order } from "../../../data/entities/order";
-import { Payment } from "../../../data/entities/payment";
-import { Product } from "../../../data/entities/product";
-import { SubCategory } from "../../../data/entities/sub-category";
 import { User } from "../../../data/entities/user";
 
 import * as dotenv from "dotenv";
 import { Review } from "../../../data/entities/review";
-import { ProductImage } from "../../../data/entities/product-image";
 dotenv.config();
 
 export class PostgresDbConfig {
@@ -32,13 +27,8 @@ export class PostgresDbConfig {
       dialect: "postgres",
       models: [
         User,
-        SubCategory,
-        Order,
-        Product,
         Category,
-        Payment,
         Review,
-        ProductImage
       ],
       logging: false,
       pool: {
