@@ -36,6 +36,7 @@
     "jwks-rsa": "^3.0.1",
     "pg": "^8.9.0",
     "pg-hstore": "^2.3.4",
+    "reflect-metadata": "^0.1.13",
     "sequelize": "^6.28.2",
     "sequelize-typescript": "^2.1.5",
     "sequelize-typescript-migration-lts": "^3.2.5",

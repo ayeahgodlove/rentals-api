@@ -1,17 +1,19 @@
 import { Table, Model, Column, DataType, HasMany } from "sequelize-typescript";
-import { ICategory } from "../../domain/models/category";
+import { IRole } from "../../domain/models/role";
+import { User } from "./user";
 
 @Table({
   timestamps: true,
   paranoid: true,
-  tableName: "category",
-  modelName: "Category"
+  tableName: "role",
+  modelName: "Role",
+  schema: 'common'
 })
-export class Category extends Model<ICategory> {
+export class Role extends Model<IRole> {
   @Column({
-    type: DataType.STRING(50),
     allowNull: false,
     primaryKey: true,
+    autoIncrement: true,
   })
   declare id?: string;
 
@@ -29,9 +31,7 @@ export class Category extends Model<ICategory> {
   })
   slug!: string;
 
-  @Column({
-    type: DataType.TEXT,
-    allowNull: false,
-  })
-  description!: string;
+  // relationships
+  @HasMany(() => User)
+  users!: User[];
 }

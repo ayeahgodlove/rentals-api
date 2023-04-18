@@ -1,4 +1,11 @@
-import { Table, Model, Column, DataType, HasMany, BelongsTo, ForeignKey } from "sequelize-typescript";
+import {
+  Table,
+  Model,
+  Column,
+  DataType,
+  BelongsTo,
+  ForeignKey,
+} from "sequelize-typescript";
 import { User } from "./user";
 import { IReview } from "../../domain/models/review";
 
@@ -6,7 +13,8 @@ import { IReview } from "../../domain/models/review";
   timestamps: true,
   paranoid: true,
   tableName: "review",
-  modelName: "Review"
+  modelName: "Review",
+  schema: "common",
 })
 export class Review extends Model<IReview> {
   @Column({
@@ -27,12 +35,11 @@ export class Review extends Model<IReview> {
   @ForeignKey(() => User)
   userId!: string;
 
-
   @Column({
     type: DataType.TEXT,
     allowNull: false,
   })
-  description!: string;
+  comment!: string;
 
   @Column({
     type: DataType.INTEGER,
@@ -40,9 +47,6 @@ export class Review extends Model<IReview> {
   })
   rating!: number;
 
-  // @BelongsTo(() => Product)
-  // product!: Product
-
-  // @BelongsTo(() => User)
-  // user!: User;
+  @BelongsTo(() => User)
+  user!: User;
 }

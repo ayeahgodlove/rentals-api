@@ -1,10 +1,20 @@
-import { Table, Model, Column, DataType, HasMany } from "sequelize-typescript";
+import {
+  Table,
+  Model,
+  Column,
+  DataType,
+  HasMany,
+  ForeignKey,
+} from "sequelize-typescript";
 import { IUser } from "../../domain/models/user";
+import { Role } from "./role";
+import { Review } from "./review";
 @Table({
   timestamps: true,
   paranoid: true,
   tableName: "user",
-  modelName: "User"
+  modelName: "User",
+  schema: "common",
 })
 export class User extends Model<IUser> {
   @Column({
@@ -12,55 +22,80 @@ export class User extends Model<IUser> {
     allowNull: false,
     primaryKey: true,
   })
-  declare id?: string;
+  declare id: string;
 
   @Column({
-    type: DataType.STRING(128),
+    type: DataType.STRING(50),
+    allowNull: false,
+  })
+  firstname!: string;
+
+  @Column({
+    type: DataType.STRING(50),
+    allowNull: false,
+  })
+  lastname!: string;
+
+  @Column({
+    type: DataType.STRING(50),
     allowNull: false,
     unique: true,
   })
   username!: string;
 
   @Column({
-    type: DataType.STRING(128),
-    allowNull: false,
-    unique: true,
-  })
-  fullname!: string;
-
-  @Column({
-    type: DataType.STRING(128),
+    type: DataType.STRING(50),
     allowNull: false,
     unique: true,
   })
   email!: string;
 
   @Column({
-    type: DataType.STRING(128),
+    type: DataType.STRING(13),
     allowNull: false,
     unique: true,
   })
-  password!: string;
+  phoneNumber!: string;
 
   @Column({
-    type: DataType.STRING(128),
+    type: DataType.STRING(13),
+    allowNull: false,
+    unique: true,
+  })
+  whatsappNumber!: string;
+
+  @Column({
+    type: DataType.STRING(30),
+    allowNull: false,
+  })
+  city!: string;
+
+  @Column({
+    type: DataType.STRING(30),
+    allowNull: false,
+  })
+  country!: string;
+
+  @Column({
+    type: DataType.STRING(255),
     allowNull: false,
   })
   address!: string;
 
   @Column({
-    type: DataType.STRING(128),
-    allowNull: false,
-  })
-  role!: string;
-
-  @Column({
-    type: DataType.STRING(128),
+    type: DataType.STRING(255),
     allowNull: false,
     unique: true,
   })
-  slug!: string;
+  password!: string;
 
-  // @HasMany(() => Order)
-  // order!: Order[];
+  @ForeignKey(() => Role) // foreign key
+  @Column({
+    type: DataType.STRING(5),
+    allowNull: false,
+  })
+  roleId!: string;
+
+  @HasMany(() => Review)
+  reviews!: Review[];
 }
