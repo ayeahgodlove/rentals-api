@@ -5,29 +5,13 @@ import { ICategory } from "../../domain/models/category";
 
 export class CategoryMapper {
   toDTO(category: Category): ICategory {
-    const categoryDTO: ICategory = {
-        id: `${category.id}`,
-        name: category.name,
-        slug: category.slug,
-        description: category.description,
-        createdAt: category.createdAt,
-        updatedAt: category.updatedAt,
-        // deletedAt: category.deletedAt
-    };
-    return categoryDTO;
+    const entity = category.toJSON<ICategory>();
+    return entity;
   }
   toDTOs(categories: Category[]): ICategory[] {
     const _categories = categories.map(category => {
-      const categoryDTO: ICategory = {
-        id: `${category.id}`,
-        name: category.name,
-        createdAt: category.createdAt,
-        updatedAt: category.updatedAt,
-        slug: category.slug,
-        description: category.description
-    };
-
-      return categoryDTO
+      const entity = category.toJSON<ICategory>();
+      return entity;
     })
     return _categories;
   }

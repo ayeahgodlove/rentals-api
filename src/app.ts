@@ -11,9 +11,6 @@ import { errorHandler } from "./shared/middlewares/error.middleware";
 import { notFoundHandler } from "./shared/middlewares/not-found.middleware";
 import { checkJwt, checkScopes } from "./shared/middlewares/authz.middleware";
 import categoryRouter from "./presentation/routes/category.route";
-import userRouter from "./presentation/routes/user.route";
-import reviewRouter from "./presentation/routes/review.route";
-import { requiredScopes } from "express-oauth2-jwt-bearer";
 
 dotenv.config();
 /**
@@ -75,8 +72,6 @@ app.get("/api/private-scoped", checkScopes(["read:messages","read:products"]), f
 
 
 app.use("/api/categories",categoryRouter);
-app.use("/api/users", checkJwt, userRouter);
-app.use("/api/reviews", checkJwt, reviewRouter);
 
 app.get("/api/private", checkJwt, (req, res) => {
   res.send("This is a private route, authenicate before you can see it");

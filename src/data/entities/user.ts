@@ -1,12 +1,12 @@
 import { Table, Model, Column, DataType, HasMany } from "sequelize-typescript";
-
+import { IUser } from "../../domain/models/user";
 @Table({
   timestamps: true,
   paranoid: true,
   tableName: "user",
   modelName: "User"
 })
-export class User extends Model<User> {
+export class User extends Model<IUser> {
   @Column({
     type: DataType.STRING(50),
     allowNull: false,

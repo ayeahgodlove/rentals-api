@@ -9,10 +9,6 @@ export interface ICategory {
   updatedAt: Date;
 }
 
-export interface ISubCategory extends ICategory {
-  categoryId: string;
-}
-
 export const emptyCategory: ICategory = {
   id: "",
   name: "",
@@ -24,12 +20,4 @@ export const emptyCategory: ICategory = {
 
 export interface ICategoryResponse extends IBaseResponse {
   data: ICategory | null | ICategory[];
-}
-
-export const emptySubCategory: ISubCategory = {
-  ...emptyCategory,
-  categoryId: '',
-};
-export interface ISubCategoryResponse extends IBaseResponse {
-  data: ISubCategory | null |ISubCategory[];
 }

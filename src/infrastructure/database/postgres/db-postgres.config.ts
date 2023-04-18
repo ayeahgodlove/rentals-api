@@ -6,10 +6,8 @@
 
 import { Sequelize } from "sequelize-typescript";
 import { Category } from "../../../data/entities/category";
-import { User } from "../../../data/entities/user";
 
 import * as dotenv from "dotenv";
-import { Review } from "../../../data/entities/review";
 dotenv.config();
 
 export class PostgresDbConfig {
@@ -26,9 +24,7 @@ export class PostgresDbConfig {
       host: process.env.HOST,
       dialect: "postgres",
       models: [
-        User,
         Category,
-        Review,
       ],
       logging: false,
       pool: {

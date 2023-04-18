@@ -1,6 +1,11 @@
 import { ValidationError } from "class-validator"
 
-export function displayValidationErrors(validationErrors: ValidationError[]){
+type Props = {
+    property: string,
+    constrains: string[]
+}
+
+export const displayValidationErrors = (validationErrors: ValidationError[]) => {
     if(validationErrors && validationErrors.length > 0) {
         const errors = validationErrors.map((v, i) => {
             return {
