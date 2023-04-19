@@ -13,8 +13,7 @@ import { IReview } from "../../domain/models/review";
   timestamps: true,
   paranoid: true,
   tableName: "review",
-  modelName: "Review",
-  deletedAt: false,
+  modelName: "Review"
 })
 export class Review extends Model<IReview> {
   @Column({

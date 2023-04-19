@@ -17,7 +17,7 @@ export class CategoryRepository implements ICategoryRepository {
    */
   async create(category: ICategory): Promise<Category> {
     try {
-      return await Category.create<Category>(category);
+      return await Category.create<Category>({ ...category });
     } catch (error) {
       throw error;
     }
@@ -31,7 +31,7 @@ export class CategoryRepository implements ICategoryRepository {
   async findById(id: string): Promise<Category | null> {
     try {
       const categoryItem = await Category.findByPk(id);
-      
+
       if (!categoryItem) {
         throw new NotFoundException("Category", id);
       }
@@ -46,9 +46,9 @@ export class CategoryRepository implements ICategoryRepository {
    * @name
    * returns Category
    */
-  async findByName(name: string): Promise<Category | null> {
+  async findByName(name: string): Promise<Category | null>{
     try {
-      const categoryItem = await Category.findOne({ where: { name } });
+      const categoryItem = await Category.findOne({ where: {name}});
       return categoryItem;
     } catch (error) {
       throw error;
@@ -79,7 +79,7 @@ export class CategoryRepository implements ICategoryRepository {
 
       console.log(category);
       if (!categoryItem) {
-        throw new NotFoundException("Category", id);
+        throw new NotFoundException("Category", id.toString());
       }
 
       return await categoryItem?.update({

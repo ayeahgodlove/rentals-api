@@ -6,10 +6,16 @@ import { User } from "./user";
   timestamps: true,
   paranoid: true,
   tableName: "role",
-  modelName: "Role",
-  deletedAt: false,
+  modelName: "Role"
 })
 export class Role extends Model<IRole> {
+  @Column({
+    type: DataType.STRING(20),
+    allowNull: false,
+    primaryKey: true,
+  })
+  declare id?: string;
+
   @Column({
     type: DataType.STRING(128),
     allowNull: false,

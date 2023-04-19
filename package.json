@@ -34,6 +34,7 @@
     "express-session": "^1.17.3",
     "helmet": "^6.0.1",
     "jwks-rsa": "^3.0.1",
+    "nanoid": "^3.3.6",
     "pg": "^8.9.0",
     "pg-hstore": "^2.3.4",
     "reflect-metadata": "^0.1.13",

@@ -47,7 +47,7 @@ export class CategoriesController {
         res.status(400).json({
           data: null,
           message: error.message,
-          validationErrors: [error],
+          validationErrors: [],
           success: false,
         });
       }

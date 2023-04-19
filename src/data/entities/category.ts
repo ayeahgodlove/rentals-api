@@ -1,14 +1,19 @@
-import { Table, Model, Column, DataType, HasMany } from "sequelize-typescript";
+import { Table, Model, Column, DataType } from "sequelize-typescript";
 import { ICategory } from "../../domain/models/category";
-
 @Table({
   timestamps: true,
   paranoid: true,
   tableName: "category",
   modelName: "Category",
-  deletedAt: false,
 })
 export class Category extends Model<ICategory> {
+  @Column({
+    type: DataType.STRING(20),
+    allowNull: false,
+    primaryKey: true,
+  })
+  declare id?: string;
+
   @Column({
     type: DataType.STRING(50),
     allowNull: false,
