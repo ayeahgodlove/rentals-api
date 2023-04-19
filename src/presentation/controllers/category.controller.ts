@@ -6,7 +6,7 @@ import {
 } from "../../domain/models/category";
 import { CategoryUseCase } from "../../domain/usecases/category.usecase";
 import { CategoryRepository } from "../../data/repositories/impl/category.repository";
-import { CategoryMapper } from "../mappers/category-mapper";
+import { CategoryMapper } from "../mappers/mapper";
 import { CategoryRequestDto } from "../dtos/category-request.dto";
 import { validate } from "class-validator";
 import { displayValidationErrors } from "../../utils/displayValidationErrors";

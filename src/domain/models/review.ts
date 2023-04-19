@@ -9,7 +9,7 @@ export interface IReview {
   updatedAt: Date;
 }
 
-export const emptyRevIReview: IReview = {
+export const emptyReview: IReview = {
   id: "",
   userId: "",
   rating: 0,

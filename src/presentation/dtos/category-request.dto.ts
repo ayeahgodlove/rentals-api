@@ -1,8 +1,7 @@
-// src/presentation/dtos/CategoryRequestDto.ts
+// src/presentation/dtos/category-request.dto.ts
 
 import {  IsNotEmpty, IsString, Length } from "class-validator";
 import { ICategory, emptyCategory } from "../../domain/models/category";
-import { v4 } from "uuid";
 import slugify from "slugify";
 import { nanoid } from "nanoid";
 export class CategoryRequestDto {
