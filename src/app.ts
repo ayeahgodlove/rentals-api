@@ -2,9 +2,9 @@ import * as dotenv from "dotenv";
 import express, { Express, Request, Response } from "express";
 import cors from "cors";
 import helmet from "helmet";
-import bodyParser from "body-parser";
 import session from "express-session";
 import cookieParser from "cookie-parser";
+import passport from "passport";
 
 import { PostgresDbConfig } from "./infrastructure/database/postgres/db-postgres.config";
 import { errorHandler } from "./shared/middlewares/error.middleware";
@@ -30,9 +30,9 @@ const app: Express = express();
  *  App Configuration
  */
 // enable the use of request body parsing middleware
-app.use(bodyParser.json());
+app.use(express.json());
 app.use(
-  bodyParser.urlencoded({
+  express.urlencoded({
     extended: true,
   })
 );
@@ -52,6 +52,9 @@ app.use(
 );
 app.use(express.json());
 app.use(cookieParser());
+app.use(passport.authenticate("session"));
+app.use(passport.initialize());
+app.use(passport.session());
 
 const db = new PostgresDbConfig();
 db.connection();
@@ -64,26 +67,42 @@ app.get("/api", (req: Request, res: Response) => {
   res.send("Express + TypeScript Server");
 });
 
-// const checkScopes = requiredScopes('read:messages');
-app.get(
-  "/api/private-scoped",
-  checkScopes(["read:messages", "read:products"]),
-  function (req, res) {
-    res.json({
-      message:
-        "Hello from a private endpoint! You need to be authenticated and have a scope of read:messages to see this.",
-    });
-  }
-);
-
 app.use("/api/categories", categoryRouter);
 app.use("/api/roles", roleRouter);
 app.use("/api/reviews", reviewRouter);
 
-app.get("/api/private", checkJwt, (req, res) => {
-  res.send("This is a private route, authenicate before you can see it");
-});
+// redirect to google sign in page
+app.get(
+  "/oauth/google",
+  passport.authenticate("google", {
+    scope: ["profile", "email"],
+  })
+);
 
+//redirect user to the success or failure page from google sign in page
+app.get(
+  "/oauth2/redirect/google",
+  passport.authenticate("google", {
+    failureRedirect: "/failure",
+    successRedirect: "/success",
+  })
+);
+//redirect user to facebook login page
+app.get(
+  "/auth/facebook",
+  passport.authenticate("facebook", {
+    scope: ["public_profile", "email"],
+  })
+);
+
+//redirect user from facebook login page to success or failure login page
+app.get(
+  "/auth/facebook/callback",
+  passport.authenticate("facebook", {
+    failureRedirect: "/failure",
+    successRedirect: "/success",
+  })
+);
 // middleware interceptions
 app.use(errorHandler);
 app.use(notFoundHandler);
