@@ -18,7 +18,7 @@
     "username": "ayeahgodlove",
     "password": "ostJlJ0ZlgKgyI99uxrYRiYR5tbxspp3",
     "database": "rentals_db",
-    "host": "postgres://ayeahgodlove:ostJlJ0ZlgKgyI99uxrYRiYR5tbxspp3@dpg-cgvrip2ut4mc4ka95pl0-a/rentals_db",
+    "host": "dpg-cgvrip2ut4mc4ka95pl0-a.oregon-postgres.render.com",
     "dialect": "postgres"
   }
 }
