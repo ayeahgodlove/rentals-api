@@ -33,5 +33,5 @@ export const emptyUser: IUser = {
 };
 
 export interface IUserResponse extends IBaseResponse {
-  user: IUser | null | IUser[];
+  data: IUser | null | IUser[];
 }

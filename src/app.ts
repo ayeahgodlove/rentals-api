@@ -11,6 +11,8 @@ import { errorHandler } from "./shared/middlewares/error.middleware";
 import { notFoundHandler } from "./shared/middlewares/not-found.middleware";
 import { checkJwt, checkScopes } from "./shared/middlewares/authz.middleware";
 import categoryRouter from "./presentation/routes/category.route";
+import roleRouter from "./presentation/routes/role.route";
+import reviewRouter from "./presentation/routes/review.route";
 
 dotenv.config();
 /**
@@ -63,15 +65,20 @@ app.get("/api", (req: Request, res: Response) => {
 });
 
 // const checkScopes = requiredScopes('read:messages');
-app.get("/api/private-scoped", checkScopes(["read:messages","read:products"]), function (req, res) {
-  res.json({
-    message:
-      "Hello from a private endpoint! You need to be authenticated and have a scope of read:messages to see this.",
-  });
-});
+app.get(
+  "/api/private-scoped",
+  checkScopes(["read:messages", "read:products"]),
+  function (req, res) {
+    res.json({
+      message:
+        "Hello from a private endpoint! You need to be authenticated and have a scope of read:messages to see this.",
+    });
+  }
+);
 
-
-app.use("/api/categories",categoryRouter);
+app.use("/api/categories", categoryRouter);
+app.use("/api/roles", roleRouter);
+app.use("/api/reviews", reviewRouter);
 
 app.get("/api/private", checkJwt, (req, res) => {
   res.send("This is a private route, authenicate before you can see it");
