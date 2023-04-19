@@ -1,24 +1,26 @@
-import { ICategoryRepository } from "../../data/repositories/contracts/icategory.repository";
 import { Category } from "../../data/entities/category";
+import { IRepository } from "../../data/repositories/contracts/repository.base";
 import { ICategory } from "../models/category";
+import slugify from "slugify";
 export class CategoryUseCase {
   /**
    *
    */
-  constructor(private readonly categoryRepository: ICategoryRepository) {}
+  constructor(private readonly categoryRepository: IRepository<ICategory, Category>) {}
 
   async createCategory(category: ICategory): Promise<Category> {
-    const existingCategory = await this.categoryRepository.findByName(category.name);
+    const existingCategory = await this.categoryRepository.findByName(
+      category.name
+    );
 
     if (existingCategory) {
-      throw new Error('Category already exists');
+      throw new Error("Category already exists");
     }
 
-    // const _category = new Category({category}); 
+    // const _category = new Category({category});
     //because it's already done in the Repository
     return this.categoryRepository.create(category);
   }
-
 
   async getAll(): Promise<Category[]> {
     return this.categoryRepository.getAll();
@@ -28,18 +30,17 @@ export class CategoryUseCase {
     return this.categoryRepository.findById(id);
   }
 
-  // async getCategoryByName(category: ICategory): Promise<Category | null> {
-  //   const _category = await this.categoryRepository.findByName(category.name);
-
-  //   if (!_category) {
-  //     return null;
-  //   }
-
-  //   return category;
-  // }
-
   async updateCategory(category: ICategory): Promise<Category> {
-    return this.categoryRepository.update(category);
+    const { id, name, description, updatedAt, createdAt } = category;
+    const obj: ICategory = {
+      id,
+      name,
+      slug: slugify(name, { lower: true, replacement: "-" }),
+      description,
+      updatedAt,
+      createdAt,
+    };
+    return this.categoryRepository.update(obj);
   }
 
   async deleteCategory(id: string): Promise<void> {

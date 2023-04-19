@@ -1,10 +1,9 @@
-import slugify from "slugify";
 import { Category } from "../../entities/category";
-import { ICategoryRepository } from "../contracts/icategory.repository";
 import { ICategory } from "../../../domain/models/category";
 import { NotFoundException } from "../../../shared/exceptions/not-found.exception";
+import { IRepository } from "../contracts/repository.base";
 
-export class CategoryRepository implements ICategoryRepository {
+export class CategoryRepository implements IRepository<ICategory, Category> {
   /**
    *
    */
@@ -46,9 +45,9 @@ export class CategoryRepository implements ICategoryRepository {
    * @name
    * returns Category
    */
-  async findByName(name: string): Promise<Category | null>{
+  async findByName(name: string): Promise<Category | null> {
     try {
-      const categoryItem = await Category.findOne({ where: {name}});
+      const categoryItem = await Category.findOne({ where: { name } });
       return categoryItem;
     } catch (error) {
       throw error;
@@ -73,7 +72,7 @@ export class CategoryRepository implements ICategoryRepository {
    * returns void
    */
   async update(category: ICategory): Promise<Category> {
-    const { id, name, description, updatedAt } = category;
+    const { id } = category;
     try {
       const categoryItem: any = await Category.findByPk(id);
 
@@ -82,13 +81,7 @@ export class CategoryRepository implements ICategoryRepository {
         throw new NotFoundException("Category", id.toString());
       }
 
-      return await categoryItem?.update({
-        id,
-        name,
-        slug: slugify(name, { lower: true, replacement: "-" }),
-        description,
-        updatedAt,
-      });
+      return await categoryItem?.update({ ...category });
     } catch (error) {
       throw error;
     }
