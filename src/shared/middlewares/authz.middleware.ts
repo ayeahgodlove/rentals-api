@@ -9,6 +9,7 @@ import { validatePassword } from "../../domain/validators/password-validator";
 
 // serialize user
 passport.serializeUser<IUser>((user: any, done) => {
+  console.log(user)
   done(null, user.id);
 });
 
@@ -52,6 +53,7 @@ passport.use(
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
+        console.log(profile)
         const [user] = await User.findOrCreate({
           where: { email: profile.emails![0].value },
           defaults: {
