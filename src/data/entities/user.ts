@@ -42,6 +42,13 @@ export class User extends Model<IUser> {
   })
   username!: string;
 
+  // @Column({
+  //   type: DataType.STRING(50),
+  //   allowNull: false,
+  //   unique: true,
+  // })
+  // avatar!: string;
+
   @Column({
     type: DataType.STRING(50),
     allowNull: false,

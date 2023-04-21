@@ -6,6 +6,7 @@ export interface IUser {
   lastname: string;
   username: string;
   email: string;
+  avatar: string;
   phoneNumber: string;
   whatsappNumber: string;
   city: string; //town
@@ -30,6 +31,7 @@ export const emptyUser: IUser = {
   password: "",
   createdAt: new Date(),
   updatedAt: new Date(),
+  avatar: ""
 };
 
 export interface IUserResponse extends IBaseResponse {
