@@ -9,7 +9,6 @@ import passport from "passport";
 import { PostgresDbConfig } from "./infrastructure/database/postgres/db-postgres.config";
 import { errorHandler } from "./shared/middlewares/error.middleware";
 import { notFoundHandler } from "./shared/middlewares/not-found.middleware";
-import { checkJwt, checkScopes } from "./shared/middlewares/authz.middleware";
 import categoryRouter from "./presentation/routes/category.route";
 import roleRouter from "./presentation/routes/role.route";
 import reviewRouter from "./presentation/routes/review.route";
@@ -30,39 +29,37 @@ const app: Express = express();
  *  App Configuration
  */
 // enable the use of request body parsing middleware
-app.use(express.json());
-app.use(
-  express.urlencoded({
-    extended: true,
-  })
-);
-app.use(helmet());
-app.use(
-  cors({
-    origin: "*",
-    credentials: true,
-  })
-);
-app.use(
-  session({
-    secret: "secretcode",
-    resave: true,
-    saveUninitialized: true,
-  })
-);
-app.use(express.json());
-app.use(cookieParser());
-app.use(passport.authenticate("session"));
-app.use(passport.initialize());
-app.use(passport.session());
+
+app
+  .use(
+    express.urlencoded({
+      extended: true,
+    })
+  )
+  .use(express.json({ limit: "50kb" }))
+  .use(
+    cors({
+      origin: "*",
+      credentials: true,
+    })
+  )
+  .use(cookieParser())
+  .use(helmet())
+  .use(
+    session({
+      secret: process.env.MY_SECRET || "mysecrete",
+      resave: true,
+      saveUninitialized: true,
+    })
+  )
+  .use(passport.initialize())
+  .use(passport.authenticate("session"))
+  .use(passport.session());
 
 const db = new PostgresDbConfig();
 db.connection();
 
-//routes
-// app.get("/", function (req, res) {
-//   res.sendFile(path.join(__dirname, "../public/index.html"));
-// });
+// route  endpoints
 app.get("/api", (req: Request, res: Response) => {
   res.send("Express + TypeScript Server");
 });
