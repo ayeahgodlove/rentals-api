@@ -22,6 +22,11 @@ export class User extends Model<IUser> {
     primaryKey: true,
   })
   declare id: string;
+  @Column({
+    type: DataType.STRING(10),
+    allowNull: false,
+  })
+  authStrategy!: string;
 
   @Column({
     type: DataType.STRING(50),
@@ -42,12 +47,11 @@ export class User extends Model<IUser> {
   })
   username!: string;
 
-  // @Column({
-  //   type: DataType.STRING(50),
-  //   allowNull: false,
-  //   unique: true,
-  // })
-  // avatar!: string;
+  @Column({
+    type: DataType.STRING(255),
+    allowNull: true,
+  })
+  avatar!: string;
 
   @Column({
     type: DataType.STRING(50),
