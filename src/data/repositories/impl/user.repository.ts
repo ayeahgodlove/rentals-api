@@ -2,7 +2,7 @@ import { User } from "../../entities/user";
 import { IUser } from "../../../domain/models/user";
 import { NotFoundException } from "../../../shared/exceptions/not-found.exception";
 import { IRepository } from "../contracts/repository.base";
-
+import bcrypt from "bcrypt";
 export class UserRepository implements IRepository<IUser, User> {
   /**
    *
@@ -15,8 +15,13 @@ export class UserRepository implements IRepository<IUser, User> {
    * returns void
    */
   async create(user: IUser): Promise<User> {
+    const hashedPassword = await bcrypt.hash(user.password, 10);
+    user.password = hashedPassword;
+    user.authStrategy = 'local-auth'
+    // user.phoneNumber = user.whatsappNumber
+
     try {
-      return await User.create<User>({ ...user });
+      return await User.create<User>(user);
     } catch (error) {
       throw error;
     }
@@ -81,6 +86,8 @@ export class UserRepository implements IRepository<IUser, User> {
         throw new NotFoundException("User", id.toString());
       }
 
+      const hashedPassword = await bcrypt.hash(user.password, 10);
+      user.password = hashedPassword;
       return await userItem?.update({ ...user });
     } catch (error) {
       throw error;

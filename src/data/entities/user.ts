@@ -62,15 +62,15 @@ export class User extends Model<IUser> {
 
   @Column({
     type: DataType.STRING(13),
-    allowNull: true,
-    unique: true,
+    // allowNull: true,
+    // unique: true,
   })
   phoneNumber!: string;
 
   @Column({
     type: DataType.STRING(13),
-    allowNull: true,
-    unique: true,
+    // allowNull: true,
+    // unique: true,
   })
   whatsappNumber!: string;
 

@@ -12,23 +12,24 @@ Passport.serializeUser(function (user, cb) {
   cb(null, user);
 });
 
-Passport.deserializeUser(async function (user: any, cb) {
+Passport.deserializeUser(async function (userItem: any, cb) {
   try {
-    const item = await User.findByPk(user.id);
-    cb(null, item);
+    const user = await User.findByPk(userItem.id);
+    cb(null, user);
   } catch (error) {
     cb(error);
   }
 });
 
 Passport.use(
+  'local-auth',
   new LocalStrategy(
     { usernameField: "email", passwordField: "password" },
     async (email, password, done) => {
       try {
         const user = await User.findOne({ where: { email } });
         if (!user) {
-          return done(null, false);
+          return done(null, false, {message: 'Invalid username or password!'});
         }
         const isValidPassword = await validatePassword(password);
         if (!isValidPassword) {

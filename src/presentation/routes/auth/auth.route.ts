@@ -43,6 +43,26 @@ authRoutes.get(
 );
 // console.log(authRoutes)
 
+authRoutes.post(
+  "/auth/login",
+  Passport.authenticate("local-auth"),
+  (req, res) => {
+    try {
+
+      res.status(200).json({
+        success: true,
+        message: "Login Successfully!",
+        data: req.user
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: "Login Failed",
+      });
+    }
+  }
+);
+
 authRoutes.get("/auth/failure", (req, res) => {
   res.json({
     message: "failure!",

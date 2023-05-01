@@ -15,6 +15,8 @@ import { authRoutes } from "./presentation/routes/auth/auth.route";
 
 import Passport from "./shared/middlewares/authz.middleware";
 import userRouter from "./presentation/routes/user.route";
+import { store } from "./shared/helper/redis.config";
+import RedisStore from "connect-redis";
 
 dotenv.config();
 /**
@@ -50,9 +52,10 @@ app
   .use(helmet())
   .use(
     session({
+      // store: store,
       secret: `${process.env.SESSION_SECRET}`,
-      resave: true,
-      saveUninitialized: true,
+      resave: false,
+      saveUninitialized: false,
       cookie: { secure: false, maxAge: 24 * 60 * 60 * 1000 },
     })
   )

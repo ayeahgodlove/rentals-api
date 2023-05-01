@@ -10,12 +10,51 @@ import { UserMapper } from "../mappers/mapper";
 import { UserRequestDto } from "../dtos/user-request.dto";
 import { validate } from "class-validator";
 import { displayValidationErrors } from "../../utils/displayValidationErrors";
+import { NotFoundException } from "../../shared/exceptions/not-found.exception";
+// import { UnauthorizedException } from "../../shared/exceptions/unauthorized.exception";
 
 const userRepository = new UserRepository();
 const userUseCase = new UserUseCase(userRepository);
 const userMapper = new UserMapper();
 
 export class UsersController {
+  async createUser(
+    req: Request,
+    res: Response<IUserResponse>
+  ): Promise<void> {
+    const dto = new UserRequestDto(req.body);
+    const validationErrors = await validate(dto);
+
+    if (validationErrors.length > 0) {
+      res.status(400).json({
+        validationErrors: displayValidationErrors(validationErrors) as any,
+        success: false,
+        data: null,
+        message: "Attention!",
+      });
+    } else {
+      try {
+        const userResponse = await userUseCase.createUser(
+          dto.toData()
+        );
+
+        res.status(201).json({
+          data: userResponse.toJSON<IUser>(),
+          message: "User created Successfully!",
+          validationErrors: [],
+          success: true,
+        });
+      } catch (error: any) {
+        res.status(400).json({
+          data: null,
+          message: error.message,
+          validationErrors: [],
+          success: false,
+        });
+      }
+    }
+  }
+
   async getAll(req: Request, res: Response<any>): Promise<void> {
     try {
       const users = await userUseCase.getAll();

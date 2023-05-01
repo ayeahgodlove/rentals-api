@@ -12,22 +12,23 @@ export class UserRequestDto {
   @IsNotEmpty()
   @IsString()
   @Length(4, 25)
+  // @Length(4)
   firstname: string;
 
   @IsNotEmpty()
   @IsString()
   @Length(4, 25)
+  // @Length(4)
   lastname: string;
 
   @IsNotEmpty()
   @IsString()
-  @Max(25)
   email: string;
 
-  @IsNotEmpty()
-  @IsString()
-  @Length(9)
-  phoneNumber: string;
+  // @IsNotEmpty()
+  // @IsString()
+  // @Length(9)
+  // phoneNumber: string;
 
   @IsNotEmpty()
   @IsString()
@@ -36,16 +37,16 @@ export class UserRequestDto {
 
   @IsNotEmpty()
   @IsString()
-  @Min(8)
+  @Length(8)
   password: string;
   
-  @IsNotEmpty()
-  @IsString()
-  avatar!: string;
+  // @IsNotEmpty()
+  // @IsString()
+  // avatar!: string;
 
-  @IsNotEmpty()
-  @IsString()
-  authStrategy!: string;
+  // @IsNotEmpty()
+  // @IsString()
+  // authStrategy!: string;
 
 
   constructor(data: IUser) {
@@ -54,10 +55,10 @@ export class UserRequestDto {
     this.lastname = data.lastname;
     this.username = data.username;
     this.email = data.email;
-    this.phoneNumber = data.phoneNumber;
+    // this.phoneNumber = data.phoneNumber;
     this.whatsappNumber = data.whatsappNumber;
     this.password = data.password;
-    this.authStrategy = data.authStrategy;
+    // this.authStrategy = data.authStrategy;
   }
 
   toData(): IUser {
@@ -68,11 +69,11 @@ export class UserRequestDto {
       firstname: this.firstname,
       lastname: this.lastname,
       email: this.email,
-      phoneNumber: this.phoneNumber,
+      // phoneNumber: this.phoneNumber,
       whatsappNumber: this.whatsappNumber,
       password: this.password,
-      authStrategy: this.authStrategy,
-      avatar: this.avatar
+      // authStrategy: this.authStrategy,
+      // avatar: this.avatar
     };
   }
 

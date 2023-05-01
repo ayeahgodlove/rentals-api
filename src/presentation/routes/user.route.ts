@@ -24,6 +24,7 @@ userRouter.get("/me", isAuthenticatedMiddleware, (req, res) => {
     });
   }
 });
+userRouter.post("", userController.createUser);
 userRouter.put("/:id", isAuthenticatedMiddleware, userController.updateUser);
 userRouter.delete("/:id", isAuthenticatedMiddleware, userController.deleteUser);
 
