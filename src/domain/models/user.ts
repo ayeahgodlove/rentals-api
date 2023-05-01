@@ -3,6 +3,7 @@ import { IBaseResponse } from "./base-response";
 export interface IUser {
   id: string;
   firstname: string;
+  authStrategy: string;
   lastname: string;
   username: string;
   email: string;
@@ -31,7 +32,8 @@ export const emptyUser: IUser = {
   password: "",
   createdAt: new Date(),
   updatedAt: new Date(),
-  avatar: ""
+  avatar: "",
+  authStrategy: ""
 };
 
 export interface IUserResponse extends IBaseResponse {

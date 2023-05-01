@@ -11,4 +11,3 @@ export const logger = createLogger({
   format: combine(colorize(), errors({ stack: true }), timestamp(), logFormat),
   transports: [new transports.Console()],
 });
-

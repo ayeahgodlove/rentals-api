@@ -1,39 +1,41 @@
-import passport from "passport";
+import Passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import { Strategy as FacebookStrategy } from "passport-facebook";
 import { Strategy as LocalStrategy } from "passport-local";
 
-import { IUser } from "../../domain/models/user";
 import { User } from "../../data/entities/user";
 import { validatePassword } from "../../domain/validators/password-validator";
+import { logger } from "../helper/logger";
+import slugify from "slugify";
 
-// serialize user
-passport.serializeUser<IUser>((user: any, done) => {
-  console.log(user)
-  done(null, user.id);
+Passport.serializeUser(function (user, cb) {
+  cb(null, user);
 });
 
-passport.deserializeUser(async (id: string, done) => {
+Passport.deserializeUser(async function (userItem: any, cb) {
   try {
-    const user = await User.findByPk(id);
-    done(null, user);
+    const user = await User.findByPk(userItem.id);
+    cb(null, user);
   } catch (error) {
-    done(error);
+    cb(error);
   }
 });
 
-passport.use(
+Passport.use(
+  'local-auth',
   new LocalStrategy(
     { usernameField: "email", passwordField: "password" },
-    async (email: string, password: string, done) => {
+    async (email, password, done) => {
       try {
         const user = await User.findOne({ where: { email } });
         if (!user) {
-          return done(null, false);
+          return done(null, false, {message: 'Invalid username or password!'});
         }
         const isValidPassword = await validatePassword(password);
         if (!isValidPassword) {
-          return done(null, false, { message: "Incorrect email or password" });
+          return done(null, false, {
+            message: "Incorrect email or password",
+          });
         }
         return done(null, user);
       } catch (error) {
@@ -43,81 +45,97 @@ passport.use(
   )
 );
 
-// google strategy
-passport.use(
+Passport.use(
   new GoogleStrategy(
     {
       clientID: `${process.env.GOOGLE_CLIENT_ID}`,
-      clientSecret: `${process.env.GOOGLE_CLIENT_SECRET}`,
+      clientSecret: `${process.env.GOOGLE_SECRET}`,
       callbackURL: `${process.env.GOOGLE_CALLBACK_URL}`,
+      scope: ["profile", "email"],
+      state: true,
     },
-    async (accessToken, refreshToken, profile, done) => {
+    async function (accessToken, refreshToken, profile, cb) {
+      console.log("profile: ", profile);
       try {
-        console.log(profile)
-        const [user] = await User.findOrCreate({
-          where: { email: profile.emails![0].value },
-          defaults: {
-            id: profile.id,
-            firstname: profile.name!.givenName,
-            lastname: profile.name!.familyName,
-            username: profile.displayName,
-            email: profile.emails![0].value,
-            avatar: profile.photos![0].value,
-            address: "",
-            phoneNumber: "",
-            password: "",
-            city: "",
-            country: "",
-            createdAt: new Date(),
-            updatedAt: new Date(),
-            whatsappNumber: "",
-          },
+        logger.info("start: ");
+        const existingUser = await User.findOne({
+          where: { email: profile.emails![0].value},
         });
-        done(null, user);
+
+        if (existingUser) {
+          return cb(null, existingUser);
+        }
+
+        const user = await User.create({
+          id: profile.id,
+          firstname: profile.name!.givenName,
+          lastname: profile.name!.familyName,
+          username: profile.displayName,
+          email: profile.emails![0].value,
+          avatar: profile.photos![0].value,
+          authStrategy: "google",
+          address: "",
+          phoneNumber: "",
+          password: "",
+          city: "",
+          country: "",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          whatsappNumber: "",
+        });
+        console.log("user created: ", user, profile);
+        cb(null, user);
       } catch (error: any) {
-        return done(error);
+        return cb(error);
       }
     }
   )
 );
 
-// facebook strategy
-passport.use(
+Passport.use(
   new FacebookStrategy(
     {
       clientID: `${process.env.FACEBOOK_CLIENT_ID}`,
-      clientSecret: `${process.env.FACEBOOK_CLIENT_SECRET}`,
+      clientSecret: `${process.env.FACEBOOK_SECRET}`,
       callbackURL: `${process.env.FACEBOOK_CALLBACK_URL}`,
       profileFields: ["id", "displayName", "photos", "email"],
+      enableProof: true,
     },
-    async (accessToken, refreshToken, profile, done) => {
-      console.log(profile)
+    async function (accessToken, refreshToken, profile, cb) {
       try {
-        const [user] = await User.findOrCreate({
-          where: { email: profile.emails![0].value },
-          defaults: {
-            id: profile.id,
-            firstname: profile.name!.familyName,
-            lastname: profile.name!.givenName,
-            username: profile.displayName,
-            email: profile.emails![0].value,
-            avatar: profile.photos![0].value,
-            address: profile._json.location.address,
-            phoneNumber: profile._json.phone,
-            password: "",
-            city: profile._json.location.name,
-            country: profile._json.location.country,
-            createdAt: new Date(),
-            updatedAt: new Date(),
-            whatsappNumber: profile._json.phone,
-          },
+        const existingUser = await User.findOne({
+          where: { email: profile.emails![0].value},
         });
-        done(null, user);
+        logger.info("profile: ", profile);
+
+        if (existingUser) {
+          return cb(null, existingUser);
+        }
+        logger.info("facebook creating new user....");
+
+        const user = await User.create({
+          id: profile.id,
+          firstname: `${profile.name!.familyName}`,
+          lastname: `${profile.name!.givenName}`,
+          username: slugify(profile._json.name, { lower: true, replacement: '-' }),
+          email: profile.emails![0].value,
+          avatar: profile.photos![0].value,
+          address: '',
+          phoneNumber: '',
+          authStrategy: "facebook",
+          password: "",
+          city: '',
+          country: '',
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          whatsappNumber: '',
+        });
+        cb(null, user);
       } catch (error: any) {
-        return done(error);
+        return cb(error);
       }
     }
   )
 );
 
-export { passport };
+export default Passport;

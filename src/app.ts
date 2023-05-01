@@ -11,8 +11,12 @@ import { notFoundHandler } from "./shared/middlewares/not-found.middleware";
 import categoryRouter from "./presentation/routes/category.route";
 import roleRouter from "./presentation/routes/role.route";
 import reviewRouter from "./presentation/routes/review.route";
-import { passport } from "./shared/middlewares/authz.middleware";
 import { authRoutes } from "./presentation/routes/auth/auth.route";
+
+import Passport from "./shared/middlewares/authz.middleware";
+import userRouter from "./presentation/routes/user.route";
+import { store } from "./shared/helper/redis.config";
+import RedisStore from "connect-redis";
 
 dotenv.config();
 /**
@@ -48,34 +52,35 @@ app
   .use(helmet())
   .use(
     session({
-      secret: `${process.env.SESSION_SECRET}}`,
-      resave: true,
-      saveUninitialized: true,
+      // store: store,
+      secret: `${process.env.SESSION_SECRET}`,
+      resave: false,
+      saveUninitialized: false,
+      cookie: { secure: false, maxAge: 24 * 60 * 60 * 1000 },
     })
   )
-  .use(passport.initialize())
-  .use(passport.authenticate("session"))
-  .use(passport.session());
+  .use(Passport.initialize())
+  .use(Passport.authenticate("session"))
+  .use(Passport.session());
 
 const db = new PostgresDbConfig();
 db.connection();
 
+// authentication
+app.use("/", authRoutes);
 
 // route  endpoints
-app.get('/', (req: Request, res: Response) => {
+app.get("/", (req: Request, res: Response) => {
   res.send("Welcome to Rent Kojo REST API");
 });
 app.get("/api", (req: Request, res: Response) => {
   res.send("Express + TypeScript Server");
 });
 
-// authentication
-app.use('/', authRoutes);
-
-
 app.use("/api/categories", categoryRouter);
 app.use("/api/roles", roleRouter);
 app.use("/api/reviews", reviewRouter);
+app.use("/api/users", userRouter)
 
 // middleware interceptions
 app.use(errorHandler);
