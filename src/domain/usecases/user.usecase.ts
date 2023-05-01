@@ -39,4 +39,18 @@ export class UserUseCase {
   async deleteUser(id: string): Promise<void> {
     return this.userRepository.delete(id);
   }
+  async updateAvatar(id: string, filename: string): Promise<User> {
+    const user = (await this.userRepository.findById(id)) as User;
+
+    user.avatar = filename.toString();
+    return await user.update({...user});
+    // console.log("user: ", user, "fileName: ", filename)
+    // const obj: IUser = {
+    //   ...user,
+    //   avatar: filename,
+    //   updatedAt: new Date(),
+    // } as IUser;
+
+    // return this.userRepository.update(obj);
+  }
 }
