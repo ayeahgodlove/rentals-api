@@ -11,7 +11,6 @@ import { CategoryRequestDto } from "../dtos/category-request.dto";
 import { validate } from "class-validator";
 import { displayValidationErrors } from "../../utils/displayValidationErrors";
 import { NotFoundException } from "../../shared/exceptions/not-found.exception";
-import { UnauthorizedException } from "../../shared/exceptions/unauthorized.exception";
 
 const categoryRepository = new CategoryRepository();
 const categoryUseCase = new CategoryUseCase(categoryRepository);

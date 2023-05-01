@@ -38,6 +38,15 @@ export class UserRequestDto {
   @IsString()
   @Min(8)
   password: string;
+  
+  @IsNotEmpty()
+  @IsString()
+  avatar!: string;
+
+  @IsNotEmpty()
+  @IsString()
+  authStrategy!: string;
+
 
   constructor(data: IUser) {
     this.username = data.username;
@@ -48,6 +57,7 @@ export class UserRequestDto {
     this.phoneNumber = data.phoneNumber;
     this.whatsappNumber = data.whatsappNumber;
     this.password = data.password;
+    this.authStrategy = data.authStrategy;
   }
 
   toData(): IUser {
@@ -61,6 +71,8 @@ export class UserRequestDto {
       phoneNumber: this.phoneNumber,
       whatsappNumber: this.whatsappNumber,
       password: this.password,
+      authStrategy: this.authStrategy,
+      avatar: this.avatar
     };
   }
 
@@ -79,6 +91,8 @@ export class UserRequestDto {
       country: data.country,
       createdAt: data.createdAt,
       updatedAt: data.updatedAt,
+      authStrategy: data.authStrategy,
+      avatar: data.avatar
     };
   }
 }

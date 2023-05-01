@@ -1,6 +1,6 @@
 // src/infrastructure/routes/category-routes.ts
 import { Router } from "express";
-import  Passport from "../../../shared/middlewares/authz.middleware";
+import Passport from "../../../shared/middlewares/authz.middleware";
 
 const authRoutes = Router();
 // redirect to google sign in page
@@ -8,19 +8,18 @@ authRoutes.get(
   "/oauth/google",
   Passport.authenticate("google", {
     scope: ["profile", "email"],
-  }),
+  })
 );
 
 //redirect user to the success or failure page from google sign in page
 authRoutes.get(
   "/oauth2/redirect/google",
   Passport.authenticate("google", {
-    failureRedirect: "/failure",
+    failureRedirect: "/auth/failure",
     failureMessage: true,
-    
   }),
   (req, res) => {
-    res.redirect("/api");
+    res.redirect("http://localhost:3000/");
   }
 );
 //redirect user to facebook login page
@@ -35,29 +34,27 @@ authRoutes.get(
 authRoutes.get(
   "/oauth2/redirect/facebook",
   Passport.authenticate("facebook", {
-    failureRedirect: "/failure",
+    failureRedirect: "/auth/failure",
     failureMessage: true,
   }),
   (req, res) => {
-    res.redirect("/api");
+    res.redirect("http://localhost:3000/");
   }
 );
 // console.log(authRoutes)
 
-authRoutes.get("/failure", (req, res) => {  
+authRoutes.get("/auth/failure", (req, res) => {
   res.json({
     message: "failure!",
     success: false,
-    user: req.user,
-    test: req.authInfo,
-    res: req.session
   });
 });
 
-authRoutes.get("/auth/logout", (req, res) => {  
+authRoutes.get("/auth/logout", (req, res) => {
   req.logout(() => {
-    res.send('Logged out successfully!')
+    res.send("Logged out successfully!");
   });
 });
+
 
 export { authRoutes };

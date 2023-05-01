@@ -14,6 +14,7 @@ import reviewRouter from "./presentation/routes/review.route";
 import { authRoutes } from "./presentation/routes/auth/auth.route";
 
 import Passport from "./shared/middlewares/authz.middleware";
+import userRouter from "./presentation/routes/user.route";
 
 dotenv.config();
 /**
@@ -76,6 +77,7 @@ app.get("/api", (req: Request, res: Response) => {
 app.use("/api/categories", categoryRouter);
 app.use("/api/roles", roleRouter);
 app.use("/api/reviews", reviewRouter);
+app.use("/api/users", userRouter)
 
 // middleware interceptions
 app.use(errorHandler);
