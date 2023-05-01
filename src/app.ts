@@ -13,7 +13,7 @@ import roleRouter from "./presentation/routes/role.route";
 import reviewRouter from "./presentation/routes/review.route";
 import { authRoutes } from "./presentation/routes/auth/auth.route";
 
-const Passport = require("./shared/middlewares/authz.middleware");
+import Passport from "./shared/middlewares/authz.middleware";
 
 dotenv.config();
 /**
@@ -62,6 +62,9 @@ app
 const db = new PostgresDbConfig();
 db.connection();
 
+// authentication
+app.use("/", authRoutes);
+
 // route  endpoints
 app.get("/", (req: Request, res: Response) => {
   res.send("Welcome to Rent Kojo REST API");
@@ -69,9 +72,6 @@ app.get("/", (req: Request, res: Response) => {
 app.get("/api", (req: Request, res: Response) => {
   res.send("Express + TypeScript Server");
 });
-
-// authentication
-app.use("/", authRoutes);
 
 app.use("/api/categories", categoryRouter);
 app.use("/api/roles", roleRouter);

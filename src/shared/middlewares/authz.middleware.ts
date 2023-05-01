@@ -1,17 +1,18 @@
-var Passport = require("passport");
-var GoogleStrategy = require("passport-google-oauth20").Strategy;
-const FacebookStrategy = require("passport-facebook").Strategy;
-const LocalStrategy = require("passport-local").Strategy;
+import Passport from "passport";
+import { Strategy as GoogleStrategy } from "passport-google-oauth20";
+import { Strategy as FacebookStrategy } from "passport-facebook";
+import { Strategy as LocalStrategy } from "passport-local";
 
 import { User } from "../../data/entities/user";
 import { validatePassword } from "../../domain/validators/password-validator";
 import { logger } from "../helper/logger";
+import slugify from "slugify";
 
 Passport.serializeUser(function (user, cb) {
   cb(null, user);
 });
 
-Passport.deserializeUser(async function (user, cb) {
+Passport.deserializeUser(async function (user: any, cb) {
   try {
     const item = await User.findByPk(user.id);
     cb(null, item);
@@ -57,7 +58,7 @@ Passport.use(
       try {
         logger.info("start: ");
         const existingUser = await User.findOne({
-          email: profile.emails[0].value,
+          where: { email: profile.emails![0].value},
         });
 
         if (existingUser) {
@@ -66,11 +67,11 @@ Passport.use(
 
         const user = await User.create({
           id: profile.id,
-          firstname: profile.name.givenName,
-          lastname: profile.name.familyName,
+          firstname: profile.name!.givenName,
+          lastname: profile.name!.familyName,
           username: profile.displayName,
-          email: profile.emails[0].value,
-          avatar: profile.photos[0].value,
+          email: profile.emails![0].value,
+          avatar: profile.photos![0].value,
           authStrategy: "google",
           address: "",
           phoneNumber: "",
@@ -83,7 +84,7 @@ Passport.use(
         });
         console.log("user created: ", user, profile);
         cb(null, user);
-      } catch (error) {
+      } catch (error: any) {
         return cb(error);
       }
     }
@@ -102,38 +103,38 @@ Passport.use(
     async function (accessToken, refreshToken, profile, cb) {
       try {
         const existingUser = await User.findOne({
-          email: profile.emails[0].value,
+          where: { email: profile.emails![0].value},
         });
+        logger.info("profile: ", profile);
 
         if (existingUser) {
           return cb(null, existingUser);
         }
-        console.log(profile);
-
-        logger.info("google creating new user....");
+        logger.info("facebook creating new user....");
 
         const user = await User.create({
           id: profile.id,
-          firstname: profile.name.familyName,
-          lastname: profile.name.givenName,
-          username: profile.displayName,
-          email: profile.emails[0].value,
-          avatar: profile.photos[0].value,
-          address: profile._json.location.address,
-          phoneNumber: profile._json.phone,
+          firstname: `${profile.name!.familyName}`,
+          lastname: `${profile.name!.givenName}`,
+          username: slugify(profile._json.name, { lower: true, replacement: '-' }),
+          email: profile.emails![0].value,
+          avatar: profile.photos![0].value,
+          address: '',
+          phoneNumber: '',
+          authStrategy: "facebook",
           password: "",
-          city: profile._json.location.name,
-          country: profile._json.location.country,
+          city: '',
+          country: '',
           createdAt: new Date(),
           updatedAt: new Date(),
-          whatsappNumber: profile._json.phone,
+          whatsappNumber: '',
         });
         cb(null, user);
-      } catch (error) {
+      } catch (error: any) {
         return cb(error);
       }
     }
   )
 );
 
-module.exports = Passport;
+export default Passport;

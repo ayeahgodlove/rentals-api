@@ -1,6 +1,6 @@
 // src/infrastructure/routes/category-routes.ts
 import { Router } from "express";
-const  Passport = require("../../../shared/middlewares/authz.middleware");
+import  Passport from "../../../shared/middlewares/authz.middleware";
 
 const authRoutes = Router();
 // redirect to google sign in page
@@ -51,6 +51,12 @@ authRoutes.get("/failure", (req, res) => {
     user: req.user,
     test: req.authInfo,
     res: req.session
+  });
+});
+
+authRoutes.get("/auth/logout", (req, res) => {  
+  req.logout(() => {
+    res.send('Logged out successfully!')
   });
 });
 
