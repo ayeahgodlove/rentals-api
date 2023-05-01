@@ -1,9 +1,5 @@
 import { Request, Response } from "express";
-import {
-  IUser,
-  IUserResponse,
-  emptyUser,
-} from "../../domain/models/user";
+import { IUser, IUserResponse, emptyUser } from "../../domain/models/user";
 import { UserUseCase } from "../../domain/usecases/user.usecase";
 import { UserRepository } from "../../data/repositories/impl/user.repository";
 import { UserMapper } from "../mappers/mapper";
@@ -11,6 +7,7 @@ import { UserRequestDto } from "../dtos/user-request.dto";
 import { validate } from "class-validator";
 import { displayValidationErrors } from "../../utils/displayValidationErrors";
 import { NotFoundException } from "../../shared/exceptions/not-found.exception";
+import { User } from "../../data/entities/user";
 // import { UnauthorizedException } from "../../shared/exceptions/unauthorized.exception";
 
 const userRepository = new UserRepository();
@@ -18,10 +15,7 @@ const userUseCase = new UserUseCase(userRepository);
 const userMapper = new UserMapper();
 
 export class UsersController {
-  async createUser(
-    req: Request,
-    res: Response<IUserResponse>
-  ): Promise<void> {
+  async createUser(req: Request, res: Response<IUserResponse>): Promise<void> {
     const dto = new UserRequestDto(req.body);
     const validationErrors = await validate(dto);
 
@@ -34,9 +28,7 @@ export class UsersController {
       });
     } else {
       try {
-        const userResponse = await userUseCase.createUser(
-          dto.toData()
-        );
+        const userResponse = await userUseCase.createUser(dto.toData());
 
         res.status(201).json({
           data: userResponse.toJSON<IUser>(),
@@ -76,11 +68,7 @@ export class UsersController {
     }
   }
 
-
-  async updateUser(
-    req: Request,
-    res: Response<IUserResponse>
-  ): Promise<void> {
+  async updateUser(req: Request, res: Response<IUserResponse>): Promise<void> {
     const dto = new UserRequestDto(req.body);
     const validationErrors = await validate(dto);
 
@@ -120,10 +108,7 @@ export class UsersController {
     }
   }
 
-  async deleteUser(
-    req: Request,
-    res: Response<IUserResponse>
-  ): Promise<void> {
+  async deleteUser(req: Request, res: Response<IUserResponse>): Promise<void> {
     try {
       const id = req.params.id;
 
@@ -141,6 +126,25 @@ export class UsersController {
         data: null,
         validationErrors: [error],
         success: true,
+      });
+    }
+  }
+
+  async uploadAvatar(req: Request, res: Response<any>): Promise<void> {
+    const user = req.user as User;
+    const { filename } = req.file as Express.Multer.File;
+
+    try {
+      await userUseCase.updateAvatar(user.id, filename);
+
+      res.json({
+        message: "User Avatar uploaded Successfully!",
+        success: true,
+      });
+    } catch (error: any) {
+      res.status(400).json({
+        message: error.message,
+        success: false,
       });
     }
   }

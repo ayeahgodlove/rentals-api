@@ -33,8 +33,13 @@ const app: Express = express();
 /**
  *  App Configuration
  */
-// enable the use of request body parsing middleware
 
+// Function to serve all static files
+// inside public directory.
+app.use(express.static('public'));
+// app.use('/uploads/avatars', express.static('avatars'));
+
+// enable the use of request body parsing middleware
 app
   .use(
     express.urlencoded({
