@@ -3,9 +3,11 @@ import { IBaseResponse } from "./base-response";
 export interface IUser {
   id: string;
   firstname: string;
+  authStrategy: string;
   lastname: string;
   username: string;
   email: string;
+  avatar: string;
   phoneNumber: string;
   whatsappNumber: string;
   city: string; //town
@@ -30,6 +32,8 @@ export const emptyUser: IUser = {
   password: "",
   createdAt: new Date(),
   updatedAt: new Date(),
+  avatar: "",
+  authStrategy: ""
 };
 
 export interface IUserResponse extends IBaseResponse {

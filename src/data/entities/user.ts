@@ -22,16 +22,21 @@ export class User extends Model<IUser> {
     primaryKey: true,
   })
   declare id: string;
+  @Column({
+    type: DataType.STRING(10),
+    allowNull: false,
+  })
+  authStrategy!: string;
 
   @Column({
     type: DataType.STRING(50),
-    allowNull: false,
+    allowNull: true,
   })
   firstname!: string;
 
   @Column({
     type: DataType.STRING(50),
-    allowNull: false,
+    allowNull: true,
   })
   lastname!: string;
 
@@ -43,6 +48,12 @@ export class User extends Model<IUser> {
   username!: string;
 
   @Column({
+    type: DataType.STRING(255),
+    allowNull: true,
+  })
+  avatar!: string;
+
+  @Column({
     type: DataType.STRING(50),
     allowNull: false,
     unique: true,
@@ -51,39 +62,39 @@ export class User extends Model<IUser> {
 
   @Column({
     type: DataType.STRING(13),
-    allowNull: false,
-    unique: true,
+    // allowNull: true,
+    // unique: true,
   })
   phoneNumber!: string;
 
   @Column({
     type: DataType.STRING(13),
-    allowNull: false,
-    unique: true,
+    // allowNull: true,
+    // unique: true,
   })
   whatsappNumber!: string;
 
   @Column({
     type: DataType.STRING(30),
-    allowNull: false,
+    allowNull: true,
   })
   city!: string;
 
   @Column({
     type: DataType.STRING(30),
-    allowNull: false,
+    allowNull: true,
   })
   country!: string;
 
   @Column({
     type: DataType.STRING(255),
-    allowNull: false,
+    allowNull: true,
   })
   address!: string;
 
   @Column({
     type: DataType.STRING(255),
-    allowNull: false,
+    allowNull: true,
     unique: true,
   })
   password!: string;
