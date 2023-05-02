@@ -15,4 +15,6 @@ exports.emptyUser = {
     password: "",
     createdAt: new Date(),
     updatedAt: new Date(),
+    avatar: "",
+    authStrategy: ""
 };

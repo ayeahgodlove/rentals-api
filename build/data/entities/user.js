@@ -14,9 +14,11 @@ const sequelize_typescript_1 = require("sequelize-typescript");
 const role_1 = require("./role");
 const review_1 = require("./review");
 let User = class User extends sequelize_typescript_1.Model {
+    authStrategy;
     firstname;
     lastname;
     username;
+    avatar;
     email;
     phoneNumber;
     whatsappNumber;
@@ -37,15 +39,22 @@ __decorate([
 ], User.prototype, "id", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.STRING(50),
+        type: sequelize_typescript_1.DataType.STRING(10),
         allowNull: false,
+    }),
+    __metadata("design:type", String)
+], User.prototype, "authStrategy", void 0);
+__decorate([
+    (0, sequelize_typescript_1.Column)({
+        type: sequelize_typescript_1.DataType.STRING(50),
+        allowNull: true,
     }),
     __metadata("design:type", String)
 ], User.prototype, "firstname", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.STRING(50),
-        allowNull: false,
+        allowNull: true,
     }),
     __metadata("design:type", String)
 ], User.prototype, "lastname", void 0);
@@ -59,6 +68,13 @@ __decorate([
 ], User.prototype, "username", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
+        type: sequelize_typescript_1.DataType.STRING(255),
+        allowNull: true,
+    }),
+    __metadata("design:type", String)
+], User.prototype, "avatar", void 0);
+__decorate([
+    (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.STRING(50),
         allowNull: false,
         unique: true,
@@ -68,44 +84,44 @@ __decorate([
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.STRING(13),
-        allowNull: false,
-        unique: true,
+        // allowNull: true,
+        // unique: true,
     }),
     __metadata("design:type", String)
 ], User.prototype, "phoneNumber", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.STRING(13),
-        allowNull: false,
-        unique: true,
+        // allowNull: true,
+        // unique: true,
     }),
     __metadata("design:type", String)
 ], User.prototype, "whatsappNumber", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.STRING(30),
-        allowNull: false,
+        allowNull: true,
     }),
     __metadata("design:type", String)
 ], User.prototype, "city", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.STRING(30),
-        allowNull: false,
+        allowNull: true,
     }),
     __metadata("design:type", String)
 ], User.prototype, "country", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.STRING(255),
-        allowNull: false,
+        allowNull: true,
     }),
     __metadata("design:type", String)
 ], User.prototype, "address", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.STRING(255),
-        allowNull: false,
+        allowNull: true,
         unique: true,
     }),
     __metadata("design:type", String)
