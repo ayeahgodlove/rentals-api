@@ -6,7 +6,7 @@ const {
     mailtrapPassword
 } = require("./config")
 
-exports.sendEmail = async (url, options) => {
+exports.sendEmail = async (url: string, options: any) => {
 
     let transporter = nodemailer.createTransport({
         host: "smtp.mailtrap.io",

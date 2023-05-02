@@ -34,5 +34,17 @@ class UserUseCase {
     async deleteUser(id) {
         return this.userRepository.delete(id);
     }
+    async updateAvatar(id, filename) {
+        const user = (await this.userRepository.findById(id));
+        user.avatar = filename.toString();
+        return await user.update({ ...user });
+        // console.log("user: ", user, "fileName: ", filename)
+        // const obj: IUser = {
+        //   ...user,
+        //   avatar: filename,
+        //   updatedAt: new Date(),
+        // } as IUser;
+        // return this.userRepository.update(obj);
+    }
 }
 exports.UserUseCase = UserUseCase;

@@ -1,8 +1,12 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserRepository = void 0;
 const user_1 = require("../../entities/user");
 const not_found_exception_1 = require("../../../shared/exceptions/not-found.exception");
+const bcrypt_1 = __importDefault(require("bcrypt"));
 class UserRepository {
     /**
      *
@@ -14,8 +18,12 @@ class UserRepository {
      * returns void
      */
     async create(user) {
+        const hashedPassword = await bcrypt_1.default.hash(user.password, 10);
+        user.password = hashedPassword;
+        user.authStrategy = 'local-auth';
+        // user.phoneNumber = user.whatsappNumber
         try {
-            return await user_1.User.create({ ...user });
+            return await user_1.User.create(user);
         }
         catch (error) {
             throw error;
@@ -77,6 +85,8 @@ class UserRepository {
             if (!userItem) {
                 throw new not_found_exception_1.NotFoundException("User", id.toString());
             }
+            const hashedPassword = await bcrypt_1.default.hash(user.password, 10);
+            user.password = hashedPassword;
             return await userItem?.update({ ...user });
         }
         catch (error) {
