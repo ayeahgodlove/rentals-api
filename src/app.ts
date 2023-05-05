@@ -15,8 +15,6 @@ import { authRoutes } from "./presentation/routes/auth/auth.route";
 
 import Passport from "./shared/middlewares/authz.middleware";
 import userRouter from "./presentation/routes/user.route";
-import { store } from "./shared/helper/redis.config";
-import RedisStore from "connect-redis";
 
 dotenv.config();
 /**
