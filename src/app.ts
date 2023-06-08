@@ -15,6 +15,7 @@ import { authRoutes } from "./presentation/routes/auth/auth.route";
 
 import Passport from "./shared/middlewares/authz.middleware";
 import userRouter from "./presentation/routes/user.route";
+import userDocRouter from "./presentation/routes/user-doc.route";
 
 dotenv.config();
 /**
@@ -69,6 +70,7 @@ app
 const db = new PostgresDbConfig();
 db.connection();
 
+
 // authentication
 app.use("/", authRoutes);
 
@@ -82,6 +84,7 @@ app.get("/api", (req: Request, res: Response) => {
 
 app.use("/api/categories", categoryRouter);
 app.use("/api/roles", roleRouter);
+app.use("/api/userDocs", userDocRouter);
 app.use("/api/reviews", reviewRouter);
 app.use("/api/users", userRouter)
 

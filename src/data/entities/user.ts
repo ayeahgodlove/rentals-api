@@ -5,15 +5,17 @@ import {
   DataType,
   HasMany,
   ForeignKey,
+  HasOne,
 } from "sequelize-typescript";
 import { IUser } from "../../domain/models/user";
 import { Role } from "./role";
 import { Review } from "./review";
+import { UserDoc } from "./user-doc";
 @Table({
   timestamps: true,
   paranoid: true,
   tableName: "user",
-  modelName: "User"
+  modelName: "User",
 })
 export class User extends Model<IUser> {
   @Column({
@@ -99,10 +101,20 @@ export class User extends Model<IUser> {
   })
   password!: string;
 
+  // verification paramters
+  @Column({
+    type: DataType.BOOLEAN,
+    defaultValue: false,
+  })
+  verified!: boolean;
+
   @ForeignKey(() => Role) // foreign key
   @Column
   roleId!: string;
 
   @HasMany(() => Review)
   reviews!: Review[];
+
+  @HasOne(() => UserDoc)
+  userDoc!: UserDoc;
 }

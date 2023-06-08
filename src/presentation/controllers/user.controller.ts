@@ -6,9 +6,7 @@ import { UserMapper } from "../mappers/mapper";
 import { UserRequestDto } from "../dtos/user-request.dto";
 import { validate } from "class-validator";
 import { displayValidationErrors } from "../../utils/displayValidationErrors";
-import { NotFoundException } from "../../shared/exceptions/not-found.exception";
 import { User } from "../../data/entities/user";
-// import { UnauthorizedException } from "../../shared/exceptions/unauthorized.exception";
 
 const userRepository = new UserRepository();
 const userUseCase = new UserUseCase(userRepository);
