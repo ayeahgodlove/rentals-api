@@ -12,20 +12,20 @@ import slugify from "slugify";
 // passportPhoto: string;
 
 export class UserDocRequestDto {
-  @IsNotEmpty()
-  @IsString()
+  // @IsNotEmpty()
+  // @IsString()
   userId: string;
 
-  @IsNotEmpty()
-  @IsString()
+  // @IsNotEmpty()
+  // @IsString()
   idCard1: string;
 
-  @IsNotEmpty()
-  @IsString()
+  // @IsNotEmpty()
+  // @IsString()
   idCard2: string;
 
-  @IsNotEmpty()
-  @IsString()
+  // @IsNotEmpty()
+  // @IsString()
   passportPhoto: string;
 
   constructor(data: IUserDoc) {

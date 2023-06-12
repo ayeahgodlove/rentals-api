@@ -10,6 +10,7 @@ export class UserDocUseCase {
 
   async createUserDoc(userDoc: IUserDoc): Promise<UserDoc> {
     const existingUserDoc = await this.userDocRepository.findByName(userDoc.userId);
+    
 
     if (existingUserDoc) {
       throw new Error("UserDoc already exists");
