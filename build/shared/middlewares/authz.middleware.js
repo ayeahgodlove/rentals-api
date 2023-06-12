@@ -23,16 +23,16 @@ passport_1.default.deserializeUser(async function (userItem, cb) {
         cb(error);
     }
 });
-passport_1.default.use('local-auth', new passport_local_1.Strategy({ usernameField: "email", passwordField: "password" }, async (email, password, done) => {
+passport_1.default.use('local-auth', new passport_local_1.Strategy({ usernameField: "phoneNumber", passwordField: "password" }, async (phoneNumber, password, done) => {
     try {
-        const user = await user_1.User.findOne({ where: { email } });
+        const user = await user_1.User.findOne({ where: { phoneNumber } });
         if (!user) {
             return done(null, false, { message: 'Invalid username or password!' });
         }
         const isValidPassword = await (0, password_validator_1.validatePassword)(password);
         if (!isValidPassword) {
             return done(null, false, {
-                message: "Incorrect email or password",
+                message: "Incorrect phoneNumber or password",
             });
         }
         return done(null, user);
@@ -73,6 +73,7 @@ passport_1.default.use(new passport_google_oauth20_1.Strategy({
             createdAt: new Date(),
             updatedAt: new Date(),
             whatsappNumber: "",
+            verified: false
         });
         console.log("user created: ", user, profile);
         cb(null, user);
@@ -113,6 +114,7 @@ passport_1.default.use(new passport_facebook_1.Strategy({
             createdAt: new Date(),
             updatedAt: new Date(),
             whatsappNumber: '',
+            verified: false
         });
         cb(null, user);
     }

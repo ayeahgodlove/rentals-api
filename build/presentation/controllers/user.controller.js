@@ -8,7 +8,6 @@ const mapper_1 = require("../mappers/mapper");
 const user_request_dto_1 = require("../dtos/user-request.dto");
 const class_validator_1 = require("class-validator");
 const displayValidationErrors_1 = require("../../utils/displayValidationErrors");
-// import { UnauthorizedException } from "../../shared/exceptions/unauthorized.exception";
 const userRepository = new user_repository_1.UserRepository();
 const userUseCase = new user_usecase_1.UserUseCase(userRepository);
 const userMapper = new mapper_1.UserMapper();
