@@ -17,6 +17,7 @@ import Passport from "./shared/middlewares/authz.middleware";
 import userRouter from "./presentation/routes/user.route";
 import userDocRouter from "./presentation/routes/user-doc.route";
 import path from 'path';
+import tagRouter from "./presentation/routes/tag.route";
 
 dotenv.config();
 /**
@@ -85,6 +86,7 @@ app.get("/api", (req: Request, res: Response) => {
 });
 
 app.use("/api/categories", categoryRouter);
+app.use("/api/tags", tagRouter);
 app.use("/api/roles", roleRouter);
 app.use("/api/user-documents", userDocRouter);
 app.use("/api/reviews", reviewRouter);

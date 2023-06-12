@@ -3,11 +3,13 @@
 import { Category } from "../../data/entities/category";
 import { Review } from "../../data/entities/review";
 import { Role } from "../../data/entities/role";
+import { Tag } from "../../data/entities/tag";
 import { User } from "../../data/entities/user";
 import { UserDoc } from "../../data/entities/user-doc";
 import { ICategory } from "../../domain/models/category";
 import { IReview } from "../../domain/models/review";
 import { IRole } from "../../domain/models/role";
+import { ITag } from "../../domain/models/tag";
 import { IUser } from "../../domain/models/user";
 import { IUserDoc } from "../../domain/models/user-doc";
 
@@ -36,6 +38,20 @@ export class UserMapper {
       return entity;
     });
     return _users;
+  }
+}
+
+export class TagMapper {
+  toDTO(tag: Tag): ITag {
+    const entity = tag.toJSON<ITag>();
+    return entity;
+  }
+  toDTOs(tags: Tag[]): ITag[] {
+    const _tags = tags.map((tag) => {
+      const entity = tag.toJSON<ITag>();
+      return entity;
+    });
+    return _tags;
   }
 }
 
