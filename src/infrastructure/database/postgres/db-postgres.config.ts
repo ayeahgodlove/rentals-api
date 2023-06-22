@@ -12,6 +12,10 @@ import { User } from "../../../data/entities/user";
 import { Role } from "../../../data/entities/role";
 import { Review } from "../../../data/entities/review";
 import { UserDoc } from "../../../data/entities/user-doc";
+import { Branch } from "../../../data/entities/branch";
+import { Store } from "../../../data/entities/store";
+import { ProductImage } from "../../../data/entities/product-image";
+import { Product } from "../../../data/entities/product";
 dotenv.config();
 
 export class PostgresDbConfig {
@@ -27,7 +31,17 @@ export class PostgresDbConfig {
       port: parseInt(process.env.DB_PORT!),
       host: process.env.HOST,
       dialect: "postgres",
-      models: [Category, User, UserDoc, Role, Review],
+      models: [
+        Category,
+        User,
+        UserDoc,
+        Role,
+        Branch,
+        Store,
+        Product,
+        ProductImage,
+        Review,
+      ],
       logging: false,
       pool: {
         max: 5,

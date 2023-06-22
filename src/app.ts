@@ -18,6 +18,9 @@ import userRouter from "./presentation/routes/user.route";
 import userDocRouter from "./presentation/routes/user-doc.route";
 import path from 'path';
 import tagRouter from "./presentation/routes/tag.route";
+import productRouter from "./presentation/routes/product.route";
+import storeRouter from "./presentation/routes/store.route";
+import branchRouter from "./presentation/routes/branch.route";
 
 dotenv.config();
 /**
@@ -91,6 +94,9 @@ app.use("/api/roles", roleRouter);
 app.use("/api/user-documents", userDocRouter);
 app.use("/api/reviews", reviewRouter);
 app.use("/api/users", userRouter)
+app.use("/api/products", productRouter)
+app.use("/api/stores", storeRouter)
+app.use("/api/branches", branchRouter)
 
 // middleware interceptions
 app.use(errorHandler);

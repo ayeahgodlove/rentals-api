@@ -1,17 +1,25 @@
 // src/presentation/mappers/category-mapper.ts
 
+import { Branch } from "../../data/entities/branch";
 import { Category } from "../../data/entities/category";
 import { Review } from "../../data/entities/review";
 import { Role } from "../../data/entities/role";
 import { Tag } from "../../data/entities/tag";
 import { User } from "../../data/entities/user";
 import { UserDoc } from "../../data/entities/user-doc";
+import { IBranch } from "../../domain/models/branch";
 import { ICategory } from "../../domain/models/category";
 import { IReview } from "../../domain/models/review";
 import { IRole } from "../../domain/models/role";
 import { ITag } from "../../domain/models/tag";
 import { IUser } from "../../domain/models/user";
 import { IUserDoc } from "../../domain/models/user-doc";
+import { IStore } from "../../domain/models/store";
+import { Store } from "../../data/entities/store";
+import { Product } from "../../data/entities/product";
+import { IProduct } from "../../domain/models/product";
+import { ProductImage } from "../../data/entities/product-image";
+import { IProductImage } from "../../domain/models/product-image";
 
 export class CategoryMapper {
   toDTO(category: Category): ICategory {
@@ -55,6 +63,60 @@ export class TagMapper {
   }
 }
 
+export class BranchMapper {
+  toDTO(branch: Branch): IBranch {
+    const entity = branch.toJSON<IBranch>();
+    return entity;
+  }
+  toDTOs(branches: Branch[]): IBranch[] {
+    const _branches = branches.map((branch) => {
+      const entity = branch.toJSON<IBranch>();
+      return entity;
+    });
+    return _branches;
+  }
+}
+
+export class StoreMapper {
+  toDTO(store: Store): IStore {
+    const entity = store.toJSON<IStore>();
+    return entity;
+  }
+  toDTOs(stores: Store[]): IStore[] {
+    const _stores = stores.map((store) => {
+      const entity = store.toJSON<IStore>();
+      return entity;
+    });
+    return _stores;
+  }
+}
+
+export class ProductMapper {
+  toDTO(product: Product): IProduct {
+    const entity = product.toJSON<IProduct>();
+    return entity;
+  }
+  toDTOs(products: Product[]): IProduct[] {
+    const _products = products.map((product) => {
+      const entity = product.toJSON<IProduct>();
+      return entity;
+    });
+    return _products;
+  }
+}
+export class ProductImageMapper {
+  toDTO(productImage: ProductImage): IProductImage {
+    const entity = productImage.toJSON<IProductImage>();
+    return entity;
+  }
+  toDTOs(productImages: ProductImage[]): IProductImage[] {
+    const _productImages = productImages.map((productImage) => {
+      const entity = productImage.toJSON<IProductImage>();
+      return entity;
+    });
+    return _productImages;
+  }
+}
 export class UserDocMapper {
   toDTO(userDoc: UserDoc): IUserDoc {
     const entity = userDoc.toJSON<IUserDoc>();
