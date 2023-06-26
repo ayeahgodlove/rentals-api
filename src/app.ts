@@ -99,7 +99,7 @@ app.use("/api/products", productRouter)
 app.use("/api/stores", storeRouter)
 app.use("/api/branches", branchRouter)
 
-mainFunction();
+// mainFunction();
 
 // middleware interceptions
 app.use(errorHandler);
