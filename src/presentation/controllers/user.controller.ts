@@ -6,9 +6,8 @@ import { UserMapper } from "../mappers/mapper";
 import { UserRequestDto } from "../dtos/user-request.dto";
 import { validate } from "class-validator";
 import { displayValidationErrors } from "../../utils/displayValidationErrors";
-import { NotFoundException } from "../../shared/exceptions/not-found.exception";
 import { User } from "../../data/entities/user";
-// import { UnauthorizedException } from "../../shared/exceptions/unauthorized.exception";
+import { Role } from "../../data/entities/role";
 
 const userRepository = new UserRepository();
 const userUseCase = new UserUseCase(userRepository);
@@ -144,6 +143,40 @@ export class UsersController {
     } catch (error: any) {
       res.status(400).json({
         message: error.message,
+        success: false,
+      });
+    }
+  }
+
+  // Add a role to a user
+  async addUserRole(req: Request, res: Response<any>): Promise<void> {
+    try {
+      const userId = Number(req.params.userId);
+      const roleId = Number(req.params.roleId);
+
+      // Find the user and role using their IDs
+      const user = await User.findByPk(userId);
+      const role = await Role.findByPk(roleId);
+
+      if (!user || !role) {
+        res
+          .status(404)
+          .json({ message: "User or role not found", success: false });
+        return;
+      }
+      // Add the role to the user using Sequelize association methods
+      await user.$add("role", role);
+
+      res.status(200).json({
+        message: "Role added to the user successfully",
+        success: true,
+        validationErrors: [],
+      });
+    } catch (error: any) {
+      res.status(500).json({
+        message: error.message,
+        data: null,
+        validationErrors: [error],
         success: false,
       });
     }

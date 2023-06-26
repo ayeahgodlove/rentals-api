@@ -12,42 +12,26 @@ export class UserRequestDto {
   @IsNotEmpty()
   @IsString()
   @Length(4, 25)
-  // @Length(4)
   firstname: string;
 
   @IsNotEmpty()
   @IsString()
   @Length(4, 25)
-  // @Length(4)
   lastname: string;
 
   @IsNotEmpty()
   @IsString()
   email: string;
 
-  // @IsNotEmpty()
-  // @IsString()
-  // @Length(9)
-  // phoneNumber: string;
-
   @IsNotEmpty()
   @IsString()
   @Length(9)
-  whatsappNumber: string;
+  phoneNumber: string;
 
   @IsNotEmpty()
   @IsString()
   @Length(8)
   password: string;
-  
-  // @IsNotEmpty()
-  // @IsString()
-  // avatar!: string;
-
-  // @IsNotEmpty()
-  // @IsString()
-  // authStrategy!: string;
-
 
   constructor(data: IUser) {
     this.username = data.username;
@@ -55,10 +39,8 @@ export class UserRequestDto {
     this.lastname = data.lastname;
     this.username = data.username;
     this.email = data.email;
-    // this.phoneNumber = data.phoneNumber;
-    this.whatsappNumber = data.whatsappNumber;
+    this.phoneNumber = data.phoneNumber;
     this.password = data.password;
-    // this.authStrategy = data.authStrategy;
   }
 
   toData(): IUser {
@@ -69,11 +51,8 @@ export class UserRequestDto {
       firstname: this.firstname,
       lastname: this.lastname,
       email: this.email,
-      // phoneNumber: this.phoneNumber,
-      whatsappNumber: this.whatsappNumber,
+      phoneNumber: this.phoneNumber,
       password: this.password,
-      // authStrategy: this.authStrategy,
-      // avatar: this.avatar
     };
   }
 
@@ -93,7 +72,8 @@ export class UserRequestDto {
       createdAt: data.createdAt,
       updatedAt: data.updatedAt,
       authStrategy: data.authStrategy,
-      avatar: data.avatar
+      avatar: data.avatar,
+      verified: data.verified
     };
   }
 }

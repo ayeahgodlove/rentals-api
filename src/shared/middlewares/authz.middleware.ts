@@ -24,17 +24,17 @@ Passport.deserializeUser(async function (userItem: any, cb) {
 Passport.use(
   'local-auth',
   new LocalStrategy(
-    { usernameField: "email", passwordField: "password" },
-    async (email, password, done) => {
+    { usernameField: "phoneNumber", passwordField: "password" },
+    async (phoneNumber, password, done) => {
       try {
-        const user = await User.findOne({ where: { email } });
+        const user = await User.findOne({ where: { phoneNumber } });
         if (!user) {
           return done(null, false, {message: 'Invalid username or password!'});
         }
         const isValidPassword = await validatePassword(password);
         if (!isValidPassword) {
           return done(null, false, {
-            message: "Incorrect email or password",
+            message: "Incorrect phoneNumber or password",
           });
         }
         return done(null, user);
@@ -82,6 +82,7 @@ Passport.use(
           createdAt: new Date(),
           updatedAt: new Date(),
           whatsappNumber: "",
+          verified: false
         });
         console.log("user created: ", user, profile);
         cb(null, user);
@@ -129,6 +130,7 @@ Passport.use(
           createdAt: new Date(),
           updatedAt: new Date(),
           whatsappNumber: '',
+          verified: false
         });
         cb(null, user);
       } catch (error: any) {

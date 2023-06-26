@@ -15,8 +15,13 @@ import { authRoutes } from "./presentation/routes/auth/auth.route";
 
 import Passport from "./shared/middlewares/authz.middleware";
 import userRouter from "./presentation/routes/user.route";
-import { store } from "./shared/helper/redis.config";
-import RedisStore from "connect-redis";
+import userDocRouter from "./presentation/routes/user-doc.route";
+import path from 'path';
+import tagRouter from "./presentation/routes/tag.route";
+import productRouter from "./presentation/routes/product.route";
+import storeRouter from "./presentation/routes/store.route";
+import branchRouter from "./presentation/routes/branch.route";
+import { mainFunction } from "./shared/helper/google-map-api";
 
 dotenv.config();
 /**
@@ -37,6 +42,7 @@ const app: Express = express();
 // Function to serve all static files
 // inside public directory.
 app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')));
 // app.use('/uploads/avatars', express.static('avatars'));
 
 // enable the use of request body parsing middleware
@@ -71,6 +77,7 @@ app
 const db = new PostgresDbConfig();
 db.connection();
 
+
 // authentication
 app.use("/", authRoutes);
 
@@ -83,9 +90,16 @@ app.get("/api", (req: Request, res: Response) => {
 });
 
 app.use("/api/categories", categoryRouter);
+app.use("/api/tags", tagRouter);
 app.use("/api/roles", roleRouter);
+app.use("/api/user-documents", userDocRouter);
 app.use("/api/reviews", reviewRouter);
 app.use("/api/users", userRouter)
+app.use("/api/products", productRouter)
+app.use("/api/stores", storeRouter)
+app.use("/api/branches", branchRouter)
+
+mainFunction();
 
 // middleware interceptions
 app.use(errorHandler);

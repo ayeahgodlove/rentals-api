@@ -13,6 +13,7 @@ exports.User = void 0;
 const sequelize_typescript_1 = require("sequelize-typescript");
 const role_1 = require("./role");
 const review_1 = require("./review");
+const user_doc_1 = require("./user-doc");
 let User = class User extends sequelize_typescript_1.Model {
     authStrategy;
     firstname;
@@ -26,8 +27,11 @@ let User = class User extends sequelize_typescript_1.Model {
     country;
     address;
     password;
+    // verification paramters
+    verified;
     roleId;
     reviews;
+    userDoc;
 };
 __decorate([
     (0, sequelize_typescript_1.Column)({
@@ -127,6 +131,13 @@ __decorate([
     __metadata("design:type", String)
 ], User.prototype, "password", void 0);
 __decorate([
+    (0, sequelize_typescript_1.Column)({
+        type: sequelize_typescript_1.DataType.BOOLEAN,
+        defaultValue: false,
+    }),
+    __metadata("design:type", Boolean)
+], User.prototype, "verified", void 0);
+__decorate([
     (0, sequelize_typescript_1.ForeignKey)(() => role_1.Role) // foreign key
     ,
     sequelize_typescript_1.Column,
@@ -136,12 +147,16 @@ __decorate([
     (0, sequelize_typescript_1.HasMany)(() => review_1.Review),
     __metadata("design:type", Array)
 ], User.prototype, "reviews", void 0);
+__decorate([
+    (0, sequelize_typescript_1.HasOne)(() => user_doc_1.UserDoc),
+    __metadata("design:type", user_doc_1.UserDoc)
+], User.prototype, "userDoc", void 0);
 User = __decorate([
     (0, sequelize_typescript_1.Table)({
         timestamps: true,
         paranoid: true,
         tableName: "user",
-        modelName: "User"
+        modelName: "User",
     })
 ], User);
 exports.User = User;

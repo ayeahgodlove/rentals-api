@@ -16,33 +16,19 @@ const user_1 = require("../../domain/models/user");
 const nanoid_1 = require("nanoid");
 class UserRequestDto {
     username;
-    // @Length(4)
     firstname;
-    // @Length(4)
     lastname;
     email;
-    // @IsNotEmpty()
-    // @IsString()
-    // @Length(9)
-    // phoneNumber: string;
-    whatsappNumber;
+    phoneNumber;
     password;
-    // @IsNotEmpty()
-    // @IsString()
-    // avatar!: string;
-    // @IsNotEmpty()
-    // @IsString()
-    // authStrategy!: string;
     constructor(data) {
         this.username = data.username;
         this.firstname = data.firstname;
         this.lastname = data.lastname;
         this.username = data.username;
         this.email = data.email;
-        // this.phoneNumber = data.phoneNumber;
-        this.whatsappNumber = data.whatsappNumber;
+        this.phoneNumber = data.phoneNumber;
         this.password = data.password;
-        // this.authStrategy = data.authStrategy;
     }
     toData() {
         return {
@@ -52,11 +38,8 @@ class UserRequestDto {
             firstname: this.firstname,
             lastname: this.lastname,
             email: this.email,
-            // phoneNumber: this.phoneNumber,
-            whatsappNumber: this.whatsappNumber,
+            phoneNumber: this.phoneNumber,
             password: this.password,
-            // authStrategy: this.authStrategy,
-            // avatar: this.avatar
         };
     }
     toUpdateData(data) {
@@ -75,7 +58,8 @@ class UserRequestDto {
             createdAt: data.createdAt,
             updatedAt: data.updatedAt,
             authStrategy: data.authStrategy,
-            avatar: data.avatar
+            avatar: data.avatar,
+            verified: data.verified
         };
     }
 }
@@ -88,17 +72,13 @@ __decorate([
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsString)(),
-    (0, class_validator_1.Length)(4, 25)
-    // @Length(4)
-    ,
+    (0, class_validator_1.Length)(4, 25),
     __metadata("design:type", String)
 ], UserRequestDto.prototype, "firstname", void 0);
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsString)(),
-    (0, class_validator_1.Length)(4, 25)
-    // @Length(4)
-    ,
+    (0, class_validator_1.Length)(4, 25),
     __metadata("design:type", String)
 ], UserRequestDto.prototype, "lastname", void 0);
 __decorate([
@@ -111,7 +91,7 @@ __decorate([
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.Length)(9),
     __metadata("design:type", String)
-], UserRequestDto.prototype, "whatsappNumber", void 0);
+], UserRequestDto.prototype, "phoneNumber", void 0);
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsString)(),

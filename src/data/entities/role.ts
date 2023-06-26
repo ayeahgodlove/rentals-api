@@ -1,4 +1,4 @@
-import { Table, Model, Column, DataType, HasMany } from "sequelize-typescript";
+import { Table, Model, Column, DataType, HasMany, BelongsToMany } from "sequelize-typescript";
 import { IRole } from "../../domain/models/role";
 import { User } from "./user";
 
@@ -23,14 +23,8 @@ export class Role extends Model<IRole> {
   })
   name!: string;
 
-  @Column({
-    type: DataType.STRING(128),
-    allowNull: false,
-    unique: true,
-  })
-  slug!: string;
-
   // relationships
-  @HasMany(() => User)
-  users!: User[];
+   // Define the many-to-many association with User
+   @BelongsToMany(() => User, 'UserRole', 'roleId', 'userId')
+   users!: User[];
 }

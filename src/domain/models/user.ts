@@ -16,6 +16,7 @@ export interface IUser {
   password: string;
   createdAt: Date;
   updatedAt: Date;
+  verified: boolean;
 }
 
 export const emptyUser: IUser = {
@@ -33,7 +34,8 @@ export const emptyUser: IUser = {
   createdAt: new Date(),
   updatedAt: new Date(),
   avatar: "",
-  authStrategy: ""
+  authStrategy: "",
+  verified: false
 };
 
 export interface IUserResponse extends IBaseResponse {

@@ -11,6 +11,11 @@ import * as dotenv from "dotenv";
 import { User } from "../../../data/entities/user";
 import { Role } from "../../../data/entities/role";
 import { Review } from "../../../data/entities/review";
+import { UserDoc } from "../../../data/entities/user-doc";
+import { Branch } from "../../../data/entities/branch";
+import { Store } from "../../../data/entities/store";
+import { ProductImage } from "../../../data/entities/product-image";
+import { Product } from "../../../data/entities/product";
 dotenv.config();
 
 export class PostgresDbConfig {
@@ -29,8 +34,13 @@ export class PostgresDbConfig {
       models: [
         Category,
         User,
+        UserDoc,
         Role,
-        Review
+        Branch,
+        Store,
+        Product,
+        ProductImage,
+        Review,
       ],
       logging: false,
       pool: {
@@ -39,10 +49,11 @@ export class PostgresDbConfig {
         acquire: 30000,
         idle: 10000,
       },
+      ssl: true,
     });
-  } 
+  }
 
-  public get sequelize(){
+  public get sequelize() {
     return this._sequelize;
   }
 

@@ -41,6 +41,8 @@ const review_route_1 = __importDefault(require("./presentation/routes/review.rou
 const auth_route_1 = require("./presentation/routes/auth/auth.route");
 const authz_middleware_1 = __importDefault(require("./shared/middlewares/authz.middleware"));
 const user_route_1 = __importDefault(require("./presentation/routes/user.route"));
+const user_doc_route_1 = __importDefault(require("./presentation/routes/user-doc.route"));
+const path_1 = __importDefault(require("path"));
 dotenv.config();
 /**
  * App Variables
@@ -56,6 +58,7 @@ const app = (0, express_1.default)();
 // Function to serve all static files
 // inside public directory.
 app.use(express_1.default.static('public'));
+app.use(express_1.default.static(path_1.default.join(__dirname, 'public')));
 // app.use('/uploads/avatars', express.static('avatars'));
 // enable the use of request body parsing middleware
 app
@@ -92,6 +95,7 @@ app.get("/api", (req, res) => {
 });
 app.use("/api/categories", category_route_1.default);
 app.use("/api/roles", role_route_1.default);
+app.use("/api/user-documents", user_doc_route_1.default);
 app.use("/api/reviews", review_route_1.default);
 app.use("/api/users", user_route_1.default);
 // middleware interceptions

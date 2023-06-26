@@ -35,6 +35,7 @@ const dotenv = __importStar(require("dotenv"));
 const user_1 = require("../../../data/entities/user");
 const role_1 = require("../../../data/entities/role");
 const review_1 = require("../../../data/entities/review");
+const user_doc_1 = require("../../../data/entities/user-doc");
 dotenv.config();
 class PostgresDbConfig {
     _sequelize;
@@ -49,12 +50,7 @@ class PostgresDbConfig {
             port: parseInt(process.env.DB_PORT),
             host: process.env.HOST,
             dialect: "postgres",
-            models: [
-                category_1.Category,
-                user_1.User,
-                role_1.Role,
-                review_1.Review
-            ],
+            models: [category_1.Category, user_1.User, user_doc_1.UserDoc, role_1.Role, review_1.Review],
             logging: false,
             pool: {
                 max: 5,
@@ -62,6 +58,7 @@ class PostgresDbConfig {
                 acquire: 30000,
                 idle: 10000,
             },
+            ssl: true,
         });
     }
     get sequelize() {

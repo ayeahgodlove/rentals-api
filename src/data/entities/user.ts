@@ -5,15 +5,18 @@ import {
   DataType,
   HasMany,
   ForeignKey,
+  HasOne,
+  BelongsToMany,
 } from "sequelize-typescript";
 import { IUser } from "../../domain/models/user";
 import { Role } from "./role";
 import { Review } from "./review";
+import { UserDoc } from "./user-doc";
 @Table({
   timestamps: true,
   paranoid: true,
   tableName: "user",
-  modelName: "User"
+  modelName: "User",
 })
 export class User extends Model<IUser> {
   @Column({
@@ -62,15 +65,11 @@ export class User extends Model<IUser> {
 
   @Column({
     type: DataType.STRING(13),
-    // allowNull: true,
-    // unique: true,
   })
   phoneNumber!: string;
 
   @Column({
     type: DataType.STRING(13),
-    // allowNull: true,
-    // unique: true,
   })
   whatsappNumber!: string;
 
@@ -99,10 +98,20 @@ export class User extends Model<IUser> {
   })
   password!: string;
 
-  @ForeignKey(() => Role) // foreign key
-  @Column
-  roleId!: string;
+  // verification paramters
+  @Column({
+    type: DataType.BOOLEAN,
+    defaultValue: false,
+  })
+  verified!: boolean;
 
   @HasMany(() => Review)
   reviews!: Review[];
+
+  @HasOne(() => UserDoc)
+  userDoc!: UserDoc;
+
+  // Define the many-to-many association with Role
+  @BelongsToMany(() => Role, "UserRole", "userId", "roleId")
+  roles!: Role[];
 }
