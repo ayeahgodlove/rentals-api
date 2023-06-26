@@ -47,7 +47,6 @@ const tag_route_1 = __importDefault(require("./presentation/routes/tag.route"));
 const product_route_1 = __importDefault(require("./presentation/routes/product.route"));
 const store_route_1 = __importDefault(require("./presentation/routes/store.route"));
 const branch_route_1 = __importDefault(require("./presentation/routes/branch.route"));
-const google_map_api_1 = require("./shared/helper/google-map-api");
 dotenv.config();
 /**
  * App Variables
@@ -107,7 +106,7 @@ app.use("/api/users", user_route_1.default);
 app.use("/api/products", product_route_1.default);
 app.use("/api/stores", store_route_1.default);
 app.use("/api/branches", branch_route_1.default);
-(0, google_map_api_1.mainFunction)();
+// mainFunction();
 // middleware interceptions
 app.use(error_middleware_1.errorHandler);
 app.use(not_found_middleware_1.notFoundHandler);
