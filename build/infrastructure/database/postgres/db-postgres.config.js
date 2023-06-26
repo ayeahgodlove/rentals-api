@@ -36,6 +36,10 @@ const user_1 = require("../../../data/entities/user");
 const role_1 = require("../../../data/entities/role");
 const review_1 = require("../../../data/entities/review");
 const user_doc_1 = require("../../../data/entities/user-doc");
+const branch_1 = require("../../../data/entities/branch");
+const store_1 = require("../../../data/entities/store");
+const product_image_1 = require("../../../data/entities/product-image");
+const product_1 = require("../../../data/entities/product");
 dotenv.config();
 class PostgresDbConfig {
     _sequelize;
@@ -50,7 +54,17 @@ class PostgresDbConfig {
             port: parseInt(process.env.DB_PORT),
             host: process.env.HOST,
             dialect: "postgres",
-            models: [category_1.Category, user_1.User, user_doc_1.UserDoc, role_1.Role, review_1.Review],
+            models: [
+                category_1.Category,
+                user_1.User,
+                user_doc_1.UserDoc,
+                role_1.Role,
+                branch_1.Branch,
+                store_1.Store,
+                product_1.Product,
+                product_image_1.ProductImage,
+                review_1.Review,
+            ],
             logging: false,
             pool: {
                 max: 5,

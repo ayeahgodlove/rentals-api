@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.emptyRole = void 0;
-exports.emptyRole = {
+exports.emptyTag = void 0;
+exports.emptyTag = {
     id: "",
     name: "",
 };

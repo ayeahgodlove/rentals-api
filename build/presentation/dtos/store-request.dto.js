@@ -1,5 +1,5 @@
 "use strict";
-// src/presentation/dtos/role-request.dto.ts
+// src/presentation/dtos/store-request.dto.ts
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -10,33 +10,53 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.RoleRequestDto = void 0;
+exports.StoreRequestDto = void 0;
 const class_validator_1 = require("class-validator");
-const role_1 = require("../../domain/models/role");
+const store_1 = require("../../domain/models/store");
 const nanoid_1 = require("nanoid");
-class RoleRequestDto {
+class StoreRequestDto {
     name;
+    location;
+    imageBannerUrl;
     constructor(data) {
         this.name = data.name;
+        this.location = data.location;
+        this.imageBannerUrl = data.imageBannerUrl;
     }
     toData() {
         return {
-            ...role_1.emptyRole,
+            ...store_1.emptyStore,
             id: (0, nanoid_1.nanoid)(10),
             name: this.name,
+            location: this.location,
+            imageBannerUrl: this.imageBannerUrl
         };
     }
     toUpdateData(data) {
         return {
             id: data.id,
             name: data.name,
+            location: data.location,
+            imageBannerUrl: data.imageBannerUrl
         };
     }
 }
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsString)(),
-    (0, class_validator_1.Length)(4, 10),
+    (0, class_validator_1.Length)(4, 128),
     __metadata("design:type", String)
-], RoleRequestDto.prototype, "name", void 0);
-exports.RoleRequestDto = RoleRequestDto;
+], StoreRequestDto.prototype, "name", void 0);
+__decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.Length)(4, 128),
+    __metadata("design:type", String)
+], StoreRequestDto.prototype, "location", void 0);
+__decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.Length)(4, 255),
+    __metadata("design:type", String)
+], StoreRequestDto.prototype, "imageBannerUrl", void 0);
+exports.StoreRequestDto = StoreRequestDto;

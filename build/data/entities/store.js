@@ -9,14 +9,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Role = void 0;
+exports.Store = void 0;
 const sequelize_typescript_1 = require("sequelize-typescript");
-const user_1 = require("./user");
-let Role = class Role extends sequelize_typescript_1.Model {
+const product_1 = require("./product");
+const branch_1 = require("./branch");
+let Store = class Store extends sequelize_typescript_1.Model {
     name;
+    location;
+    imageBannerUrl;
     // relationships
-    // Define the many-to-many association with User
-    users;
+    products;
+    branches;
 };
 __decorate([
     (0, sequelize_typescript_1.Column)({
@@ -25,25 +28,45 @@ __decorate([
         primaryKey: true,
     }),
     __metadata("design:type", String)
-], Role.prototype, "id", void 0);
+], Store.prototype, "id", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.STRING(128),
+        type: sequelize_typescript_1.DataType.STRING(50),
         allowNull: false,
         unique: true,
     }),
     __metadata("design:type", String)
-], Role.prototype, "name", void 0);
+], Store.prototype, "name", void 0);
 __decorate([
-    (0, sequelize_typescript_1.BelongsToMany)(() => user_1.User, 'UserRole', 'roleId', 'userId'),
+    (0, sequelize_typescript_1.Column)({
+        type: sequelize_typescript_1.DataType.STRING(255),
+        allowNull: false,
+        unique: false,
+    }),
+    __metadata("design:type", String)
+], Store.prototype, "location", void 0);
+__decorate([
+    (0, sequelize_typescript_1.Column)({
+        type: sequelize_typescript_1.DataType.STRING(255),
+        allowNull: false,
+        unique: true,
+    }),
+    __metadata("design:type", String)
+], Store.prototype, "imageBannerUrl", void 0);
+__decorate([
+    (0, sequelize_typescript_1.HasMany)(() => product_1.Product),
     __metadata("design:type", Array)
-], Role.prototype, "users", void 0);
-Role = __decorate([
+], Store.prototype, "products", void 0);
+__decorate([
+    (0, sequelize_typescript_1.HasMany)(() => branch_1.Branch),
+    __metadata("design:type", Array)
+], Store.prototype, "branches", void 0);
+Store = __decorate([
     (0, sequelize_typescript_1.Table)({
         timestamps: true,
         paranoid: true,
-        tableName: "role",
-        modelName: "Role"
+        tableName: "store",
+        modelName: "Store",
     })
-], Role);
-exports.Role = Role;
+], Store);
+exports.Store = Store;

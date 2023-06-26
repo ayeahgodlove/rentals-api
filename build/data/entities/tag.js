@@ -1,5 +1,4 @@
 "use strict";
-// src/presentation/dtos/role-request.dto.ts
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -10,33 +9,33 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.RoleRequestDto = void 0;
-const class_validator_1 = require("class-validator");
-const role_1 = require("../../domain/models/role");
-const nanoid_1 = require("nanoid");
-class RoleRequestDto {
+exports.Tag = void 0;
+const sequelize_typescript_1 = require("sequelize-typescript");
+let Tag = class Tag extends sequelize_typescript_1.Model {
     name;
-    constructor(data) {
-        this.name = data.name;
-    }
-    toData() {
-        return {
-            ...role_1.emptyRole,
-            id: (0, nanoid_1.nanoid)(10),
-            name: this.name,
-        };
-    }
-    toUpdateData(data) {
-        return {
-            id: data.id,
-            name: data.name,
-        };
-    }
-}
+};
 __decorate([
-    (0, class_validator_1.IsNotEmpty)(),
-    (0, class_validator_1.IsString)(),
-    (0, class_validator_1.Length)(4, 10),
+    (0, sequelize_typescript_1.Column)({
+        type: sequelize_typescript_1.DataType.STRING(20),
+        allowNull: false,
+        primaryKey: true,
+    }),
     __metadata("design:type", String)
-], RoleRequestDto.prototype, "name", void 0);
-exports.RoleRequestDto = RoleRequestDto;
+], Tag.prototype, "id", void 0);
+__decorate([
+    (0, sequelize_typescript_1.Column)({
+        type: sequelize_typescript_1.DataType.STRING(50),
+        allowNull: false,
+        unique: true,
+    }),
+    __metadata("design:type", String)
+], Tag.prototype, "name", void 0);
+Tag = __decorate([
+    (0, sequelize_typescript_1.Table)({
+        timestamps: true,
+        paranoid: true,
+        tableName: "tag",
+        modelName: "Tag",
+    })
+], Tag);
+exports.Tag = Tag;

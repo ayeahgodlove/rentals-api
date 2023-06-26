@@ -1,5 +1,5 @@
 "use strict";
-// src/presentation/dtos/role-request.dto.ts
+// src/presentation/dtos/branch-request.dto.ts
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -10,33 +10,52 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.RoleRequestDto = void 0;
+exports.BranchRequestDto = void 0;
 const class_validator_1 = require("class-validator");
-const role_1 = require("../../domain/models/role");
+const branch_1 = require("../../domain/models/branch");
 const nanoid_1 = require("nanoid");
-class RoleRequestDto {
+class BranchRequestDto {
     name;
+    address;
+    town;
     constructor(data) {
         this.name = data.name;
+        this.address = data.address;
+        this.town = data.town;
     }
     toData() {
         return {
-            ...role_1.emptyRole,
+            ...branch_1.emptyBranch,
             id: (0, nanoid_1.nanoid)(10),
             name: this.name,
+            address: this.address
         };
     }
     toUpdateData(data) {
         return {
             id: data.id,
             name: data.name,
+            address: data.address,
+            town: data.town
         };
     }
 }
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsString)(),
-    (0, class_validator_1.Length)(4, 10),
+    (0, class_validator_1.Length)(4, 128),
     __metadata("design:type", String)
-], RoleRequestDto.prototype, "name", void 0);
-exports.RoleRequestDto = RoleRequestDto;
+], BranchRequestDto.prototype, "name", void 0);
+__decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.Length)(4, 128),
+    __metadata("design:type", String)
+], BranchRequestDto.prototype, "address", void 0);
+__decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.Length)(4, 128),
+    __metadata("design:type", String)
+], BranchRequestDto.prototype, "town", void 0);
+exports.BranchRequestDto = BranchRequestDto;

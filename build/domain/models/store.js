@@ -1,7 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.emptyRole = void 0;
-exports.emptyRole = {
+exports.emptyStore = void 0;
+exports.emptyStore = {
     id: "",
     name: "",
+    location: "",
+    imageBannerUrl: ""
 };

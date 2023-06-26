@@ -8,6 +8,8 @@ const mapper_1 = require("../mappers/mapper");
 const user_request_dto_1 = require("../dtos/user-request.dto");
 const class_validator_1 = require("class-validator");
 const displayValidationErrors_1 = require("../../utils/displayValidationErrors");
+const user_2 = require("../../data/entities/user");
+const role_1 = require("../../data/entities/role");
 const userRepository = new user_repository_1.UserRepository();
 const userUseCase = new user_usecase_1.UserUseCase(userRepository);
 const userMapper = new mapper_1.UserMapper();
@@ -134,6 +136,37 @@ class UsersController {
         catch (error) {
             res.status(400).json({
                 message: error.message,
+                success: false,
+            });
+        }
+    }
+    // Add a role to a user
+    async addUserRole(req, res) {
+        try {
+            const userId = Number(req.params.userId);
+            const roleId = Number(req.params.roleId);
+            // Find the user and role using their IDs
+            const user = await user_2.User.findByPk(userId);
+            const role = await role_1.Role.findByPk(roleId);
+            if (!user || !role) {
+                res
+                    .status(404)
+                    .json({ message: "User or role not found", success: false });
+                return;
+            }
+            // Add the role to the user using Sequelize association methods
+            await user.$add("role", role);
+            res.status(200).json({
+                message: "Role added to the user successfully",
+                success: true,
+                validationErrors: [],
+            });
+        }
+        catch (error) {
+            res.status(500).json({
+                message: error.message,
+                data: null,
+                validationErrors: [error],
                 success: false,
             });
         }

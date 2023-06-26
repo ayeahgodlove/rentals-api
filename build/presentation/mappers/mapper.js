@@ -1,7 +1,7 @@
 "use strict";
 // src/presentation/mappers/category-mapper.ts
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ReviewMapper = exports.RoleMapper = exports.UserDocMapper = exports.UserMapper = exports.CategoryMapper = void 0;
+exports.ReviewMapper = exports.RoleMapper = exports.UserDocMapper = exports.ProductImageMapper = exports.ProductMapper = exports.StoreMapper = exports.BranchMapper = exports.TagMapper = exports.UserMapper = exports.CategoryMapper = void 0;
 class CategoryMapper {
     toDTO(category) {
         const entity = category.toJSON();
@@ -30,6 +30,76 @@ class UserMapper {
     }
 }
 exports.UserMapper = UserMapper;
+class TagMapper {
+    toDTO(tag) {
+        const entity = tag.toJSON();
+        return entity;
+    }
+    toDTOs(tags) {
+        const _tags = tags.map((tag) => {
+            const entity = tag.toJSON();
+            return entity;
+        });
+        return _tags;
+    }
+}
+exports.TagMapper = TagMapper;
+class BranchMapper {
+    toDTO(branch) {
+        const entity = branch.toJSON();
+        return entity;
+    }
+    toDTOs(branches) {
+        const _branches = branches.map((branch) => {
+            const entity = branch.toJSON();
+            return entity;
+        });
+        return _branches;
+    }
+}
+exports.BranchMapper = BranchMapper;
+class StoreMapper {
+    toDTO(store) {
+        const entity = store.toJSON();
+        return entity;
+    }
+    toDTOs(stores) {
+        const _stores = stores.map((store) => {
+            const entity = store.toJSON();
+            return entity;
+        });
+        return _stores;
+    }
+}
+exports.StoreMapper = StoreMapper;
+class ProductMapper {
+    toDTO(product) {
+        const entity = product.toJSON();
+        return entity;
+    }
+    toDTOs(products) {
+        const _products = products.map((product) => {
+            const entity = product.toJSON();
+            return entity;
+        });
+        return _products;
+    }
+}
+exports.ProductMapper = ProductMapper;
+class ProductImageMapper {
+    toDTO(productImage) {
+        const entity = productImage.toJSON();
+        return entity;
+    }
+    toDTOs(productImages) {
+        const _productImages = productImages.map((productImage) => {
+            const entity = productImage.toJSON();
+            return entity;
+        });
+        return _productImages;
+    }
+}
+exports.ProductImageMapper = ProductImageMapper;
 class UserDocMapper {
     toDTO(userDoc) {
         const entity = userDoc.toJSON();

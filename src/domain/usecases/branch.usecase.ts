@@ -1,7 +1,6 @@
 import { Branch } from "../../data/entities/branch";
 import { IRepository } from "../../data/repositories/contracts/repository.base";
 import { IBranch } from "../models/branch";
-import slugify from "slugify";
 export class BranchUseCase {
   /**
    *
@@ -31,13 +30,7 @@ export class BranchUseCase {
   }
 
   async updateBranch(branch: IBranch): Promise<Branch> {
-    const { id, name, address } = branch;
-    const obj: IBranch = {
-      id,
-      name,
-      address
-    };
-    return this.branchRepository.update(obj);
+    return this.branchRepository.update(branch);
   }
 
   async deleteBranch(id: string): Promise<void> {

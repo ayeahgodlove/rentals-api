@@ -15,9 +15,15 @@ export class BranchRequestDto {
   @Length(4, 128)
   address: string;
 
+  @IsNotEmpty()
+  @IsString()
+  @Length(4, 128)
+  town: string;
+
   constructor(data: IBranch) {
     this.name = data.name;
     this.address = data.address;
+    this.town = data.town
   }
 
   toData(): IBranch {
@@ -33,7 +39,8 @@ export class BranchRequestDto {
     return {
       id: data.id,
       name: data.name,
-      address: data.address
+      address: data.address,
+      town: data.town
     };
   }
 }

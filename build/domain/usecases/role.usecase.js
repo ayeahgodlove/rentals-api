@@ -25,11 +25,7 @@ class RoleUseCase {
         return this.roleRepository.findById(id);
     }
     async updateRole(role) {
-        const obj = {
-            ...role,
-            updatedAt: new Date(),
-        };
-        return this.roleRepository.update(obj);
+        return this.roleRepository.update(role);
     }
     async deleteRole(id) {
         return this.roleRepository.delete(id);

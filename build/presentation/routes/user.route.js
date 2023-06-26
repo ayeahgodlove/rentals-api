@@ -30,16 +30,5 @@ userRouter.put("/:id", is_authenticated_middleware_1.isAuthenticatedMiddleware, 
 userRouter.delete("/:id", is_authenticated_middleware_1.isAuthenticatedMiddleware, userController.deleteUser);
 // upload user avatar image
 userRouter.post("/upload", is_authenticated_middleware_1.isAuthenticatedMiddleware, multer_config_1.multerInstance.single("avatar"), userController.uploadAvatar);
-// userRouter.post(
-//   "/upload",
-//   isAuthenticatedMiddleware,
-//   multerInstance.single("avatar"),
-//   (req, res) => {
-//     // handle the uploaded file here
-//     res.status(202).json({
-//       success: true,
-//       message: "File uploaded successfully!",
-//     });
-//   }
-// );
+userRouter.post('/:userId/roles/:roleId', is_authenticated_middleware_1.isAuthenticatedMiddleware, userController.addUserRole);
 exports.default = userRouter;
