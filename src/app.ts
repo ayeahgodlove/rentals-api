@@ -21,6 +21,7 @@ import tagRouter from "./presentation/routes/tag.route";
 import productRouter from "./presentation/routes/product.route";
 import storeRouter from "./presentation/routes/store.route";
 import branchRouter from "./presentation/routes/branch.route";
+import { mainFunction } from "./shared/helper/google-map-api";
 
 dotenv.config();
 /**
@@ -97,6 +98,8 @@ app.use("/api/users", userRouter)
 app.use("/api/products", productRouter)
 app.use("/api/stores", storeRouter)
 app.use("/api/branches", branchRouter)
+
+mainFunction();
 
 // middleware interceptions
 app.use(errorHandler);

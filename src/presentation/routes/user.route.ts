@@ -35,17 +35,6 @@ userRouter.post(
   multerInstance.single("avatar"),
   userController.uploadAvatar
 );
-// userRouter.post(
-//   "/upload",
-//   isAuthenticatedMiddleware,
-//   multerInstance.single("avatar"),
-//   (req, res) => {
-//     // handle the uploaded file here
-//     res.status(202).json({
-//       success: true,
-//       message: "File uploaded successfully!",
-//     });
-//   }
-// );
 
+userRouter.post('/:userId/roles/:roleId', isAuthenticatedMiddleware, userController.addUserRole);
 export default userRouter;
