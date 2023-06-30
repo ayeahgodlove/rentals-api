@@ -4,9 +4,11 @@ import { Strategy as FacebookStrategy } from "passport-facebook";
 import { Strategy as LocalStrategy } from "passport-local";
 
 import { User } from "../../data/entities/user";
-import { validatePassword } from "../../domain/validators/password-validator";
+// import { validatePassword } from "../../domain/validators/password-validator";
 import { logger } from "../helper/logger";
 import slugify from "slugify";
+import bcrypt from "bcrypt";
+import { IUser } from "../../domain/models/user";
 
 Passport.serializeUser(function (user, cb) {
   cb(null, user);
@@ -22,22 +24,32 @@ Passport.deserializeUser(async function (userItem: any, cb) {
 });
 
 Passport.use(
-  'local-auth',
+  "local-auth",
   new LocalStrategy(
     { usernameField: "phoneNumber", passwordField: "password" },
     async (phoneNumber, password, done) => {
       try {
-        const user = await User.findOne({ where: { phoneNumber } });
+        const user = await User.findOne({
+          where: { phoneNumber },
+        });
+
         if (!user) {
-          return done(null, false, {message: 'Invalid username or password!'});
+          return done(null, false, {
+            message: "Invalid username or password!",
+          });
         }
-        const isValidPassword = await validatePassword(password);
-        if (!isValidPassword) {
+        const entity = user.toJSON<IUser>();
+        const hashedPassword = await bcrypt.compare(
+          password,
+          `${entity.password}`
+        );
+        if (hashedPassword) {
+          return done(null, user);
+        } else {
           return done(null, false, {
             message: "Incorrect phoneNumber or password",
           });
         }
-        return done(null, user);
       } catch (error) {
         return done(error);
       }
@@ -59,7 +71,7 @@ Passport.use(
       try {
         logger.info("start: ");
         const existingUser = await User.findOne({
-          where: { email: profile.emails![0].value},
+          where: { email: profile.emails![0].value },
         });
 
         if (existingUser) {
@@ -82,7 +94,7 @@ Passport.use(
           createdAt: new Date(),
           updatedAt: new Date(),
           whatsappNumber: "",
-          verified: false
+          verified: false,
         });
         console.log("user created: ", user, profile);
         cb(null, user);
@@ -105,7 +117,7 @@ Passport.use(
     async function (accessToken, refreshToken, profile, cb) {
       try {
         const existingUser = await User.findOne({
-          where: { email: profile.emails![0].value},
+          where: { email: profile.emails![0].value },
         });
         logger.info("profile: ", profile);
 
@@ -118,19 +130,22 @@ Passport.use(
           id: profile.id,
           firstname: `${profile.name!.familyName}`,
           lastname: `${profile.name!.givenName}`,
-          username: slugify(profile._json.name, { lower: true, replacement: '-' }),
+          username: slugify(profile._json.name, {
+            lower: true,
+            replacement: "-",
+          }),
           email: profile.emails![0].value,
           avatar: profile.photos![0].value,
-          address: '',
-          phoneNumber: '',
+          address: "",
+          phoneNumber: "",
           authStrategy: "facebook",
           password: "",
-          city: '',
-          country: '',
+          city: "",
+          country: "",
           createdAt: new Date(),
           updatedAt: new Date(),
-          whatsappNumber: '',
-          verified: false
+          whatsappNumber: "",
+          verified: false,
         });
         cb(null, user);
       } catch (error: any) {

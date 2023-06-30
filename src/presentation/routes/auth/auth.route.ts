@@ -1,6 +1,8 @@
 // src/infrastructure/routes/category-routes.ts
 import { Router } from "express";
 import Passport from "../../../shared/middlewares/authz.middleware";
+import { IUserResponse } from "../../../domain/models/user";
+import { Request, Response } from "express";
 
 const authRoutes = Router();
 // redirect to google sign in page
@@ -46,18 +48,20 @@ const authRoutes = Router();
 authRoutes.post(
   "/auth/login",
   Passport.authenticate("local-auth"),
-  (req, res) => {
+  (req: Request, res: Response<IUserResponse>) => {
     try {
-
       res.status(200).json({
         success: true,
         message: "Login Successfully!",
-        data: req.user
+        data: req.user as any,
+        validationErrors: []
       });
-    } catch (error) {
+    } catch (error: any) {
       res.status(500).json({
         success: false,
-        message: "Login Failed",
+        message: error.message,
+        data: null,
+        validationErrors: []
       });
     }
   }
