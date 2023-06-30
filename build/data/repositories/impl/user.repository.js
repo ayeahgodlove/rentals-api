@@ -21,12 +21,13 @@ class UserRepository {
         const hashedPassword = await bcrypt_1.default.hash(user.password, 10);
         user.password = hashedPassword;
         user.authStrategy = 'local-auth';
+        user.whatsappNumber = user.phoneNumber;
         // user.phoneNumber = user.whatsappNumber
         try {
             return await user_1.User.create(user);
         }
         catch (error) {
-            throw error;
+            return error;
         }
     }
     /**
