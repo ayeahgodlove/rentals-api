@@ -18,12 +18,13 @@ export class UserRepository implements IRepository<IUser, User> {
     const hashedPassword = await bcrypt.hash(user.password, 10);
     user.password = hashedPassword;
     user.authStrategy = 'local-auth'
+    user.whatsappNumber = user.phoneNumber
     // user.phoneNumber = user.whatsappNumber
 
     try {
       return await User.create<User>(user);
-    } catch (error) {
-      throw error;
+    } catch (error: any) {
+      return error;
     }
   }
 
