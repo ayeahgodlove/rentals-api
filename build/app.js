@@ -90,7 +90,7 @@ const db = new db_postgres_config_1.PostgresDbConfig();
 db.connection();
 // authentication
 app.use("/", auth_route_1.authRoutes);
-// route  endpoints
+// route  endpoints 
 app.get("/", (req, res) => {
     res.send("Welcome to Rent Kojo REST API");
 });

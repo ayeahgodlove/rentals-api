@@ -7,8 +7,8 @@ const branchController = new BranchesController();
 
 const branchRouter = Router();
 
-branchRouter.get("", isAuthenticatedMiddleware, branchController.getAll);
-branchRouter.get("/:id", isAuthenticatedMiddleware, branchController.getBranchById);
+branchRouter.get("", branchController.getAll);
+branchRouter.get("/:id", branchController.getBranchById);
 branchRouter.post("", isAuthenticatedMiddleware, branchController.createBranch);
 branchRouter.put("/:id", isAuthenticatedMiddleware, branchController.updateBranch);
 branchRouter.delete("/:id", isAuthenticatedMiddleware, branchController.deleteBranch);

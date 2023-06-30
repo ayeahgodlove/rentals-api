@@ -81,7 +81,7 @@ db.connection();
 // authentication
 app.use("/", authRoutes);
 
-// route  endpoints
+// route  endpoints 
 app.get("/", (req: Request, res: Response) => {
   res.send("Welcome to Rent Kojo REST API");
 });

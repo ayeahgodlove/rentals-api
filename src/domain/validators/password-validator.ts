@@ -1,18 +1,16 @@
-import { IsNotEmpty, IsString, MinLength, validate } from "class-validator";
-export class PasswordValidator {
-  @IsNotEmpty()
-  @IsString()
-  @MinLength(8)
-  password!: string;
-}
+import bcrypt from "bcrypt";
 
-export const validatePassword = async (password: string): Promise<boolean> => {
-  const passwordValidator = new PasswordValidator();
-  passwordValidator.password = password;
-  const errors = await validate(passwordValidator);
-  if (errors.length > 0) {
-    return false;
-  } else {
+export const validatePassword = async (
+  password: string,
+  incomingPasword: string
+): Promise<boolean> => {
+  const hashedPassword = await bcrypt.hash(incomingPasword, 10);
+  if (
+    hashedPassword.length === password.length &&
+    hashedPassword === password
+  ) {
     return true;
+  } else {
+    return false;
   }
 };
