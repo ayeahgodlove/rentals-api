@@ -51,13 +51,16 @@ authRoutes.post("/auth/login", authz_middleware_1.default.authenticate("local-au
         res.status(200).json({
             success: true,
             message: "Login Successfully!",
-            data: req.user
+            data: req.user,
+            validationErrors: []
         });
     }
     catch (error) {
         res.status(500).json({
             success: false,
-            message: "Login Failed",
+            message: error.message,
+            data: null,
+            validationErrors: []
         });
     }
 });
