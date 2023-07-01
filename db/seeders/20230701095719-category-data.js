@@ -7,7 +7,7 @@ const { faker }  = require('@faker-js/faker');
 function generateCategory() {
   const category = {
     id: nanoid(10),
-    name: faker.commerce.department(),
+    name: faker.word.adjective({ length: { min: 5, max: 7 }, strategy: "fail" }),
     slug: faker.lorem.slug(),
     description: faker.lorem.sentence(),
     createdAt: new Date(),
@@ -29,7 +29,7 @@ function generateCategories(count) {
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     // Insert the seed data into the database
-    await queryInterface.bulkInsert('category', generateCategories(10), {});;
+    await queryInterface.bulkInsert('category', generateCategories(10), {});
   },
 
   down: async (queryInterface, Sequelize) => {

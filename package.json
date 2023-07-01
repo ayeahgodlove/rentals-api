@@ -12,7 +12,9 @@
     "migrate:up": "sequelize-cli db:migrate",
     "migrate:undo": "sequelize-cli db:migrate:undo",
     "migration:gen": "ts-node -T -r tsconfig-paths/register ./migration-builder.ts",
-    "test": "mocha --check-leaks -r ts-node/register -r tsconfig-paths/register \"src/tests/**/*.spec.ts\""
+    "test": "mocha --check-leaks -r ts-node/register -r tsconfig-paths/register \"src/tests/**/*.spec.ts\"",
+    "generate:seed": "sequelize seed:generate --name seed-data",
+    "seed": "sequelize db:seed:all"
   },
   "keywords": [],
   "author": "",
