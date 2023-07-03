@@ -35,6 +35,15 @@ export class Product extends Model<IProduct> {
     unique: true,
   })
   name!: string;
+
+  @Column({
+    type: DataType.DECIMAL,
+    allowNull: false,
+    comment: "product prices",
+    defaultValue: 0,
+  })
+  amount!: number;
+
   @Column({
     type: DataType.STRING(255),
     allowNull: false,
@@ -47,13 +56,10 @@ export class Product extends Model<IProduct> {
   longDescription!: string;
 
   @Column({
-    type: DataType.NUMBER,
+    type: DataType.INTEGER,
     allowNull: false,
-  })
-  price!: number;
-  @Column({
-    type: DataType.NUMBER,
-    allowNull: false,
+    comment: "duration of rentage in months",
+    defaultValue: 0,
   })
   durationOfRentage!: number;
 
