@@ -100,14 +100,14 @@ __decorate([
 ], User.prototype, "whatsappNumber", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.STRING(30),
+        type: sequelize_typescript_1.DataType.STRING(100),
         allowNull: true,
     }),
     __metadata("design:type", String)
 ], User.prototype, "city", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.STRING(30),
+        type: sequelize_typescript_1.DataType.STRING(100),
         allowNull: true,
     }),
     __metadata("design:type", String)

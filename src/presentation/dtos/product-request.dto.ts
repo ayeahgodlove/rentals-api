@@ -19,7 +19,7 @@ export class ProductRequestDto {
 
   @IsNotEmpty()
   @IsNumber()
-  price: number;
+  amount: number;
 
   @IsNotEmpty()
   @IsNumber()
@@ -46,7 +46,7 @@ export class ProductRequestDto {
     this.description = data.description;
     this.longDescription = data.longDescription;
     this.condition = data.condition;
-    this.price = data.price;
+    this.amount = data.amount;
     this.durationOfRentage = data.durationOfRentage;
     this.availabilityStartDate = data.availabilityStartDate;
     this.availabilityEndDate = data.availabilityEndDate;
@@ -61,7 +61,7 @@ export class ProductRequestDto {
       name: this.name,
       description: this.description,
       longDescription: this.longDescription,
-      price: this.price,
+      amount: this.amount,
       durationOfRentage: this.durationOfRentage,
       condition: this.condition,
       availabilityEndDate: this.availabilityEndDate,
@@ -77,7 +77,7 @@ export class ProductRequestDto {
       name: data.name,
       description: data.description,
       longDescription: data.longDescription,
-      price: data.price,
+      amount: data.amount,
       durationOfRentage: data.durationOfRentage,
       condition: data.condition,
       availabilityEndDate: data.availabilityEndDate,

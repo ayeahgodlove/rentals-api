@@ -6,7 +6,7 @@ exports.emptyProduct = {
     name: "",
     description: "",
     longDescription: "",
-    price: 0,
+    amount: 0,
     durationOfRentage: 0,
     condition: "",
     availabilityStartDate: new Date(),
