@@ -20,9 +20,10 @@ let Review = class Review extends sequelize_typescript_1.Model {
 };
 __decorate([
     (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.STRING(50),
+        type: sequelize_typescript_1.DataType.STRING(20),
         allowNull: false,
         primaryKey: true,
+        comment: "ID field which is set as a primary key and unique",
     }),
     __metadata("design:type", String)
 ], Review.prototype, "id", void 0);
@@ -53,7 +54,7 @@ Review = __decorate([
     (0, sequelize_typescript_1.Table)({
         timestamps: true,
         paranoid: true,
-        tableName: "review",
+        tableName: "reviews_tbl",
         modelName: "Review"
     })
 ], Review);

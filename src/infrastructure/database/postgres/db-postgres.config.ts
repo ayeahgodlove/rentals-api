@@ -16,6 +16,7 @@ import { Branch } from "../../../data/entities/branch";
 import { Store } from "../../../data/entities/store";
 import { ProductImage } from "../../../data/entities/product-image";
 import { Product } from "../../../data/entities/product";
+import { Tag } from "../../../data/entities/tag";
 dotenv.config();
 
 export class PostgresDbConfig {
@@ -41,6 +42,7 @@ export class PostgresDbConfig {
         Product,
         ProductImage,
         Review,
+        Tag
       ],
       logging: false,
       pool: {

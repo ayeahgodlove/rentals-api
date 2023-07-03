@@ -17,7 +17,7 @@ class ProductRequestDto {
     name;
     description;
     longDescription;
-    price;
+    amount;
     durationOfRentage;
     condition;
     availabilityStartDate;
@@ -29,7 +29,7 @@ class ProductRequestDto {
         this.description = data.description;
         this.longDescription = data.longDescription;
         this.condition = data.condition;
-        this.price = data.price;
+        this.amount = data.amount;
         this.durationOfRentage = data.durationOfRentage;
         this.availabilityStartDate = data.availabilityStartDate;
         this.availabilityEndDate = data.availabilityEndDate;
@@ -43,7 +43,7 @@ class ProductRequestDto {
             name: this.name,
             description: this.description,
             longDescription: this.longDescription,
-            price: this.price,
+            amount: this.amount,
             durationOfRentage: this.durationOfRentage,
             condition: this.condition,
             availabilityEndDate: this.availabilityEndDate,
@@ -58,7 +58,7 @@ class ProductRequestDto {
             name: data.name,
             description: data.description,
             longDescription: data.longDescription,
-            price: data.price,
+            amount: data.amount,
             durationOfRentage: data.durationOfRentage,
             condition: data.condition,
             availabilityEndDate: data.availabilityEndDate,
@@ -88,7 +88,7 @@ __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsNumber)(),
     __metadata("design:type", Number)
-], ProductRequestDto.prototype, "price", void 0);
+], ProductRequestDto.prototype, "amount", void 0);
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsNumber)(),

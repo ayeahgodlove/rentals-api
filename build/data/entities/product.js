@@ -16,9 +16,9 @@ const store_1 = require("./store");
 let Product = class Product extends sequelize_typescript_1.Model {
     storeId;
     name;
+    amount;
     description;
     longDescription;
-    price;
     durationOfRentage;
     condition;
     availabilityStartDate;
@@ -53,6 +53,15 @@ __decorate([
 ], Product.prototype, "name", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
+        type: sequelize_typescript_1.DataType.DECIMAL,
+        allowNull: false,
+        comment: "product prices",
+        defaultValue: 0,
+    }),
+    __metadata("design:type", Number)
+], Product.prototype, "amount", void 0);
+__decorate([
+    (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.STRING(255),
         allowNull: false,
     }),
@@ -67,15 +76,10 @@ __decorate([
 ], Product.prototype, "longDescription", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.NUMBER,
+        type: sequelize_typescript_1.DataType.INTEGER,
         allowNull: false,
-    }),
-    __metadata("design:type", Number)
-], Product.prototype, "price", void 0);
-__decorate([
-    (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.NUMBER,
-        allowNull: false,
+        comment: "duration of rentage in months",
+        defaultValue: 0,
     }),
     __metadata("design:type", Number)
 ], Product.prototype, "durationOfRentage", void 0);

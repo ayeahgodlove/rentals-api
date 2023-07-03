@@ -5,7 +5,7 @@ export interface IProduct {
   name: string;
   description: string;
   longDescription: string;
-  price: number;
+  amount: number;
   durationOfRentage: number;
   condition: string;
   availabilityStartDate: Date;
@@ -20,7 +20,7 @@ export const emptyProduct: IProduct = {
   name: "",
   description: "",
   longDescription: "",
-  price: 0,
+  amount: 0,
   durationOfRentage: 0,
   condition: "",
   availabilityStartDate: new Date(),

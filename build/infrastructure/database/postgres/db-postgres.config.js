@@ -40,6 +40,7 @@ const branch_1 = require("../../../data/entities/branch");
 const store_1 = require("../../../data/entities/store");
 const product_image_1 = require("../../../data/entities/product-image");
 const product_1 = require("../../../data/entities/product");
+const tag_1 = require("../../../data/entities/tag");
 dotenv.config();
 class PostgresDbConfig {
     _sequelize;
@@ -64,6 +65,7 @@ class PostgresDbConfig {
                 product_1.Product,
                 product_image_1.ProductImage,
                 review_1.Review,
+                tag_1.Tag
             ],
             logging: false,
             pool: {
