@@ -25,7 +25,6 @@ function generateUser(index) {
     // imageBannerUrl:faker.image.urlPicsumPhotos(),
     createdAt: new Date(),
     updatedAt: new Date(),
-    deletedAt: new Date(),
     avatar: faker.image.avatar(),
     authStrategy: "local-auth",
     verified: false,

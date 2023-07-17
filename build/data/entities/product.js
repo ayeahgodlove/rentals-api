@@ -55,7 +55,6 @@ __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.DECIMAL,
         allowNull: false,
-        comment: "product prices",
         defaultValue: 0,
     }),
     __metadata("design:type", Number)
@@ -78,7 +77,6 @@ __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.INTEGER,
         allowNull: false,
-        comment: "duration of rentage in months",
         defaultValue: 0,
     }),
     __metadata("design:type", Number)

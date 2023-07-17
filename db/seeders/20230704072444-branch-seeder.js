@@ -11,7 +11,6 @@ function generateBranch() {
     address: faker.location.streetAddress({ useFullAddress: true }),
     createdAt: new Date(),
     updatedAt: new Date(),
-    deletedAt: new Date()
   };
   return branch;
 }

@@ -22,7 +22,6 @@ function generateProduct(storeId) {
     storeId: storeId,
     createdAt: new Date(),
     updatedAt: new Date(),
-    deletedAt: new Date(),
   };
   return product;
 }

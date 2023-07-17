@@ -9,7 +9,6 @@ function generateTag() {
     name: faker.word.adjective({ length: { min: 5, max: 7 }, strategy: "fail" }),
     createdAt: new Date(),
     updatedAt: new Date(),
-    deletedAt: new Date()
   };
   return tag;
 }

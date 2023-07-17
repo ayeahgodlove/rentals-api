@@ -4,6 +4,7 @@ exports.emptyProduct = void 0;
 exports.emptyProduct = {
     id: "",
     name: "",
+    storeId: "",
     description: "",
     longDescription: "",
     amount: 0,

@@ -16,7 +16,7 @@ import { Store } from "./store";
   paranoid: true,
   tableName: "product",
   modelName: "Product",
-})
+}) 
 export class Product extends Model<IProduct> {
   @Column({
     type: DataType.STRING(20),
@@ -39,7 +39,6 @@ export class Product extends Model<IProduct> {
   @Column({
     type: DataType.DECIMAL,
     allowNull: false,
-    comment: "product prices",
     defaultValue: 0,
   })
   amount!: number;
@@ -58,7 +57,6 @@ export class Product extends Model<IProduct> {
   @Column({
     type: DataType.INTEGER,
     allowNull: false,
-    comment: "duration of rentage in months",
     defaultValue: 0,
   })
   durationOfRentage!: number;

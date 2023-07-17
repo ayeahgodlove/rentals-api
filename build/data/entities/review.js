@@ -23,7 +23,6 @@ __decorate([
         type: sequelize_typescript_1.DataType.STRING(20),
         allowNull: false,
         primaryKey: true,
-        comment: "ID field which is set as a primary key and unique",
     }),
     __metadata("design:type", String)
 ], Review.prototype, "id", void 0);
@@ -54,7 +53,7 @@ Review = __decorate([
     (0, sequelize_typescript_1.Table)({
         timestamps: true,
         paranoid: true,
-        tableName: "reviews_tbl",
+        tableName: "review",
         modelName: "Review"
     })
 ], Review);

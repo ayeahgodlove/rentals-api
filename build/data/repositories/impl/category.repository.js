@@ -73,7 +73,6 @@ class CategoryRepository {
         const { id } = category;
         try {
             const categoryItem = await category_1.Category.findByPk(id);
-            console.log(category);
             if (!categoryItem) {
                 throw new not_found_exception_1.NotFoundException("Category", id.toString());
             }

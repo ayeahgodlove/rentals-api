@@ -15,7 +15,8 @@
     "test": "mocha --check-leaks -r ts-node/register -r tsconfig-paths/register \"src/tests/**/*.spec.ts\"",
     "generate:seed": "sequelize seed:generate --name",
     "seed": "sequelize db:seed:all",
-    "generate:seed:file": "sequelize-cli db:seed --seed"
+    "generate:seed:file": "sequelize-cli db:seed --seed",
+    "seed:file": "sequelize db:seed --seed"
   },
   "keywords": [],
   "author": "",

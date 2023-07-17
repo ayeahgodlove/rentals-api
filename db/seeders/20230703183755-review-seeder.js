@@ -12,7 +12,6 @@ function generateReview(userId) {
     userId: userId,
     createdAt: new Date(),
     updatedAt: new Date(),
-    deletedAt: new Date(),
   };
   return review;
 }
@@ -42,7 +41,7 @@ module.exports = {
     const users = await queryInterface.sequelize.query(`SELECT id FROM "user";`);
       // console.log("USERS: ", users)
     await queryInterface.bulkInsert(
-      "reviews_tbl",
+      "review",
       generateReviews(10, users[0]),
       {}
     );
