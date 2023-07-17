@@ -59,8 +59,8 @@ export class ProductRepository implements IRepository<IProduct, Product> {
    */
   async getAll(): Promise<Product[]> {
     try {
-      const categories = await Product.findAll();
-      return categories;
+      const products = await Product.findAll();
+      return products;
     } catch (error) {
       throw error;
     }

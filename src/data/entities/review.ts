@@ -12,7 +12,7 @@ import { IReview } from "../../domain/models/review";
 @Table({
   timestamps: true,
   paranoid: true,
-  tableName: "reviews_tbl",
+  tableName: "review",
   modelName: "Review"
 })
 export class Review extends Model<IReview> {
@@ -20,7 +20,6 @@ export class Review extends Model<IReview> {
     type: DataType.STRING(20),
     allowNull: false,
     primaryKey: true,
-    comment: "ID field which is set as a primary key and unique",
   })
   declare id?: string;
 

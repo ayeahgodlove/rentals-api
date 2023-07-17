@@ -11,6 +11,10 @@ export class ProductRequestDto {
 
   @IsNotEmpty()
   @IsString()
+  storeId: string;
+
+  @IsNotEmpty()
+  @IsString()
   description: string;
 
   @IsNotEmpty()
@@ -43,6 +47,7 @@ export class ProductRequestDto {
 
   constructor(data: IProduct) {
     this.name = data.name;
+    this.storeId = data.storeId;
     this.description = data.description;
     this.longDescription = data.longDescription;
     this.condition = data.condition;
@@ -58,6 +63,7 @@ export class ProductRequestDto {
     return {
       ...emptyProduct,
       id: nanoid(10),
+      storeId: this.storeId,
       name: this.name,
       description: this.description,
       longDescription: this.longDescription,
@@ -75,6 +81,7 @@ export class ProductRequestDto {
     return {
       id: data.id,
       name: data.name,
+      storeId: data.storeId,
       description: data.description,
       longDescription: data.longDescription,
       amount: data.amount,

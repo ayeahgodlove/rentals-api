@@ -15,7 +15,6 @@ function generateProductImage(productId) {
     productId: productId,
     createdAt: new Date(),
     updatedAt: new Date(),
-    deletedAt: new Date(),
   };
   return product;
 }

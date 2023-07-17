@@ -15,6 +15,7 @@ const product_1 = require("../../domain/models/product");
 const nanoid_1 = require("nanoid");
 class ProductRequestDto {
     name;
+    storeId;
     description;
     longDescription;
     amount;
@@ -26,6 +27,7 @@ class ProductRequestDto {
     availabilityEndTime;
     constructor(data) {
         this.name = data.name;
+        this.storeId = data.storeId;
         this.description = data.description;
         this.longDescription = data.longDescription;
         this.condition = data.condition;
@@ -40,6 +42,7 @@ class ProductRequestDto {
         return {
             ...product_1.emptyProduct,
             id: (0, nanoid_1.nanoid)(10),
+            storeId: this.storeId,
             name: this.name,
             description: this.description,
             longDescription: this.longDescription,
@@ -56,6 +59,7 @@ class ProductRequestDto {
         return {
             id: data.id,
             name: data.name,
+            storeId: data.storeId,
             description: data.description,
             longDescription: data.longDescription,
             amount: data.amount,
@@ -74,6 +78,11 @@ __decorate([
     (0, class_validator_1.Length)(4, 128),
     __metadata("design:type", String)
 ], ProductRequestDto.prototype, "name", void 0);
+__decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], ProductRequestDto.prototype, "storeId", void 0);
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsString)(),

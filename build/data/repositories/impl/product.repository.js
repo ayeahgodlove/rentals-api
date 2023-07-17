@@ -57,8 +57,8 @@ class ProductRepository {
      */
     async getAll() {
         try {
-            const categories = await product_1.Product.findAll();
-            return categories;
+            const products = await product_1.Product.findAll();
+            return products;
         }
         catch (error) {
             throw error;

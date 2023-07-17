@@ -76,7 +76,6 @@ export class CategoryRepository implements IRepository<ICategory, Category> {
     try {
       const categoryItem: any = await Category.findByPk(id);
 
-      console.log(category);
       if (!categoryItem) {
         throw new NotFoundException("Category", id.toString());
       }

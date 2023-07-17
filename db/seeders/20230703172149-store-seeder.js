@@ -11,7 +11,6 @@ function generateStore() {
     imageBannerUrl:faker.image.urlPicsumPhotos(), 
     createdAt: new Date(),
     updatedAt: new Date(),
-    deletedAt: new Date()
   };
   return store;
 }
