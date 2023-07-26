@@ -27,8 +27,11 @@ export class ProductImageUseCase {
     return this.productImageRepository.create(productImage);
   }
 
-  async getAll(): Promise<ProductImage[]> {
-    return this.productImageRepository.getAll();
+  async getAll(
+    page: number,
+    pageSize: number
+  ): Promise<{ rows: ProductImage[]; count: number }> {
+    return this.productImageRepository.getAll(page, pageSize);
   }
 
   async getProductImageById(id: string): Promise<ProductImage | null> {

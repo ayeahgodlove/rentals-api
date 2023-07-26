@@ -1,9 +1,5 @@
 import { Request, Response } from "express";
-import {
-  IRole,
-  IRoleResponse,
-  emptyRole,
-} from "../../domain/models/role";
+import { IRole, IRoleResponse, emptyRole } from "../../domain/models/role";
 import { RoleUseCase } from "../../domain/usecases/role.usecase";
 import { RoleRepository } from "../../data/repositories/impl/role.repository";
 import { RoleMapper } from "../mappers/mapper";
@@ -17,10 +13,7 @@ const roleUseCase = new RoleUseCase(roleRepository);
 const roleMapper = new RoleMapper();
 
 export class RolesController {
-  async createRole(
-    req: Request,
-    res: Response<IRoleResponse>
-  ): Promise<void> {
+  async createRole(req: Request, res: Response<IRoleResponse>): Promise<void> {
     const dto = new RoleRequestDto(req.body);
     const validationErrors = await validate(dto);
 
@@ -33,9 +26,7 @@ export class RolesController {
       });
     } else {
       try {
-        const roleResponse = await roleUseCase.createRole(
-          dto.toData()
-        );
+        const roleResponse = await roleUseCase.createRole(dto.toData());
 
         res.status(201).json({
           data: roleResponse.toJSON<IRole>(),
@@ -55,15 +46,22 @@ export class RolesController {
   }
 
   async getAll(req: Request, res: Response<any>): Promise<void> {
+    const page = parseInt(req.query.page as string) || 1;
+    const pageSize = parseInt(req.query.pageSize as string) || 10;
     try {
-      const roles = await roleUseCase.getAll();
-      const rolesDTO = roleMapper.toDTOs(roles);
+      const { rows, count } = await roleUseCase.getAll(page, pageSize);
+      const rolesDTO = roleMapper.toDTOs(rows);
+
+      // total pages
+      const totalPages = Math.ceil(count / pageSize);
 
       res.json({
         data: rolesDTO,
         message: "Success",
         validationErrors: [],
         success: true,
+        currentPage: page,
+        totalPages,
       });
     } catch (error: any) {
       res.status(400).json({
@@ -75,10 +73,7 @@ export class RolesController {
     }
   }
 
-  async getRoleById(
-    req: Request,
-    res: Response<IRoleResponse>
-  ): Promise<void> {
+  async getRoleById(req: Request, res: Response<IRoleResponse>): Promise<void> {
     try {
       const id = req.params.id;
 
@@ -103,10 +98,7 @@ export class RolesController {
     }
   }
 
-  async updateRole(
-    req: Request,
-    res: Response<IRoleResponse>
-  ): Promise<void> {
+  async updateRole(req: Request, res: Response<IRoleResponse>): Promise<void> {
     const dto = new RoleRequestDto(req.body);
     const validationErrors = await validate(dto);
 
@@ -146,10 +138,7 @@ export class RolesController {
     }
   }
 
-  async deleteRole(
-    req: Request,
-    res: Response<IRoleResponse>
-  ): Promise<void> {
+  async deleteRole(req: Request, res: Response<IRoleResponse>): Promise<void> {
     try {
       const id = req.params.id;
 

@@ -20,9 +20,13 @@ export class RoleUseCase {
     return this.roleRepository.create(role);
   }
 
-  async getAll(): Promise<Role[]> {
-    return this.roleRepository.getAll();
+  async getAll(
+    page: number,
+    pageSize: number
+  ): Promise<{ rows: Role[]; count: number }> {
+    return this.roleRepository.getAll(page, pageSize);
   }
+
 
   async getRoleById(id: string): Promise<Role | null> {
     return this.roleRepository.findById(id);

@@ -33,9 +33,7 @@ export class ReviewsController {
       });
     } else {
       try {
-        const reviewResponse = await reviewUseCase.createReview(
-          dto.toData()
-        );
+        const reviewResponse = await reviewUseCase.createReview(dto.toData());
 
         res.status(201).json({
           data: reviewResponse.toJSON<IReview>(),
@@ -55,15 +53,22 @@ export class ReviewsController {
   }
 
   async getAll(req: Request, res: Response<any>): Promise<void> {
+    const page = parseInt(req.query.page as string) || 1;
+    const pageSize = parseInt(req.query.pageSize as string) || 10;
     try {
-      const reviews = await reviewUseCase.getAll();
-      const reviewsDTO = reviewMapper.toDTOs(reviews);
+      const { rows, count } = await reviewUseCase.getAll(page, pageSize);
+      const reviewsDTO = reviewMapper.toDTOs(rows);
+
+      // total pages
+      const totalPages = Math.ceil(count / pageSize);
 
       res.json({
         data: reviewsDTO,
         message: "Success",
         validationErrors: [],
         success: true,
+        currentPage: page,
+        totalPages,
       });
     } catch (error: any) {
       res.status(400).json({

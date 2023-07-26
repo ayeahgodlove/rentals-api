@@ -57,10 +57,14 @@ export class BranchRepository implements IRepository<IBranch, Branch> {
   /*
    * Returns an array of Branch
    */
-  async getAll(): Promise<Branch[]> {
+  async getAll(page: number, pageSize: number): Promise<{
+    rows: Branch[],
+    count: number;
+  }> {
+    const offset = (page - 1) * pageSize;
     try {
-      const categories = await Branch.findAll();
-      return categories;
+      const branches = await Branch.findAndCountAll({ limit: pageSize, offset });
+      return branches;
     } catch (error) {
       throw error;
     }
