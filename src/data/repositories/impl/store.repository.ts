@@ -57,10 +57,20 @@ export class StoreRepository implements IRepository<IStore, Store> {
   /*
    * Returns an array of Store
    */
-  async getAll(): Promise<Store[]> {
+  async getAll(
+    page: number,
+    pageSize: number
+  ): Promise<{
+    rows: Store[];
+    count: number;
+  }> {
+    const offset = (page - 1) * pageSize;
     try {
-      const categories = await Store.findAll();
-      return categories;
+      const stores = await Store.findAndCountAll({
+        limit: pageSize,
+        offset,
+      });
+      return stores;
     } catch (error) {
       throw error;
     }

@@ -20,8 +20,11 @@ export class UserUseCase {
     return this.userRepository.create(user);
   }
 
-  async getAll(): Promise<User[]> {
-    return this.userRepository.getAll();
+  async getAll(
+    page: number,
+    pageSize: number
+  ): Promise<{ rows: User[]; count: number }> {
+    return this.userRepository.getAll(page, pageSize);
   }
 
   async getUserById(id: string): Promise<User | null> {
@@ -43,7 +46,7 @@ export class UserUseCase {
     const user = (await this.userRepository.findById(id)) as User;
 
     user.avatar = filename.toString();
-    return await user.update({...user});
+    return await user.update({ ...user });
     // console.log("user: ", user, "fileName: ", filename)
     // const obj: IUser = {
     //   ...user,

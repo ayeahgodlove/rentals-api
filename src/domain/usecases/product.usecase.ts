@@ -22,8 +22,11 @@ export class ProductUseCase {
     return this.productRepository.create(product);
   }
 
-  async getAll(): Promise<Product[]> {
-    return this.productRepository.getAll();
+  async getAll(
+    page: number,
+    pageSize: number
+  ): Promise<{ rows: Product[]; count: number }> {
+    return this.productRepository.getAll(page, pageSize);
   }
 
   async getProductById(id: string): Promise<Product | null> {

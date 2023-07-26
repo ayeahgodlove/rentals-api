@@ -21,9 +21,13 @@ export class BranchUseCase {
     return this.branchRepository.create(branch);
   }
 
-  async getAll(): Promise<Branch[]> {
-    return this.branchRepository.getAll();
+  async getAll(
+    page: number,
+    pageSize: number
+  ): Promise<{ rows: Branch[]; count: number }> {
+    return this.branchRepository.getAll(page, pageSize);
   }
+
 
   async getBranchById(id: string): Promise<Branch | null> {
     return this.branchRepository.findById(id);

@@ -17,8 +17,8 @@ export class UserRepository implements IRepository<IUser, User> {
   async create(user: IUser): Promise<User> {
     const hashedPassword = await bcrypt.hash(user.password, 10);
     user.password = hashedPassword;
-    user.authStrategy = 'local-auth'
-    user.whatsappNumber = user.phoneNumber
+    user.authStrategy = "local-auth";
+    user.whatsappNumber = user.phoneNumber;
     // user.phoneNumber = user.whatsappNumber
 
     try {
@@ -63,9 +63,19 @@ export class UserRepository implements IRepository<IUser, User> {
   /*
    * Returns an array of User
    */
-  async getAll(): Promise<User[]> {
+  async getAll(
+    page: number,
+    pageSize: number
+  ): Promise<{
+    rows: User[];
+    count: number;
+  }> {
+    const offset = (page - 1) * pageSize;
     try {
-      const users = await User.findAll();
+      const users = await User.findAndCountAll({
+        limit: pageSize,
+        offset,
+      });
       return users;
     } catch (error) {
       throw error;

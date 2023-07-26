@@ -3,7 +3,9 @@ import { IProductImage } from "../../../domain/models/product-image";
 import { NotFoundException } from "../../../shared/exceptions/not-found.exception";
 import { IRepository } from "../contracts/repository.base";
 
-export class ProductImageRepository implements IRepository<IProductImage, ProductImage> {
+export class ProductImageRepository
+  implements IRepository<IProductImage, ProductImage>
+{
   /**
    *
    */
@@ -47,7 +49,9 @@ export class ProductImageRepository implements IRepository<IProductImage, Produc
    */
   async findByName(name: string): Promise<ProductImage | null> {
     try {
-      const productImageItem = await ProductImage.findOne({ where: { productName: name } });
+      const productImageItem = await ProductImage.findOne({
+        where: { productName: name },
+      });
       return productImageItem;
     } catch (error) {
       throw error;
@@ -57,10 +61,20 @@ export class ProductImageRepository implements IRepository<IProductImage, Produc
   /*
    * Returns an array of ProductImage
    */
-  async getAll(): Promise<ProductImage[]> {
+  async getAll(
+    page: number,
+    pageSize: number
+  ): Promise<{
+    rows: ProductImage[];
+    count: number;
+  }> {
+    const offset = (page - 1) * pageSize;
     try {
-      const categories = await ProductImage.findAll();
-      return categories;
+      const productImages = await ProductImage.findAndCountAll({
+        limit: pageSize,
+        offset,
+      });
+      return productImages;
     } catch (error) {
       throw error;
     }

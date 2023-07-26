@@ -14,9 +14,13 @@ export class ReviewUseCase {
     return this.reviewRepository.create(review);
   }
 
-  async getAll(): Promise<Review[]> {
-    return this.reviewRepository.getAll();
+  async getAll(
+    page: number,
+    pageSize: number
+  ): Promise<{ rows: Review[]; count: number }> {
+    return this.reviewRepository.getAll(page, pageSize);
   }
+
 
   async getReviewById(id: string): Promise<Review | null> {
     return this.reviewRepository.findById(id);
