@@ -55,9 +55,13 @@ class UserDocRepository {
     /*
      * Returns an array of UserDoc
      */
-    async getAll() {
+    async getAll(page, pageSize) {
+        const offset = (page - 1) * pageSize;
         try {
-            const userDocs = await user_doc_1.UserDoc.findAll();
+            const userDocs = await user_doc_1.UserDoc.findAndCountAll({
+                limit: pageSize,
+                offset,
+            });
             return userDocs;
         }
         catch (error) {

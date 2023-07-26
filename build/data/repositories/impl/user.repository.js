@@ -20,7 +20,7 @@ class UserRepository {
     async create(user) {
         const hashedPassword = await bcrypt_1.default.hash(user.password, 10);
         user.password = hashedPassword;
-        user.authStrategy = 'local-auth';
+        user.authStrategy = "local-auth";
         user.whatsappNumber = user.phoneNumber;
         // user.phoneNumber = user.whatsappNumber
         try {
@@ -64,9 +64,13 @@ class UserRepository {
     /*
      * Returns an array of User
      */
-    async getAll() {
+    async getAll(page, pageSize) {
+        const offset = (page - 1) * pageSize;
         try {
-            const users = await user_1.User.findAll();
+            const users = await user_1.User.findAndCountAll({
+                limit: pageSize,
+                offset,
+            });
             return users;
         }
         catch (error) {

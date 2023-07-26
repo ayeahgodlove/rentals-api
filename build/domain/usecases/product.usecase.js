@@ -18,8 +18,8 @@ class ProductUseCase {
         //because it's already done in the Repository
         return this.productRepository.create(product);
     }
-    async getAll() {
-        return this.productRepository.getAll();
+    async getAll(page, pageSize) {
+        return this.productRepository.getAll(page, pageSize);
     }
     async getProductById(id) {
         return this.productRepository.findById(id);

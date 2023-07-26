@@ -12,8 +12,8 @@ class ReviewUseCase {
     async createReview(review) {
         return this.reviewRepository.create(review);
     }
-    async getAll() {
-        return this.reviewRepository.getAll();
+    async getAll(page, pageSize) {
+        return this.reviewRepository.getAll(page, pageSize);
     }
     async getReviewById(id) {
         return this.reviewRepository.findById(id);

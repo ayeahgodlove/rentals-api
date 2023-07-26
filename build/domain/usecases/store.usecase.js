@@ -18,8 +18,8 @@ class StoreUseCase {
         //because it's already done in the Repository
         return this.storeRepository.create(store);
     }
-    async getAll() {
-        return this.storeRepository.getAll();
+    async getAll(page, pageSize) {
+        return this.storeRepository.getAll(page, pageSize);
     }
     async getStoreById(id) {
         return this.storeRepository.findById(id);

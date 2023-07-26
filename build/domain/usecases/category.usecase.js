@@ -22,8 +22,8 @@ class CategoryUseCase {
         //because it's already done in the Repository
         return this.categoryRepository.create(category);
     }
-    async getAll() {
-        return this.categoryRepository.getAll();
+    async getAll(page, pageSize) {
+        return this.categoryRepository.getAll(page, pageSize);
     }
     async getCategoryById(id) {
         return this.categoryRepository.findById(id);

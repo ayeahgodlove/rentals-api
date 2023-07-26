@@ -55,10 +55,11 @@ class BranchRepository {
     /*
      * Returns an array of Branch
      */
-    async getAll() {
+    async getAll(page, pageSize) {
+        const offset = (page - 1) * pageSize;
         try {
-            const categories = await branch_1.Branch.findAll();
-            return categories;
+            const branches = await branch_1.Branch.findAndCountAll({ limit: pageSize, offset });
+            return branches;
         }
         catch (error) {
             throw error;

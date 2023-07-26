@@ -45,14 +45,20 @@ class ReviewsController {
         }
     }
     async getAll(req, res) {
+        const page = parseInt(req.query.page) || 1;
+        const pageSize = parseInt(req.query.pageSize) || 10;
         try {
-            const reviews = await reviewUseCase.getAll();
-            const reviewsDTO = reviewMapper.toDTOs(reviews);
+            const { rows, count } = await reviewUseCase.getAll(page, pageSize);
+            const reviewsDTO = reviewMapper.toDTOs(rows);
+            // total pages
+            const totalPages = Math.ceil(count / pageSize);
             res.json({
                 data: reviewsDTO,
                 message: "Success",
                 validationErrors: [],
                 success: true,
+                currentPage: page,
+                totalPages,
             });
         }
         catch (error) {

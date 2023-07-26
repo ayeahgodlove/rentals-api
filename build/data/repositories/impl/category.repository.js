@@ -55,9 +55,10 @@ class CategoryRepository {
     /*
      * Returns an array of Category
      */
-    async getAll() {
+    async getAll(page, pageSize) {
+        const offset = (page - 1) * pageSize;
         try {
-            const categories = await category_1.Category.findAll();
+            const categories = await category_1.Category.findAndCountAll({ limit: pageSize, offset });
             return categories;
         }
         catch (error) {
