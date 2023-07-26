@@ -18,8 +18,8 @@ class ProductImageUseCase {
         //because it's already done in the Repository
         return this.productImageRepository.create(productImage);
     }
-    async getAll() {
-        return this.productImageRepository.getAll();
+    async getAll(page, pageSize) {
+        return this.productImageRepository.getAll(page, pageSize);
     }
     async getProductImageById(id) {
         return this.productImageRepository.findById(id);

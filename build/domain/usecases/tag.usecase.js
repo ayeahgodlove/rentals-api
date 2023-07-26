@@ -18,8 +18,8 @@ class TagUseCase {
         //because it's already done in the Repository
         return this.tagRepository.create(tag);
     }
-    async getAll() {
-        return this.tagRepository.getAll();
+    async getAll(page, pageSize) {
+        return this.tagRepository.getAll(page, pageSize);
     }
     async getTagById(id) {
         return this.tagRepository.findById(id);

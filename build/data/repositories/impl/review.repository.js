@@ -56,9 +56,13 @@ class ReviewRepository {
     /*
      * Returns an array of Review
      */
-    async getAll() {
+    async getAll(page, pageSize) {
+        const offset = (page - 1) * pageSize;
         try {
-            const reviews = await review_1.Review.findAll();
+            const reviews = await review_1.Review.findAndCountAll({
+                limit: pageSize,
+                offset,
+            });
             return reviews;
         }
         catch (error) {

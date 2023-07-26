@@ -55,10 +55,14 @@ class StoreRepository {
     /*
      * Returns an array of Store
      */
-    async getAll() {
+    async getAll(page, pageSize) {
+        const offset = (page - 1) * pageSize;
         try {
-            const categories = await store_1.Store.findAll();
-            return categories;
+            const stores = await store_1.Store.findAndCountAll({
+                limit: pageSize,
+                offset,
+            });
+            return stores;
         }
         catch (error) {
             throw error;

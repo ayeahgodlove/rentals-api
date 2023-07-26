@@ -18,8 +18,8 @@ class RoleUseCase {
         //because it's already done in the Repository
         return this.roleRepository.create(role);
     }
-    async getAll() {
-        return this.roleRepository.getAll();
+    async getAll(page, pageSize) {
+        return this.roleRepository.getAll(page, pageSize);
     }
     async getRoleById(id) {
         return this.roleRepository.findById(id);

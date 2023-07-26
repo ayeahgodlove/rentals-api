@@ -45,14 +45,20 @@ class RolesController {
         }
     }
     async getAll(req, res) {
+        const page = parseInt(req.query.page) || 1;
+        const pageSize = parseInt(req.query.pageSize) || 10;
         try {
-            const roles = await roleUseCase.getAll();
-            const rolesDTO = roleMapper.toDTOs(roles);
+            const { rows, count } = await roleUseCase.getAll(page, pageSize);
+            const rolesDTO = roleMapper.toDTOs(rows);
+            // total pages
+            const totalPages = Math.ceil(count / pageSize);
             res.json({
                 data: rolesDTO,
                 message: "Success",
                 validationErrors: [],
                 success: true,
+                currentPage: page,
+                totalPages,
             });
         }
         catch (error) {

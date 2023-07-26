@@ -45,14 +45,20 @@ class StoresController {
         }
     }
     async getAll(req, res) {
+        const page = parseInt(req.query.page) || 1;
+        const pageSize = parseInt(req.query.pageSize) || 10;
         try {
-            const stores = await storeUseCase.getAll();
-            const storesDTO = storeMapper.toDTOs(stores);
+            const { rows, count } = await storeUseCase.getAll(page, pageSize);
+            const storesDTO = storeMapper.toDTOs(rows);
+            // total pages
+            const totalPages = Math.ceil(count / pageSize);
             res.json({
                 data: storesDTO,
                 message: "Success",
                 validationErrors: [],
                 success: true,
+                currentPage: page,
+                totalPages,
             });
         }
         catch (error) {

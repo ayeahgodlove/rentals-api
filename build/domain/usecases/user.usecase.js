@@ -18,8 +18,8 @@ class UserUseCase {
         //because it's already done in the Repository
         return this.userRepository.create(user);
     }
-    async getAll() {
-        return this.userRepository.getAll();
+    async getAll(page, pageSize) {
+        return this.userRepository.getAll(page, pageSize);
     }
     async getUserById(id) {
         return this.userRepository.findById(id);

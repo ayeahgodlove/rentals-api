@@ -45,14 +45,20 @@ class ProductsController {
         }
     }
     async getAll(req, res) {
+        const page = parseInt(req.query.page) || 1;
+        const pageSize = parseInt(req.query.pageSize) || 10;
         try {
-            const products = await productUseCase.getAll();
-            const productsDTO = productMapper.toDTOs(products);
+            const { rows, count } = await productUseCase.getAll(page, pageSize);
+            const productsDTO = productMapper.toDTOs(rows);
+            // total pages
+            const totalPages = Math.ceil(count / pageSize);
             res.json({
                 data: productsDTO,
                 message: "Success",
                 validationErrors: [],
                 success: true,
+                currentPage: page,
+                totalPages,
             });
         }
         catch (error) {

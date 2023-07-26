@@ -55,9 +55,13 @@ class ProductRepository {
     /*
      * Returns an array of Product
      */
-    async getAll() {
+    async getAll(page, pageSize) {
+        const offset = (page - 1) * pageSize;
         try {
-            const products = await product_1.Product.findAll();
+            const products = await product_1.Product.findAndCountAll({
+                limit: pageSize,
+                offset,
+            });
             return products;
         }
         catch (error) {

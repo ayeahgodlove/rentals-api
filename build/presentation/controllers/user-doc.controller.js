@@ -45,14 +45,20 @@ class UserDocsController {
         }
     }
     async getAll(req, res) {
+        const page = parseInt(req.query.page) || 1;
+        const pageSize = parseInt(req.query.pageSize) || 10;
         try {
-            const userDocs = await userDocUseCase.getAll();
-            const userDocsDTO = userDocMapper.toDTOs(userDocs);
+            const { rows, count } = await userDocUseCase.getAll(page, pageSize);
+            const userDocsDTO = userDocMapper.toDTOs(rows);
+            // total pages
+            const totalPages = Math.ceil(count / pageSize);
             res.json({
                 data: userDocsDTO,
                 message: "Success",
                 validationErrors: [],
                 success: true,
+                currentPage: page,
+                totalPages,
             });
         }
         catch (error) {

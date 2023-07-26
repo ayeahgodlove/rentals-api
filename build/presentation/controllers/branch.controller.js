@@ -45,14 +45,20 @@ class BranchesController {
         }
     }
     async getAll(req, res) {
+        const page = parseInt(req.query.page) || 1;
+        const pageSize = parseInt(req.query.pageSize) || 10;
         try {
-            const branches = await branchUseCase.getAll();
-            const branchesDTO = branchMapper.toDTOs(branches);
+            const { rows, count } = await branchUseCase.getAll(page, pageSize);
+            const branchesDTO = branchMapper.toDTOs(rows);
+            // total pages
+            const totalPages = Math.ceil(count / pageSize);
             res.json({
                 data: branchesDTO,
                 message: "Success",
                 validationErrors: [],
                 success: true,
+                currentPage: page,
+                totalPages,
             });
         }
         catch (error) {

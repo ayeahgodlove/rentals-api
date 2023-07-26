@@ -55,10 +55,14 @@ class TagRepository {
     /*
      * Returns an array of Tag
      */
-    async getAll() {
+    async getAll(page, pageSize) {
+        const offset = (page - 1) * pageSize;
         try {
-            const categories = await tag_1.Tag.findAll();
-            return categories;
+            const tags = await tag_1.Tag.findAndCountAll({
+                limit: pageSize,
+                offset,
+            });
+            return tags;
         }
         catch (error) {
             throw error;

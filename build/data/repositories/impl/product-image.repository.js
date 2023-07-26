@@ -45,7 +45,9 @@ class ProductImageRepository {
      */
     async findByName(name) {
         try {
-            const productImageItem = await product_image_1.ProductImage.findOne({ where: { productName: name } });
+            const productImageItem = await product_image_1.ProductImage.findOne({
+                where: { productName: name },
+            });
             return productImageItem;
         }
         catch (error) {
@@ -55,10 +57,14 @@ class ProductImageRepository {
     /*
      * Returns an array of ProductImage
      */
-    async getAll() {
+    async getAll(page, pageSize) {
+        const offset = (page - 1) * pageSize;
         try {
-            const categories = await product_image_1.ProductImage.findAll();
-            return categories;
+            const productImages = await product_image_1.ProductImage.findAndCountAll({
+                limit: pageSize,
+                offset,
+            });
+            return productImages;
         }
         catch (error) {
             throw error;

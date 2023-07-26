@@ -18,8 +18,8 @@ class BranchUseCase {
         //because it's already done in the Repository
         return this.branchRepository.create(branch);
     }
-    async getAll() {
-        return this.branchRepository.getAll();
+    async getAll(page, pageSize) {
+        return this.branchRepository.getAll(page, pageSize);
     }
     async getBranchById(id) {
         return this.branchRepository.findById(id);
