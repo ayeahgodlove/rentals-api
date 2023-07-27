@@ -7,8 +7,8 @@ const tagController = new CategoriesController();
 
 const tagRouter = Router();
 
-tagRouter.get("", isAuthenticatedMiddleware, tagController.getAll);
-tagRouter.get("/:id", isAuthenticatedMiddleware, tagController.getTagById);
+tagRouter.get("", tagController.getAll);
+tagRouter.get("/:id", tagController.getTagById);
 tagRouter.post("", isAuthenticatedMiddleware, tagController.createTag);
 tagRouter.put("/:id", isAuthenticatedMiddleware, tagController.updateTag);
 tagRouter.delete("/:id", isAuthenticatedMiddleware, tagController.deleteTag);

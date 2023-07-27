@@ -55,15 +55,22 @@ export class UserDocsController {
   }
 
   async getAll(req: Request, res: Response<any>): Promise<void> {
+    const page = parseInt(req.query.page as string) || 1;
+    const pageSize = parseInt(req.query.pageSize as string) || 10;
     try {
-      const userDocs = await userDocUseCase.getAll();
-      const userDocsDTO = userDocMapper.toDTOs(userDocs);
+      const { rows, count } = await userDocUseCase.getAll(page, pageSize);
+      const userDocsDTO = userDocMapper.toDTOs(rows);
+
+      // total pages
+      const totalPages = Math.ceil(count / pageSize);
 
       res.json({
         data: userDocsDTO,
         message: "Success",
         validationErrors: [],
         success: true,
+        currentPage: page,
+        totalPages,
       });
     } catch (error: any) {
       res.status(400).json({
@@ -95,13 +102,12 @@ export class UserDocsController {
         throw new NotFoundException("User", `${userDoc.userId}`);
       }
       // Update the user's verification status
-      
+
       await user.update({
         ...user,
         verified: true,
       });
       await user.save();
-
 
       res.json({
         data: userDocDTO,

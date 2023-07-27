@@ -9,15 +9,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RoleRequestDto = void 0;
 const class_validator_1 = require("class-validator");
 const role_1 = require("../../domain/models/role");
 const nanoid_1 = require("nanoid");
-const slugify_1 = __importDefault(require("slugify"));
 class RoleRequestDto {
     name;
     constructor(data) {
@@ -34,9 +30,6 @@ class RoleRequestDto {
         return {
             id: data.id,
             name: data.name,
-            slug: (0, slugify_1.default)(data.name, { lower: true, replacement: "-" }),
-            createdAt: data.createdAt,
-            updatedAt: data.updatedAt,
         };
     }
 }

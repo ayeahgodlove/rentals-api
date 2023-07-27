@@ -55,9 +55,13 @@ class RoleRepository {
     /*
      * Returns an array of Role
      */
-    async getAll() {
+    async getAll(page, pageSize) {
+        const offset = (page - 1) * pageSize;
         try {
-            const roles = await role_1.Role.findAll();
+            const roles = await role_1.Role.findAndCountAll({
+                limit: pageSize,
+                offset,
+            });
             return roles;
         }
         catch (error) {

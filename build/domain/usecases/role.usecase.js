@@ -18,18 +18,14 @@ class RoleUseCase {
         //because it's already done in the Repository
         return this.roleRepository.create(role);
     }
-    async getAll() {
-        return this.roleRepository.getAll();
+    async getAll(page, pageSize) {
+        return this.roleRepository.getAll(page, pageSize);
     }
     async getRoleById(id) {
         return this.roleRepository.findById(id);
     }
     async updateRole(role) {
-        const obj = {
-            ...role,
-            updatedAt: new Date(),
-        };
-        return this.roleRepository.update(obj);
+        return this.roleRepository.update(role);
     }
     async deleteRole(id) {
         return this.roleRepository.delete(id);

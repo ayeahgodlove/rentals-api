@@ -43,6 +43,10 @@ const authz_middleware_1 = __importDefault(require("./shared/middlewares/authz.m
 const user_route_1 = __importDefault(require("./presentation/routes/user.route"));
 const user_doc_route_1 = __importDefault(require("./presentation/routes/user-doc.route"));
 const path_1 = __importDefault(require("path"));
+const tag_route_1 = __importDefault(require("./presentation/routes/tag.route"));
+const product_route_1 = __importDefault(require("./presentation/routes/product.route"));
+const store_route_1 = __importDefault(require("./presentation/routes/store.route"));
+const branch_route_1 = __importDefault(require("./presentation/routes/branch.route"));
 dotenv.config();
 /**
  * App Variables
@@ -86,7 +90,7 @@ const db = new db_postgres_config_1.PostgresDbConfig();
 db.connection();
 // authentication
 app.use("/", auth_route_1.authRoutes);
-// route  endpoints
+// route  endpoints 
 app.get("/", (req, res) => {
     res.send("Welcome to Rent Kojo REST API");
 });
@@ -94,10 +98,15 @@ app.get("/api", (req, res) => {
     res.send("Express + TypeScript Server");
 });
 app.use("/api/categories", category_route_1.default);
+app.use("/api/tags", tag_route_1.default);
 app.use("/api/roles", role_route_1.default);
 app.use("/api/user-documents", user_doc_route_1.default);
 app.use("/api/reviews", review_route_1.default);
 app.use("/api/users", user_route_1.default);
+app.use("/api/products", product_route_1.default);
+app.use("/api/stores", store_route_1.default);
+app.use("/api/branches", branch_route_1.default);
+// mainFunction();
 // middleware interceptions
 app.use(error_middleware_1.errorHandler);
 app.use(not_found_middleware_1.notFoundHandler);

@@ -57,10 +57,20 @@ export class TagRepository implements IRepository<ITag, Tag> {
   /*
    * Returns an array of Tag
    */
-  async getAll(): Promise<Tag[]> {
+  async getAll(
+    page: number,
+    pageSize: number
+  ): Promise<{
+    rows: Tag[];
+    count: number;
+  }> {
+    const offset = (page - 1) * pageSize;
     try {
-      const categories = await Tag.findAll();
-      return categories;
+      const tags = await Tag.findAndCountAll({
+        limit: pageSize,
+        offset,
+      });
+      return tags;
     } catch (error) {
       throw error;
     }

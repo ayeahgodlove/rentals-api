@@ -14,8 +14,8 @@ const sequelize_typescript_1 = require("sequelize-typescript");
 const user_1 = require("./user");
 let Role = class Role extends sequelize_typescript_1.Model {
     name;
-    slug;
     // relationships
+    // Define the many-to-many association with User
     users;
 };
 __decorate([
@@ -35,15 +35,7 @@ __decorate([
     __metadata("design:type", String)
 ], Role.prototype, "name", void 0);
 __decorate([
-    (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.STRING(128),
-        allowNull: false,
-        unique: true,
-    }),
-    __metadata("design:type", String)
-], Role.prototype, "slug", void 0);
-__decorate([
-    (0, sequelize_typescript_1.HasMany)(() => user_1.User),
+    (0, sequelize_typescript_1.BelongsToMany)(() => user_1.User, 'UserRole', 'roleId', 'userId'),
     __metadata("design:type", Array)
 ], Role.prototype, "users", void 0);
 Role = __decorate([

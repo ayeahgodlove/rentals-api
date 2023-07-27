@@ -57,10 +57,20 @@ export class ProductRepository implements IRepository<IProduct, Product> {
   /*
    * Returns an array of Product
    */
-  async getAll(): Promise<Product[]> {
+  async getAll(
+    page: number,
+    pageSize: number
+  ): Promise<{
+    rows: Product[];
+    count: number;
+  }> {
+    const offset = (page - 1) * pageSize;
     try {
-      const categories = await Product.findAll();
-      return categories;
+      const products = await Product.findAndCountAll({
+        limit: pageSize,
+        offset,
+      });
+      return products;
     } catch (error) {
       throw error;
     }

@@ -7,8 +7,8 @@ const storeController = new StoresController();
 
 const storeRouter = Router();
 
-storeRouter.get("", isAuthenticatedMiddleware, storeController.getAll);
-storeRouter.get("/:id", isAuthenticatedMiddleware, storeController.getStoreById);
+storeRouter.get("", storeController.getAll);
+storeRouter.get("/:id", storeController.getStoreById);
 storeRouter.post("", isAuthenticatedMiddleware, storeController.createStore);
 storeRouter.put("/:id", isAuthenticatedMiddleware, storeController.updateStore);
 storeRouter.delete("/:id", isAuthenticatedMiddleware, storeController.deleteStore);

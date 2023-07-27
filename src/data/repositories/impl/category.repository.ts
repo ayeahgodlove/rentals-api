@@ -57,9 +57,13 @@ export class CategoryRepository implements IRepository<ICategory, Category> {
   /*
    * Returns an array of Category
    */
-  async getAll(): Promise<Category[]> {
+  async getAll(page: number, pageSize: number): Promise<{
+    rows: Category[],
+    count: number;
+  }> {
+    const offset = (page - 1) * pageSize;
     try {
-      const categories = await Category.findAll();
+      const categories = await Category.findAndCountAll({ limit: pageSize, offset });
       return categories;
     } catch (error) {
       throw error;
@@ -76,7 +80,6 @@ export class CategoryRepository implements IRepository<ICategory, Category> {
     try {
       const categoryItem: any = await Category.findByPk(id);
 
-      console.log(category);
       if (!categoryItem) {
         throw new NotFoundException("Category", id.toString());
       }

@@ -57,9 +57,19 @@ export class UserDocRepository implements IRepository<IUserDoc, UserDoc> {
   /*
    * Returns an array of UserDoc
    */
-  async getAll(): Promise<UserDoc[]> {
+  async getAll(
+    page: number,
+    pageSize: number
+  ): Promise<{
+    rows: UserDoc[];
+    count: number;
+  }> {
+    const offset = (page - 1) * pageSize;
     try {
-      const userDocs = await UserDoc.findAll();
+      const userDocs = await UserDoc.findAndCountAll({
+        limit: pageSize,
+        offset,
+      });
       return userDocs;
     } catch (error) {
       throw error;

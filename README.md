@@ -61,3 +61,9 @@ To effect generate migrations
 *****
 <!-- Validation -->
 ```npm install class-validator class-transformer```
+
+
+<!-- Seed specific file -->
+```
+sequelize-cli db:seed --seed 20230703172149-store-seeder.js
+```

@@ -3,7 +3,6 @@
 import { IsNotEmpty, IsString, Length } from "class-validator";
 import { IRole, emptyRole } from "../../domain/models/role";
 import { nanoid } from "nanoid";
-import slugify from "slugify";
 
 export class RoleRequestDto {
   @IsNotEmpty()
@@ -27,9 +26,6 @@ export class RoleRequestDto {
     return {
       id: data.id,
       name: data.name,
-      slug: slugify(data.name, { lower: true, replacement: "-" }),
-      createdAt: data.createdAt,
-      updatedAt: data.updatedAt,
     };
   }
 }

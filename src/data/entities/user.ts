@@ -74,13 +74,13 @@ export class User extends Model<IUser> {
   whatsappNumber!: string;
 
   @Column({
-    type: DataType.STRING(30),
+    type: DataType.STRING(100),
     allowNull: true,
   })
   city!: string;
 
   @Column({
-    type: DataType.STRING(30),
+    type: DataType.STRING(100),
     allowNull: true,
   })
   country!: string;

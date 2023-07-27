@@ -11,6 +11,10 @@ export class ProductRequestDto {
 
   @IsNotEmpty()
   @IsString()
+  storeId: string;
+
+  @IsNotEmpty()
+  @IsString()
   description: string;
 
   @IsNotEmpty()
@@ -19,7 +23,7 @@ export class ProductRequestDto {
 
   @IsNotEmpty()
   @IsNumber()
-  price: number;
+  amount: number;
 
   @IsNotEmpty()
   @IsNumber()
@@ -43,10 +47,11 @@ export class ProductRequestDto {
 
   constructor(data: IProduct) {
     this.name = data.name;
+    this.storeId = data.storeId;
     this.description = data.description;
     this.longDescription = data.longDescription;
     this.condition = data.condition;
-    this.price = data.price;
+    this.amount = data.amount;
     this.durationOfRentage = data.durationOfRentage;
     this.availabilityStartDate = data.availabilityStartDate;
     this.availabilityEndDate = data.availabilityEndDate;
@@ -58,10 +63,11 @@ export class ProductRequestDto {
     return {
       ...emptyProduct,
       id: nanoid(10),
+      storeId: this.storeId,
       name: this.name,
       description: this.description,
       longDescription: this.longDescription,
-      price: this.price,
+      amount: this.amount,
       durationOfRentage: this.durationOfRentage,
       condition: this.condition,
       availabilityEndDate: this.availabilityEndDate,
@@ -75,9 +81,10 @@ export class ProductRequestDto {
     return {
       id: data.id,
       name: data.name,
+      storeId: data.storeId,
       description: data.description,
       longDescription: data.longDescription,
-      price: data.price,
+      amount: data.amount,
       durationOfRentage: data.durationOfRentage,
       condition: data.condition,
       availabilityEndDate: data.availabilityEndDate,

@@ -9,9 +9,7 @@ export class TagUseCase {
   constructor(private readonly tagRepository: IRepository<ITag, Tag>) {}
 
   async createTag(tag: ITag): Promise<Tag> {
-    const existingTag = await this.tagRepository.findByName(
-      tag.name
-    );
+    const existingTag = await this.tagRepository.findByName(tag.name);
 
     if (existingTag) {
       throw new Error("Tag already exists");
@@ -21,9 +19,11 @@ export class TagUseCase {
     //because it's already done in the Repository
     return this.tagRepository.create(tag);
   }
-
-  async getAll(): Promise<Tag[]> {
-    return this.tagRepository.getAll();
+  async getAll(
+    page: number,
+    pageSize: number
+  ): Promise<{ rows: Tag[]; count: number }> {
+    return this.tagRepository.getAll(page, pageSize);
   }
 
   async getTagById(id: string): Promise<Tag | null> {

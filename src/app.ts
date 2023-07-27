@@ -81,7 +81,7 @@ db.connection();
 // authentication
 app.use("/", authRoutes);
 
-// route  endpoints
+// route  endpoints 
 app.get("/", (req: Request, res: Response) => {
   res.send("Welcome to Rent Kojo REST API");
 });
@@ -99,7 +99,7 @@ app.use("/api/products", productRouter)
 app.use("/api/stores", storeRouter)
 app.use("/api/branches", branchRouter)
 
-mainFunction();
+// mainFunction();
 
 // middleware interceptions
 app.use(errorHandler);

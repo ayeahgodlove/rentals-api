@@ -45,14 +45,20 @@ class CategoriesController {
         }
     }
     async getAll(req, res) {
+        const page = parseInt(req.query.page) || 1;
+        const pageSize = parseInt(req.query.pageSize) || 10;
         try {
-            const categories = await categoryUseCase.getAll();
-            const categoriesDTO = categoryMapper.toDTOs(categories);
+            const { rows, count } = await categoryUseCase.getAll(page, pageSize);
+            const categoriesDTO = categoryMapper.toDTOs(rows);
+            // total pages
+            const totalPages = Math.ceil(count / pageSize);
             res.json({
                 data: categoriesDTO,
                 message: "Success",
                 validationErrors: [],
                 success: true,
+                currentPage: page,
+                totalPages
             });
         }
         catch (error) {

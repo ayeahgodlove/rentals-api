@@ -55,9 +55,10 @@ class CategoryRepository {
     /*
      * Returns an array of Category
      */
-    async getAll() {
+    async getAll(page, pageSize) {
+        const offset = (page - 1) * pageSize;
         try {
-            const categories = await category_1.Category.findAll();
+            const categories = await category_1.Category.findAndCountAll({ limit: pageSize, offset });
             return categories;
         }
         catch (error) {
@@ -73,7 +74,6 @@ class CategoryRepository {
         const { id } = category;
         try {
             const categoryItem = await category_1.Category.findByPk(id);
-            console.log(category);
             if (!categoryItem) {
                 throw new not_found_exception_1.NotFoundException("Category", id.toString());
             }

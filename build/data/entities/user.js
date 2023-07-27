@@ -29,9 +29,10 @@ let User = class User extends sequelize_typescript_1.Model {
     password;
     // verification paramters
     verified;
-    roleId;
     reviews;
     userDoc;
+    // Define the many-to-many association with Role
+    roles;
 };
 __decorate([
     (0, sequelize_typescript_1.Column)({
@@ -88,29 +89,25 @@ __decorate([
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.STRING(13),
-        // allowNull: true,
-        // unique: true,
     }),
     __metadata("design:type", String)
 ], User.prototype, "phoneNumber", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.STRING(13),
-        // allowNull: true,
-        // unique: true,
     }),
     __metadata("design:type", String)
 ], User.prototype, "whatsappNumber", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.STRING(30),
+        type: sequelize_typescript_1.DataType.STRING(100),
         allowNull: true,
     }),
     __metadata("design:type", String)
 ], User.prototype, "city", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.STRING(30),
+        type: sequelize_typescript_1.DataType.STRING(100),
         allowNull: true,
     }),
     __metadata("design:type", String)
@@ -138,12 +135,6 @@ __decorate([
     __metadata("design:type", Boolean)
 ], User.prototype, "verified", void 0);
 __decorate([
-    (0, sequelize_typescript_1.ForeignKey)(() => role_1.Role) // foreign key
-    ,
-    sequelize_typescript_1.Column,
-    __metadata("design:type", String)
-], User.prototype, "roleId", void 0);
-__decorate([
     (0, sequelize_typescript_1.HasMany)(() => review_1.Review),
     __metadata("design:type", Array)
 ], User.prototype, "reviews", void 0);
@@ -151,6 +142,10 @@ __decorate([
     (0, sequelize_typescript_1.HasOne)(() => user_doc_1.UserDoc),
     __metadata("design:type", user_doc_1.UserDoc)
 ], User.prototype, "userDoc", void 0);
+__decorate([
+    (0, sequelize_typescript_1.BelongsToMany)(() => role_1.Role, "UserRole", "userId", "roleId"),
+    __metadata("design:type", Array)
+], User.prototype, "roles", void 0);
 User = __decorate([
     (0, sequelize_typescript_1.Table)({
         timestamps: true,

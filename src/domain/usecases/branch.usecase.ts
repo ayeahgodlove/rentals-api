@@ -1,7 +1,6 @@
 import { Branch } from "../../data/entities/branch";
 import { IRepository } from "../../data/repositories/contracts/repository.base";
 import { IBranch } from "../models/branch";
-import slugify from "slugify";
 export class BranchUseCase {
   /**
    *
@@ -22,22 +21,20 @@ export class BranchUseCase {
     return this.branchRepository.create(branch);
   }
 
-  async getAll(): Promise<Branch[]> {
-    return this.branchRepository.getAll();
+  async getAll(
+    page: number,
+    pageSize: number
+  ): Promise<{ rows: Branch[]; count: number }> {
+    return this.branchRepository.getAll(page, pageSize);
   }
+
 
   async getBranchById(id: string): Promise<Branch | null> {
     return this.branchRepository.findById(id);
   }
 
   async updateBranch(branch: IBranch): Promise<Branch> {
-    const { id, name, address } = branch;
-    const obj: IBranch = {
-      id,
-      name,
-      address
-    };
-    return this.branchRepository.update(obj);
+    return this.branchRepository.update(branch);
   }
 
   async deleteBranch(id: string): Promise<void> {

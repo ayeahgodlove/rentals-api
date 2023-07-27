@@ -58,9 +58,19 @@ export class ReviewRepository implements IRepository<IReview, Review> {
   /*
    * Returns an array of Review
    */
-  async getAll(): Promise<Review[]> {
+  async getAll(
+    page: number,
+    pageSize: number
+  ): Promise<{
+    rows: Review[];
+    count: number;
+  }> {
+    const offset = (page - 1) * pageSize;
     try {
-      const reviews = await Review.findAll();
+      const reviews = await Review.findAndCountAll({
+        limit: pageSize,
+        offset,
+      });
       return reviews;
     } catch (error) {
       throw error;

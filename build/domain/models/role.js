@@ -4,7 +4,4 @@ exports.emptyRole = void 0;
 exports.emptyRole = {
     id: "",
     name: "",
-    slug: "",
-    createdAt: new Date(),
-    updatedAt: new Date(),
 };

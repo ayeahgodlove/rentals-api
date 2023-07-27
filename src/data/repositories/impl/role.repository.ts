@@ -57,9 +57,19 @@ export class RoleRepository implements IRepository<IRole, Role> {
   /*
    * Returns an array of Role
    */
-  async getAll(): Promise<Role[]> {
+  async getAll(
+    page: number,
+    pageSize: number
+  ): Promise<{
+    rows: Role[];
+    count: number;
+  }> {
+    const offset = (page - 1) * pageSize;
     try {
-      const roles = await Role.findAll();
+      const roles = await Role.findAndCountAll({
+        limit: pageSize,
+        offset,
+      });
       return roles;
     } catch (error) {
       throw error;

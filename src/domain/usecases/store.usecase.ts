@@ -22,9 +22,13 @@ export class StoreUseCase {
     return this.storeRepository.create(store);
   }
 
-  async getAll(): Promise<Store[]> {
-    return this.storeRepository.getAll();
+  async getAll(
+    page: number,
+    pageSize: number
+  ): Promise<{ rows: Store[]; count: number }> {
+    return this.storeRepository.getAll(page, pageSize);
   }
+
 
   async getStoreById(id: string): Promise<Store | null> {
     return this.storeRepository.findById(id);

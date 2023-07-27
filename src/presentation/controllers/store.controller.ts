@@ -1,9 +1,5 @@
 import { Request, Response } from "express";
-import {
-  IStore,
-  IStoreResponse,
-  emptyStore,
-} from "../../domain/models/store";
+import { IStore, IStoreResponse, emptyStore } from "../../domain/models/store";
 import { StoreUseCase } from "../../domain/usecases/store.usecase";
 import { StoreRepository } from "../../data/repositories/impl/store.repository";
 import { StoreMapper } from "../mappers/mapper";
@@ -33,9 +29,7 @@ export class StoresController {
       });
     } else {
       try {
-        const storeResponse = await storeUseCase.createStore(
-          dto.toData()
-        );
+        const storeResponse = await storeUseCase.createStore(dto.toData());
 
         res.status(201).json({
           data: storeResponse.toJSON<IStore>(),
@@ -55,15 +49,22 @@ export class StoresController {
   }
 
   async getAll(req: Request, res: Response<any>): Promise<void> {
+    const page = parseInt(req.query.page as string) || 1;
+    const pageSize = parseInt(req.query.pageSize as string) || 10;
     try {
-      const stores = await storeUseCase.getAll();
-      const storesDTO = storeMapper.toDTOs(stores);
+      const { rows, count } = await storeUseCase.getAll(page, pageSize);
+      const storesDTO = storeMapper.toDTOs(rows);
+
+      // total pages
+      const totalPages = Math.ceil(count / pageSize);
 
       res.json({
         data: storesDTO,
         message: "Success",
         validationErrors: [],
         success: true,
+        currentPage: page,
+        totalPages,
       });
     } catch (error: any) {
       res.status(400).json({

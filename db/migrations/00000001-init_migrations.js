@@ -6,16 +6,23 @@ const Sequelize = require('sequelize');
  * Actions summary:
  *
  * createTable "category", deps: []
+ * createTable "user", deps: []
  * createTable "role", deps: []
- * createTable "user", deps: [role]
+ * createTable "store", deps: []
+ * createTable "tag", deps: []
+ * createTable "userDoc", deps: [user]
+ * createTable "branch", deps: [store]
+ * createTable "product", deps: [store]
+ * createTable "productImage", deps: [product]
  * createTable "review", deps: [user]
+ * createTable "UserRole", deps: [user, role]
  *
  **/
 
 const info = {
     "revision": 1,
     "name": "init-migrations",
-    "created": "2023-04-19T06:03:46.403Z",
+    "created": "2023-07-17T11:12:03.205Z",
     "comment": ""
 };
 
@@ -59,7 +66,7 @@ const migrationCommands = [
             [{
                 revision: info.revision,
                 name: info.name,
-                state: '{"revision":1,"tables":{"category":{"tableName":"category","schema":{"id":{"seqType":"Sequelize.STRING(20)","allowNull":false,"primaryKey":true},"name":{"seqType":"Sequelize.STRING(50)","allowNull":false,"unique":true},"slug":{"seqType":"Sequelize.STRING(128)","allowNull":false,"unique":true},"description":{"seqType":"Sequelize.TEXT","allowNull":false},"createdAt":{"seqType":"Sequelize.DATE","allowNull":false},"updatedAt":{"seqType":"Sequelize.DATE","allowNull":false}},"indexes":{}},"user":{"tableName":"user","schema":{"id":{"seqType":"Sequelize.STRING(50)","allowNull":false,"primaryKey":true},"firstname":{"seqType":"Sequelize.STRING(50)","allowNull":false},"lastname":{"seqType":"Sequelize.STRING(50)","allowNull":false},"username":{"seqType":"Sequelize.STRING(50)","allowNull":false,"unique":true},"email":{"seqType":"Sequelize.STRING(50)","allowNull":false,"unique":true},"phoneNumber":{"seqType":"Sequelize.STRING(13)","allowNull":false,"unique":true},"whatsappNumber":{"seqType":"Sequelize.STRING(13)","allowNull":false,"unique":true},"city":{"seqType":"Sequelize.STRING(30)","allowNull":false},"country":{"seqType":"Sequelize.STRING(30)","allowNull":false},"address":{"seqType":"Sequelize.STRING(255)","allowNull":false},"password":{"seqType":"Sequelize.STRING(255)","allowNull":false,"unique":true},"roleId":{"seqType":"Sequelize.STRING","allowNull":true,"references":{"model":"role","key":"id"},"onUpdate":"CASCADE","onDelete":"CASCADE"},"createdAt":{"seqType":"Sequelize.DATE","allowNull":false},"updatedAt":{"seqType":"Sequelize.DATE","allowNull":false}},"indexes":{}},"role":{"tableName":"role","schema":{"id":{"seqType":"Sequelize.STRING(20)","allowNull":false,"primaryKey":true},"name":{"seqType":"Sequelize.STRING(128)","allowNull":false,"unique":true},"slug":{"seqType":"Sequelize.STRING(128)","allowNull":false,"unique":true},"createdAt":{"seqType":"Sequelize.DATE","allowNull":false},"updatedAt":{"seqType":"Sequelize.DATE","allowNull":false}},"indexes":{}},"review":{"tableName":"review","schema":{"id":{"seqType":"Sequelize.STRING(50)","allowNull":false,"primaryKey":true},"userId":{"seqType":"Sequelize.STRING","allowNull":true,"references":{"model":"user","key":"id"},"onUpdate":"CASCADE","onDelete":"CASCADE"},"comment":{"seqType":"Sequelize.TEXT","allowNull":false},"rating":{"seqType":"Sequelize.INTEGER","allowNull":false},"createdAt":{"seqType":"Sequelize.DATE","allowNull":false},"updatedAt":{"seqType":"Sequelize.DATE","allowNull":false}},"indexes":{}}}}'
+                state: '{"revision":1,"tables":{"category":{"tableName":"category","schema":{"id":{"seqType":"Sequelize.STRING(20)","allowNull":false,"primaryKey":true},"name":{"seqType":"Sequelize.STRING(50)","allowNull":false,"unique":true},"slug":{"seqType":"Sequelize.STRING(128)","allowNull":false,"unique":true},"description":{"seqType":"Sequelize.TEXT","allowNull":false},"createdAt":{"seqType":"Sequelize.DATE","allowNull":false},"updatedAt":{"seqType":"Sequelize.DATE","allowNull":false},"deletedAt":{"seqType":"Sequelize.DATE"}},"indexes":{}},"user":{"tableName":"user","schema":{"id":{"seqType":"Sequelize.STRING(50)","allowNull":false,"primaryKey":true},"authStrategy":{"seqType":"Sequelize.STRING(10)","allowNull":false},"firstname":{"seqType":"Sequelize.STRING(50)","allowNull":true},"lastname":{"seqType":"Sequelize.STRING(50)","allowNull":true},"username":{"seqType":"Sequelize.STRING(50)","allowNull":false,"unique":true},"avatar":{"seqType":"Sequelize.STRING(255)","allowNull":true},"email":{"seqType":"Sequelize.STRING(50)","allowNull":false,"unique":true},"phoneNumber":{"seqType":"Sequelize.STRING(13)"},"whatsappNumber":{"seqType":"Sequelize.STRING(13)"},"city":{"seqType":"Sequelize.STRING(100)","allowNull":true},"country":{"seqType":"Sequelize.STRING(100)","allowNull":true},"address":{"seqType":"Sequelize.STRING(255)","allowNull":true},"password":{"seqType":"Sequelize.STRING(255)","allowNull":true,"unique":true},"verified":{"seqType":"Sequelize.BOOLEAN"},"createdAt":{"seqType":"Sequelize.DATE","allowNull":false},"updatedAt":{"seqType":"Sequelize.DATE","allowNull":false},"deletedAt":{"seqType":"Sequelize.DATE"}},"indexes":{}},"userDoc":{"tableName":"userDoc","schema":{"id":{"seqType":"Sequelize.STRING(20)","allowNull":false,"primaryKey":true},"userId":{"seqType":"Sequelize.STRING","allowNull":true,"references":{"model":"user","key":"id"},"onUpdate":"CASCADE","onDelete":"CASCADE"},"idCard1":{"seqType":"Sequelize.STRING(128)","allowNull":false,"unique":true},"idCard2":{"seqType":"Sequelize.STRING(128)","allowNull":false,"unique":true},"passportPhoto":{"seqType":"Sequelize.STRING(128)","allowNull":false,"unique":true},"createdAt":{"seqType":"Sequelize.DATE","allowNull":false},"updatedAt":{"seqType":"Sequelize.DATE","allowNull":false},"deletedAt":{"seqType":"Sequelize.DATE"}},"indexes":{}},"role":{"tableName":"role","schema":{"id":{"seqType":"Sequelize.STRING(20)","allowNull":false,"primaryKey":true},"name":{"seqType":"Sequelize.STRING(128)","allowNull":false,"unique":true},"createdAt":{"seqType":"Sequelize.DATE","allowNull":false},"updatedAt":{"seqType":"Sequelize.DATE","allowNull":false},"deletedAt":{"seqType":"Sequelize.DATE"}},"indexes":{}},"branch":{"tableName":"branch","schema":{"id":{"seqType":"Sequelize.STRING(20)","allowNull":false,"primaryKey":true},"storeId":{"seqType":"Sequelize.STRING","allowNull":true,"references":{"model":"store","key":"id"},"onUpdate":"CASCADE","onDelete":"NO ACTION"},"name":{"seqType":"Sequelize.STRING(128)","allowNull":false,"unique":true},"town":{"seqType":"Sequelize.STRING(128)","allowNull":false},"address":{"seqType":"Sequelize.STRING(255)","allowNull":false},"createdAt":{"seqType":"Sequelize.DATE","allowNull":false},"updatedAt":{"seqType":"Sequelize.DATE","allowNull":false},"deletedAt":{"seqType":"Sequelize.DATE"}},"indexes":{}},"store":{"tableName":"store","schema":{"id":{"seqType":"Sequelize.STRING(20)","allowNull":false,"primaryKey":true},"name":{"seqType":"Sequelize.STRING(50)","allowNull":false,"unique":true},"location":{"seqType":"Sequelize.STRING(255)","allowNull":false,"unique":false},"imageBannerUrl":{"seqType":"Sequelize.STRING(255)","allowNull":false,"unique":true},"createdAt":{"seqType":"Sequelize.DATE","allowNull":false},"updatedAt":{"seqType":"Sequelize.DATE","allowNull":false},"deletedAt":{"seqType":"Sequelize.DATE"}},"indexes":{}},"product":{"tableName":"product","schema":{"id":{"seqType":"Sequelize.STRING(20)","allowNull":false,"primaryKey":true},"storeId":{"seqType":"Sequelize.STRING","allowNull":true,"references":{"model":"store","key":"id"},"onUpdate":"CASCADE","onDelete":"CASCADE"},"name":{"seqType":"Sequelize.STRING(128)","allowNull":false,"unique":true},"amount":{"seqType":"Sequelize.DECIMAL","allowNull":false},"description":{"seqType":"Sequelize.STRING(255)","allowNull":false},"longDescription":{"seqType":"Sequelize.TEXT","allowNull":false},"durationOfRentage":{"seqType":"Sequelize.INTEGER","allowNull":false},"condition":{"seqType":"Sequelize.STRING(255)","allowNull":false},"availabilityStartDate":{"seqType":"Sequelize.DATE"},"availabilityEndDate":{"seqType":"Sequelize.DATE"},"availabilityStartTime":{"seqType":"Sequelize.DATE"},"availabilityEndTime":{"seqType":"Sequelize.DATE"},"createdAt":{"seqType":"Sequelize.DATE","allowNull":false},"updatedAt":{"seqType":"Sequelize.DATE","allowNull":false},"deletedAt":{"seqType":"Sequelize.DATE"}},"indexes":{}},"productImage":{"tableName":"productImage","schema":{"id":{"seqType":"Sequelize.STRING(20)","allowNull":false,"primaryKey":true},"productId":{"seqType":"Sequelize.STRING","allowNull":true,"references":{"model":"product","key":"id"},"onUpdate":"CASCADE","onDelete":"CASCADE"},"productName":{"seqType":"Sequelize.STRING(255)","allowNull":false},"imageUrl":{"seqType":"Sequelize.STRING(255)","allowNull":false,"unique":true},"createdAt":{"seqType":"Sequelize.DATE","allowNull":false},"updatedAt":{"seqType":"Sequelize.DATE","allowNull":false},"deletedAt":{"seqType":"Sequelize.DATE"}},"indexes":{}},"review":{"tableName":"review","schema":{"id":{"seqType":"Sequelize.STRING(20)","allowNull":false,"primaryKey":true},"userId":{"seqType":"Sequelize.STRING","allowNull":true,"references":{"model":"user","key":"id"},"onUpdate":"CASCADE","onDelete":"CASCADE"},"comment":{"seqType":"Sequelize.TEXT","allowNull":false},"rating":{"seqType":"Sequelize.INTEGER","allowNull":false},"createdAt":{"seqType":"Sequelize.DATE","allowNull":false},"updatedAt":{"seqType":"Sequelize.DATE","allowNull":false},"deletedAt":{"seqType":"Sequelize.DATE"}},"indexes":{}},"tag":{"tableName":"tag","schema":{"id":{"seqType":"Sequelize.STRING(20)","allowNull":false,"primaryKey":true},"name":{"seqType":"Sequelize.STRING(50)","allowNull":false,"unique":true},"createdAt":{"seqType":"Sequelize.DATE","allowNull":false},"updatedAt":{"seqType":"Sequelize.DATE","allowNull":false},"deletedAt":{"seqType":"Sequelize.DATE"}},"indexes":{}},"UserRole":{"tableName":"UserRole","schema":{"createdAt":{"seqType":"Sequelize.DATE","allowNull":false},"updatedAt":{"seqType":"Sequelize.DATE","allowNull":false},"userId":{"seqType":"Sequelize.STRING(50)","primaryKey":true,"references":{"model":"user","key":"id"},"onUpdate":"CASCADE","onDelete":"CASCADE"},"roleId":{"seqType":"Sequelize.STRING(20)","primaryKey":true,"references":{"model":"role","key":"id"},"onUpdate":"CASCADE","onDelete":"CASCADE"}},"indexes":{}}}}'
             }],
             {}
         ]
@@ -99,6 +106,87 @@ const migrationCommands = [
                 "updatedAt": {
                     "allowNull": false,
                     "type": Sequelize.DATE
+                },
+                "deletedAt": {
+                    "type": Sequelize.DATE
+                }
+            },
+            {}
+        ]
+    },
+
+    {
+        fn: "createTable",
+        params: [
+            "user",
+            {
+                "id": {
+                    "primaryKey": true,
+                    "allowNull": false,
+                    "type": Sequelize.STRING(50)
+                },
+                "authStrategy": {
+                    "allowNull": false,
+                    "type": Sequelize.STRING(10)
+                },
+                "firstname": {
+                    "allowNull": true,
+                    "type": Sequelize.STRING(50)
+                },
+                "lastname": {
+                    "allowNull": true,
+                    "type": Sequelize.STRING(50)
+                },
+                "username": {
+                    "unique": true,
+                    "allowNull": false,
+                    "type": Sequelize.STRING(50)
+                },
+                "avatar": {
+                    "allowNull": true,
+                    "type": Sequelize.STRING(255)
+                },
+                "email": {
+                    "unique": true,
+                    "allowNull": false,
+                    "type": Sequelize.STRING(50)
+                },
+                "phoneNumber": {
+                    "type": Sequelize.STRING(13)
+                },
+                "whatsappNumber": {
+                    "type": Sequelize.STRING(13)
+                },
+                "city": {
+                    "allowNull": true,
+                    "type": Sequelize.STRING(100)
+                },
+                "country": {
+                    "allowNull": true,
+                    "type": Sequelize.STRING(100)
+                },
+                "address": {
+                    "allowNull": true,
+                    "type": Sequelize.STRING(255)
+                },
+                "password": {
+                    "unique": true,
+                    "allowNull": true,
+                    "type": Sequelize.STRING(255)
+                },
+                "verified": {
+                    "type": Sequelize.BOOLEAN
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "type": Sequelize.DATE
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "type": Sequelize.DATE
+                },
+                "deletedAt": {
+                    "type": Sequelize.DATE
                 }
             },
             {}
@@ -120,7 +208,125 @@ const migrationCommands = [
                     "allowNull": false,
                     "type": Sequelize.STRING(128)
                 },
-                "slug": {
+                "createdAt": {
+                    "allowNull": false,
+                    "type": Sequelize.DATE
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "type": Sequelize.DATE
+                },
+                "deletedAt": {
+                    "type": Sequelize.DATE
+                }
+            },
+            {}
+        ]
+    },
+
+    {
+        fn: "createTable",
+        params: [
+            "store",
+            {
+                "id": {
+                    "primaryKey": true,
+                    "allowNull": false,
+                    "type": Sequelize.STRING(20)
+                },
+                "name": {
+                    "unique": true,
+                    "allowNull": false,
+                    "type": Sequelize.STRING(50)
+                },
+                "location": {
+                    "unique": false,
+                    "allowNull": false,
+                    "type": Sequelize.STRING(255)
+                },
+                "imageBannerUrl": {
+                    "unique": true,
+                    "allowNull": false,
+                    "type": Sequelize.STRING(255)
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "type": Sequelize.DATE
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "type": Sequelize.DATE
+                },
+                "deletedAt": {
+                    "type": Sequelize.DATE
+                }
+            },
+            {}
+        ]
+    },
+
+    {
+        fn: "createTable",
+        params: [
+            "tag",
+            {
+                "id": {
+                    "primaryKey": true,
+                    "allowNull": false,
+                    "type": Sequelize.STRING(20)
+                },
+                "name": {
+                    "unique": true,
+                    "allowNull": false,
+                    "type": Sequelize.STRING(50)
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "type": Sequelize.DATE
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "type": Sequelize.DATE
+                },
+                "deletedAt": {
+                    "type": Sequelize.DATE
+                }
+            },
+            {}
+        ]
+    },
+
+    {
+        fn: "createTable",
+        params: [
+            "userDoc",
+            {
+                "id": {
+                    "primaryKey": true,
+                    "allowNull": false,
+                    "type": Sequelize.STRING(20)
+                },
+                "userId": {
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "references": {
+                        "model": "user",
+                        "key": "id"
+                    },
+                    "allowNull": true,
+                    "type": Sequelize.STRING
+                },
+                "idCard1": {
+                    "unique": true,
+                    "allowNull": false,
+                    "type": Sequelize.STRING(128)
+                },
+                "idCard2": {
+                    "unique": true,
+                    "allowNull": false,
+                    "type": Sequelize.STRING(128)
+                },
+                "passportPhoto": {
                     "unique": true,
                     "allowNull": false,
                     "type": Sequelize.STRING(128)
@@ -132,6 +338,9 @@ const migrationCommands = [
                 "updatedAt": {
                     "allowNull": false,
                     "type": Sequelize.DATE
+                },
+                "deletedAt": {
+                    "type": Sequelize.DATE
                 }
             },
             {}
@@ -141,67 +350,35 @@ const migrationCommands = [
     {
         fn: "createTable",
         params: [
-            "user",
+            "branch",
             {
                 "id": {
                     "primaryKey": true,
                     "allowNull": false,
-                    "type": Sequelize.STRING(50)
+                    "type": Sequelize.STRING(20)
                 },
-                "firstname": {
-                    "allowNull": false,
-                    "type": Sequelize.STRING(50)
-                },
-                "lastname": {
-                    "allowNull": false,
-                    "type": Sequelize.STRING(50)
-                },
-                "username": {
-                    "unique": true,
-                    "allowNull": false,
-                    "type": Sequelize.STRING(50)
-                },
-                "email": {
-                    "unique": true,
-                    "allowNull": false,
-                    "type": Sequelize.STRING(50)
-                },
-                "phoneNumber": {
-                    "unique": true,
-                    "allowNull": false,
-                    "type": Sequelize.STRING(13)
-                },
-                "whatsappNumber": {
-                    "unique": true,
-                    "allowNull": false,
-                    "type": Sequelize.STRING(13)
-                },
-                "city": {
-                    "allowNull": false,
-                    "type": Sequelize.STRING(30)
-                },
-                "country": {
-                    "allowNull": false,
-                    "type": Sequelize.STRING(30)
-                },
-                "address": {
-                    "allowNull": false,
-                    "type": Sequelize.STRING(255)
-                },
-                "password": {
-                    "unique": true,
-                    "allowNull": false,
-                    "type": Sequelize.STRING(255)
-                },
-                "roleId": {
-                    "onDelete": "CASCADE",
+                "storeId": {
+                    "onDelete": "NO ACTION",
                     "onUpdate": "CASCADE",
                     "references": {
-                        "model": "role",
+                        "model": "store",
                         "key": "id"
                     },
                     "allowNull": true,
                     "type": Sequelize.STRING
+                },
+                "name": {
+                    "unique": true,
+                    "allowNull": false,
+                    "type": Sequelize.STRING(128)
+                },
+                "town": {
+                    "allowNull": false,
+                    "type": Sequelize.STRING(128)
+                },
+                "address": {
+                    "allowNull": false,
+                    "type": Sequelize.STRING(255)
                 },
                 "createdAt": {
                     "allowNull": false,
@@ -209,6 +386,127 @@ const migrationCommands = [
                 },
                 "updatedAt": {
                     "allowNull": false,
+                    "type": Sequelize.DATE
+                },
+                "deletedAt": {
+                    "type": Sequelize.DATE
+                }
+            },
+            {}
+        ]
+    },
+
+    {
+        fn: "createTable",
+        params: [
+            "product",
+            {
+                "id": {
+                    "primaryKey": true,
+                    "allowNull": false,
+                    "type": Sequelize.STRING(20)
+                },
+                "storeId": {
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "references": {
+                        "model": "store",
+                        "key": "id"
+                    },
+                    "allowNull": true,
+                    "type": Sequelize.STRING
+                },
+                "name": {
+                    "unique": true,
+                    "allowNull": false,
+                    "type": Sequelize.STRING(128)
+                },
+                "amount": {
+                    "allowNull": false,
+                    "type": Sequelize.DECIMAL
+                },
+                "description": {
+                    "allowNull": false,
+                    "type": Sequelize.STRING(255)
+                },
+                "longDescription": {
+                    "allowNull": false,
+                    "type": Sequelize.TEXT
+                },
+                "durationOfRentage": {
+                    "allowNull": false,
+                    "type": Sequelize.INTEGER
+                },
+                "condition": {
+                    "allowNull": false,
+                    "type": Sequelize.STRING(255)
+                },
+                "availabilityStartDate": {
+                    "type": Sequelize.DATE
+                },
+                "availabilityEndDate": {
+                    "type": Sequelize.DATE
+                },
+                "availabilityStartTime": {
+                    "type": Sequelize.DATE
+                },
+                "availabilityEndTime": {
+                    "type": Sequelize.DATE
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "type": Sequelize.DATE
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "type": Sequelize.DATE
+                },
+                "deletedAt": {
+                    "type": Sequelize.DATE
+                }
+            },
+            {}
+        ]
+    },
+
+    {
+        fn: "createTable",
+        params: [
+            "productImage",
+            {
+                "id": {
+                    "primaryKey": true,
+                    "allowNull": false,
+                    "type": Sequelize.STRING(20)
+                },
+                "productId": {
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "references": {
+                        "model": "product",
+                        "key": "id"
+                    },
+                    "allowNull": true,
+                    "type": Sequelize.STRING
+                },
+                "productName": {
+                    "allowNull": false,
+                    "type": Sequelize.STRING(255)
+                },
+                "imageUrl": {
+                    "unique": true,
+                    "allowNull": false,
+                    "type": Sequelize.STRING(255)
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "type": Sequelize.DATE
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "type": Sequelize.DATE
+                },
+                "deletedAt": {
                     "type": Sequelize.DATE
                 }
             },
@@ -224,7 +522,7 @@ const migrationCommands = [
                 "id": {
                     "primaryKey": true,
                     "allowNull": false,
-                    "type": Sequelize.STRING(50)
+                    "type": Sequelize.STRING(20)
                 },
                 "userId": {
                     "onDelete": "CASCADE",
@@ -251,6 +549,47 @@ const migrationCommands = [
                 "updatedAt": {
                     "allowNull": false,
                     "type": Sequelize.DATE
+                },
+                "deletedAt": {
+                    "type": Sequelize.DATE
+                }
+            },
+            {}
+        ]
+    },
+
+    {
+        fn: "createTable",
+        params: [
+            "UserRole",
+            {
+                "createdAt": {
+                    "allowNull": false,
+                    "type": Sequelize.DATE
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "type": Sequelize.DATE
+                },
+                "userId": {
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "references": {
+                        "model": "user",
+                        "key": "id"
+                    },
+                    "primaryKey": true,
+                    "type": Sequelize.STRING(50)
+                },
+                "roleId": {
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "references": {
+                        "model": "role",
+                        "key": "id"
+                    },
+                    "primaryKey": true,
+                    "type": Sequelize.STRING(20)
                 }
             },
             {}
@@ -275,7 +614,19 @@ const rollbackCommands = [
 
     {
         fn: "dropTable",
-        params: ["user"]
+        params: ["userDoc"]
+    },
+    {
+        fn: "dropTable",
+        params: ["branch"]
+    },
+    {
+        fn: "dropTable",
+        params: ["product"]
+    },
+    {
+        fn: "dropTable",
+        params: ["productImage"]
     },
     {
         fn: "dropTable",
@@ -283,11 +634,27 @@ const rollbackCommands = [
     },
     {
         fn: "dropTable",
+        params: ["UserRole"]
+    },
+    {
+        fn: "dropTable",
         params: ["category"]
     },
     {
         fn: "dropTable",
+        params: ["user"]
+    },
+    {
+        fn: "dropTable",
         params: ["role"]
+    },
+    {
+        fn: "dropTable",
+        params: ["store"]
+    },
+    {
+        fn: "dropTable",
+        params: ["tag"]
     }
 ];
 

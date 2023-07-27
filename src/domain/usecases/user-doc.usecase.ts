@@ -21,8 +21,11 @@ export class UserDocUseCase {
     return this.userDocRepository.create(userDoc);
   }
 
-  async getAll(): Promise<UserDoc[]> {
-    return this.userDocRepository.getAll();
+  async getAll(
+    page: number,
+    pageSize: number
+  ): Promise<{ rows: UserDoc[]; count: number }> {
+    return this.userDocRepository.getAll(page, pageSize);
   }
 
   async getUserDocById(id: string): Promise<UserDoc | null> {

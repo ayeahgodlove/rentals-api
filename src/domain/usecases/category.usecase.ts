@@ -6,7 +6,9 @@ export class CategoryUseCase {
   /**
    *
    */
-  constructor(private readonly categoryRepository: IRepository<ICategory, Category>) {}
+  constructor(
+    private readonly categoryRepository: IRepository<ICategory, Category>
+  ) {}
 
   async createCategory(category: ICategory): Promise<Category> {
     const existingCategory = await this.categoryRepository.findByName(
@@ -22,8 +24,11 @@ export class CategoryUseCase {
     return this.categoryRepository.create(category);
   }
 
-  async getAll(): Promise<Category[]> {
-    return this.categoryRepository.getAll();
+  async getAll(
+    page: number,
+    pageSize: number
+  ): Promise<{ rows: Category[]; count: number }> {
+    return this.categoryRepository.getAll(page, pageSize);
   }
 
   async getCategoryById(id: string): Promise<Category | null> {

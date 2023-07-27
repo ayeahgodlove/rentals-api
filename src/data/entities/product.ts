@@ -16,7 +16,7 @@ import { Store } from "./store";
   paranoid: true,
   tableName: "product",
   modelName: "Product",
-})
+}) 
 export class Product extends Model<IProduct> {
   @Column({
     type: DataType.STRING(20),
@@ -35,6 +35,14 @@ export class Product extends Model<IProduct> {
     unique: true,
   })
   name!: string;
+
+  @Column({
+    type: DataType.DECIMAL,
+    allowNull: false,
+    defaultValue: 0,
+  })
+  amount!: number;
+
   @Column({
     type: DataType.STRING(255),
     allowNull: false,
@@ -47,13 +55,9 @@ export class Product extends Model<IProduct> {
   longDescription!: string;
 
   @Column({
-    type: DataType.NUMBER,
+    type: DataType.INTEGER,
     allowNull: false,
-  })
-  price!: number;
-  @Column({
-    type: DataType.NUMBER,
-    allowNull: false,
+    defaultValue: 0,
   })
   durationOfRentage!: number;
 

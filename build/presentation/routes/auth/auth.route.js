@@ -10,40 +10,57 @@ const authz_middleware_1 = __importDefault(require("../../../shared/middlewares/
 const authRoutes = (0, express_1.Router)();
 exports.authRoutes = authRoutes;
 // redirect to google sign in page
-authRoutes.get("/oauth/google", authz_middleware_1.default.authenticate("google", {
-    scope: ["profile", "email"],
-}));
+// authRoutes.get(
+//   "/oauth/google",
+//   Passport.authenticate("google", {
+//     scope: ["profile", "email"],
+//   })
+// );
 //redirect user to the success or failure page from google sign in page
-authRoutes.get("/oauth2/redirect/google", authz_middleware_1.default.authenticate("google", {
-    failureRedirect: "/auth/failure",
-    failureMessage: true,
-}), (req, res) => {
-    res.redirect("http://localhost:3000/");
-});
+// authRoutes.get(
+//   "/oauth2/redirect/google",
+//   Passport.authenticate("google", {
+//     failureRedirect: "/auth/failure",
+//     failureMessage: true,
+//   }),
+//   (req, res) => {
+//     res.redirect("http://localhost:3000/");
+//   }
+// );
 //redirect user to facebook login page
-authRoutes.get("/auth/facebook", authz_middleware_1.default.authenticate("facebook", {
-    scope: ["public_profile", "email"],
-}));
+// authRoutes.get(
+//   "/auth/facebook",
+//   Passport.authenticate("facebook", {
+//     scope: ["public_profile", "email"],
+//   })
+// );
 //redirect user from facebook login page to success or failure login page
-authRoutes.get("/oauth2/redirect/facebook", authz_middleware_1.default.authenticate("facebook", {
-    failureRedirect: "/auth/failure",
-    failureMessage: true,
-}), (req, res) => {
-    res.redirect("http://localhost:3000/");
-});
+// authRoutes.get(
+//   "/oauth2/redirect/facebook",
+//   Passport.authenticate("facebook", {
+//     failureRedirect: "/auth/failure",
+//     failureMessage: true,
+//   }),
+//   (req, res) => {
+//     res.redirect("http://localhost:3000/");
+//   }
+// );
 // console.log(authRoutes)
 authRoutes.post("/auth/login", authz_middleware_1.default.authenticate("local-auth"), (req, res) => {
     try {
         res.status(200).json({
             success: true,
             message: "Login Successfully!",
-            data: req.user
+            data: req.user,
+            validationErrors: []
         });
     }
     catch (error) {
         res.status(500).json({
             success: false,
-            message: "Login Failed",
+            message: error.message,
+            data: null,
+            validationErrors: []
         });
     }
 });

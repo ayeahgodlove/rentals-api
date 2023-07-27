@@ -3,24 +3,27 @@ import { IBaseResponse } from "./base-response";
 export interface IProduct {
   id: string;
   name: string;
+  storeId: string;
+  amount: number;
+
   description: string;
   longDescription: string;
-  price: number;
+  
   durationOfRentage: number;
   condition: string;
   availabilityStartDate: Date;
   availabilityEndDate: Date;
   availabilityStartTime: Date;
   availabilityEndTime: Date;
- 
 }
 
 export const emptyProduct: IProduct = {
   id: "",
   name: "",
+  storeId: "",
   description: "",
   longDescription: "",
-  price: 0,
+  amount: 0,
   durationOfRentage: 0,
   condition: "",
   availabilityStartDate: new Date(),

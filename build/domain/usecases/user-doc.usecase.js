@@ -18,8 +18,8 @@ class UserDocUseCase {
         //because it's already done in the Repository
         return this.userDocRepository.create(userDoc);
     }
-    async getAll() {
-        return this.userDocRepository.getAll();
+    async getAll(page, pageSize) {
+        return this.userDocRepository.getAll(page, pageSize);
     }
     async getUserDocById(id) {
         return this.userDocRepository.findById(id);

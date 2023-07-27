@@ -20,7 +20,7 @@ let Review = class Review extends sequelize_typescript_1.Model {
 };
 __decorate([
     (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.STRING(50),
+        type: sequelize_typescript_1.DataType.STRING(20),
         allowNull: false,
         primaryKey: true,
     }),
