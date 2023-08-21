@@ -20,6 +20,12 @@ export class StoresController {
     const dto = new StoreRequestDto(req.body);
     const validationErrors = await validate(dto);
 
+    const { filename  } = req.file as Express.Multer.File;
+
+    if (!filename ) {
+      throw new Error("Please select file!");
+    }
+
     if (validationErrors.length > 0) {
       res.status(400).json({
         validationErrors: displayValidationErrors(validationErrors) as any,
@@ -29,7 +35,7 @@ export class StoresController {
       });
     } else {
       try {
-        const storeResponse = await storeUseCase.createStore(dto.toData());
+        const storeResponse = await storeUseCase.createStore(dto.toData(filename));
 
         res.status(201).json({
           data: storeResponse.toJSON<IStore>(),
