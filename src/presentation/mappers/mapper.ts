@@ -20,6 +20,8 @@ import { Product } from "../../data/entities/product";
 import { IProduct } from "../../domain/models/product";
 import { ProductImage } from "../../data/entities/product-image";
 import { IProductImage } from "../../domain/models/product-image";
+import { SubCategory } from "../../data/entities/sub-category";
+import { ISubCategory } from "../../domain/models/sub-category";
 
 export class CategoryMapper {
   toDTO(category: Category): ICategory {
@@ -32,6 +34,20 @@ export class CategoryMapper {
       return entity;
     });
     return _categories;
+  }
+}
+
+export class SubCategoryMapper {
+  toDTO(subCategory: SubCategory): ISubCategory {
+    const entity = subCategory.toJSON<ISubCategory>();
+    return entity;
+  }
+  toDTOs(subCategories: SubCategory[]): ISubCategory[] {
+    const _subCategories = subCategories.map((subCategory) => {
+      const entity = subCategory.toJSON<ISubCategory>();
+      return entity;
+    });
+    return _subCategories;
   }
 }
 

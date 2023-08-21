@@ -1,11 +1,11 @@
 // src/presentation/dtos/category-request.dto.ts
 
 import {  IsNotEmpty, IsString, Length } from "class-validator";
-import { ICategory, emptyCategory } from "../../domain/models/category";
 import slugify from "slugify";
 import { nanoid } from "nanoid";
+import { ISubCategory, emptySubCategory } from "../../domain/models/sub-category";
 
-export class CategoryRequestDto {
+export class SubCategoryRequestDto {
   @IsNotEmpty()
   @IsString()
   @Length(4, 25)
@@ -15,14 +15,14 @@ export class CategoryRequestDto {
   @IsString()
   description: string;
 
-  constructor(data: ICategory) {
+  constructor(data: ISubCategory) {
     this.name = data.name;
     this.description = data.description;
   }
 
-  toData(): ICategory {
+  toData(): ISubCategory {
     return {
-      ...emptyCategory,
+      ...emptySubCategory,
       id: nanoid(10),
       slug:  slugify(this.name, {lower: true, replacement: "-"}),
       name: this.name,
@@ -30,14 +30,12 @@ export class CategoryRequestDto {
     };
   }
 
-  toUpdateData(data: ICategory): ICategory {
+  toUpdateData(data: ISubCategory): ISubCategory {
     return {
       id: data.id,
       name: data.name,
       slug: data.slug,
       description: data.description,
-      createdAt: data.createdAt,
-      updatedAt: data.updatedAt
     }
   }
 }
