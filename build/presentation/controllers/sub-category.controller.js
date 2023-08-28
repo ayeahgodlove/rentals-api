@@ -1,25 +1,21 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.StoresController = void 0;
-const store_1 = require("../../domain/models/store");
-const store_usecase_1 = require("../../domain/usecases/store.usecase");
-const store_repository_1 = require("../../data/repositories/impl/store.repository");
+exports.SubCategoriesController = void 0;
+const sub_category_1 = require("../../domain/models/sub-category");
+const sub_category_usecase_1 = require("../../domain/usecases/sub-category.usecase");
+const sub_category_repository_1 = require("../../data/repositories/impl/sub-category.repository");
 const mapper_1 = require("../mappers/mapper");
-const store_request_dto_1 = require("../dtos/store-request.dto");
+const sub_category_request_dto_1 = require("../dtos/sub-category-request.dto");
 const class_validator_1 = require("class-validator");
 const displayValidationErrors_1 = require("../../utils/displayValidationErrors");
 const not_found_exception_1 = require("../../shared/exceptions/not-found.exception");
-const storeRepository = new store_repository_1.StoreRepository();
-const storeUseCase = new store_usecase_1.StoreUseCase(storeRepository);
-const storeMapper = new mapper_1.StoreMapper();
-class StoresController {
-    async createStore(req, res) {
-        const dto = new store_request_dto_1.StoreRequestDto(req.body);
+const subCategoryRepository = new sub_category_repository_1.SubCategoryRepository();
+const subCategoryUseCase = new sub_category_usecase_1.SubCategoryUseCase(subCategoryRepository);
+const subCategoryMapper = new mapper_1.SubCategoryMapper();
+class SubCategoriesController {
+    async createSubCategory(req, res) {
+        const dto = new sub_category_request_dto_1.SubCategoryRequestDto(req.body);
         const validationErrors = await (0, class_validator_1.validate)(dto);
-        const { filename } = req.file;
-        if (!filename) {
-            throw new Error("Please select file!");
-        }
         if (validationErrors.length > 0) {
             res.status(400).json({
                 validationErrors: (0, displayValidationErrors_1.displayValidationErrors)(validationErrors),
@@ -30,10 +26,10 @@ class StoresController {
         }
         else {
             try {
-                const storeResponse = await storeUseCase.createStore(dto.toData(filename));
+                const categoryResponse = await subCategoryUseCase.createSubCategory(dto.toData());
                 res.status(201).json({
-                    data: storeResponse.toJSON(),
-                    message: "Store created Successfully!",
+                    data: categoryResponse.toJSON(),
+                    message: "SubCategory created Successfully!",
                     validationErrors: [],
                     success: true,
                 });
@@ -52,17 +48,17 @@ class StoresController {
         const page = parseInt(req.query.page) || 1;
         const pageSize = parseInt(req.query.pageSize) || 10;
         try {
-            const { rows, count } = await storeUseCase.getAll(page, pageSize);
-            const storesDTO = storeMapper.toDTOs(rows);
+            const { rows, count } = await subCategoryUseCase.getAll(page, pageSize);
+            const subCategoriesDTO = subCategoryMapper.toDTOs(rows);
             // total pages
             const totalPages = Math.ceil(count / pageSize);
             res.json({
-                data: storesDTO,
+                data: subCategoriesDTO,
                 message: "Success",
                 validationErrors: [],
                 success: true,
                 currentPage: page,
-                totalPages,
+                totalPages
             });
         }
         catch (error) {
@@ -74,16 +70,16 @@ class StoresController {
             });
         }
     }
-    async getStoreById(req, res) {
+    async getSubCategoryById(req, res) {
         try {
             const id = req.params.id;
-            const store = await storeUseCase.getStoreById(id);
-            if (!store) {
-                throw new not_found_exception_1.NotFoundException("Store", id);
+            const subCategory = await subCategoryUseCase.getSubCategoryById(id);
+            if (!subCategory) {
+                throw new not_found_exception_1.NotFoundException("SubCategory", id);
             }
-            const storeDTO = storeMapper.toDTO(store);
+            const subCategoryDTO = subCategoryMapper.toDTO(subCategory);
             res.json({
-                data: storeDTO,
+                data: subCategoryDTO,
                 message: "Success",
                 validationErrors: [],
                 success: true,
@@ -98,8 +94,8 @@ class StoresController {
             });
         }
     }
-    async updateStore(req, res) {
-        const dto = new store_request_dto_1.StoreRequestDto(req.body);
+    async updateSubCategory(req, res) {
+        const dto = new sub_category_request_dto_1.SubCategoryRequestDto(req.body);
         const validationErrors = await (0, class_validator_1.validate)(dto);
         if (validationErrors.length > 0) {
             res.status(400).json({
@@ -113,15 +109,15 @@ class StoresController {
             try {
                 const id = req.params.id;
                 const obj = {
-                    ...store_1.emptyStore,
+                    ...sub_category_1.emptySubCategory,
                     ...req.body,
                     id: id,
                 };
-                const updatedStore = await storeUseCase.updateStore(obj);
-                const storeDto = storeMapper.toDTO(updatedStore);
+                const updatedSubCategory = await subCategoryUseCase.updateSubCategory(obj);
+                const subCategoryDto = subCategoryMapper.toDTO(updatedSubCategory);
                 res.json({
-                    data: storeDto,
-                    message: "Store Updated Successfully!",
+                    data: subCategoryDto,
+                    message: "SubCategory Updated Successfully!",
                     validationErrors: [],
                     success: true,
                 });
@@ -136,10 +132,10 @@ class StoresController {
             }
         }
     }
-    async deleteStore(req, res) {
+    async deleteSubCategory(req, res) {
         try {
             const id = req.params.id;
-            await storeUseCase.deleteStore(id);
+            await subCategoryUseCase.deleteSubCategory(id);
             res.status(204).json({
                 message: `Operation successfully completed!`,
                 validationErrors: [],
@@ -157,4 +153,4 @@ class StoresController {
         }
     }
 }
-exports.StoresController = StoresController;
+exports.SubCategoriesController = SubCategoriesController;

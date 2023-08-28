@@ -15,24 +15,24 @@ export class StoreRequestDto {
   @Length(4, 128)
   location: string;
 
-  @IsNotEmpty()
-  @IsString()
-  @Length(4, 255)
-  imageBannerUrl: string;
+  // @IsNotEmpty()
+  // @IsString()
+  // @Length(4, 255)
+  // imageBannerUrl: string;
 
   constructor(data: IStore) {
     this.name = data.name;
     this.location = data.location;
-    this.imageBannerUrl = data.imageBannerUrl;
+    // this.imageBannerUrl = data.imageBannerUrl;
   }
 
-  toData(): IStore {
+  toData(filename: string): IStore {
     return {
       ...emptyStore,
       id: nanoid(10),
       name: this.name,
       location: this.location,
-      imageBannerUrl: this.imageBannerUrl
+      imageBannerUrl: filename
     };
   }
 

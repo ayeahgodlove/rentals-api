@@ -5,7 +5,6 @@ export interface IStore {
   name: string;
   location: string;
   imageBannerUrl: string;
-  //has reviews, products, branches
 }
 
 export const emptyStore: IStore = {

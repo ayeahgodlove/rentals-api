@@ -1,30 +1,28 @@
 import { Request, Response } from "express";
-import { IStore, IStoreResponse, emptyStore } from "../../domain/models/store";
-import { StoreUseCase } from "../../domain/usecases/store.usecase";
-import { StoreRepository } from "../../data/repositories/impl/store.repository";
-import { StoreMapper } from "../mappers/mapper";
-import { StoreRequestDto } from "../dtos/store-request.dto";
+import {
+  ISubCategory,
+  ISubCategoryResponse,
+  emptySubCategory,
+} from "../../domain/models/sub-category";
+import { SubCategoryUseCase } from "../../domain/usecases/sub-category.usecase";
+import { SubCategoryRepository } from "../../data/repositories/impl/sub-category.repository";
+import { SubCategoryMapper } from "../mappers/mapper";
+import { SubCategoryRequestDto } from "../dtos/sub-category-request.dto";
 import { validate } from "class-validator";
 import { displayValidationErrors } from "../../utils/displayValidationErrors";
 import { NotFoundException } from "../../shared/exceptions/not-found.exception";
 
-const storeRepository = new StoreRepository();
-const storeUseCase = new StoreUseCase(storeRepository);
-const storeMapper = new StoreMapper();
+const subCategoryRepository = new SubCategoryRepository();
+const subCategoryUseCase = new SubCategoryUseCase(subCategoryRepository);
+const subCategoryMapper = new SubCategoryMapper();
 
-export class StoresController {
-  async createStore(
+export class SubCategoriesController {
+  async createSubCategory(
     req: Request,
-    res: Response<IStoreResponse>
+    res: Response<ISubCategoryResponse>
   ): Promise<void> {
-    const dto = new StoreRequestDto(req.body);
+    const dto = new SubCategoryRequestDto(req.body);
     const validationErrors = await validate(dto);
-
-    const { filename  } = req.file as Express.Multer.File;
-
-    if (!filename ) {
-      throw new Error("Please select file!");
-    }
 
     if (validationErrors.length > 0) {
       res.status(400).json({
@@ -35,11 +33,13 @@ export class StoresController {
       });
     } else {
       try {
-        const storeResponse = await storeUseCase.createStore(dto.toData(filename));
+        const categoryResponse = await subCategoryUseCase.createSubCategory(
+          dto.toData()
+        );
 
         res.status(201).json({
-          data: storeResponse.toJSON<IStore>(),
-          message: "Store created Successfully!",
+          data: categoryResponse.toJSON<ISubCategory>(),
+          message: "SubCategory created Successfully!",
           validationErrors: [],
           success: true,
         });
@@ -58,19 +58,19 @@ export class StoresController {
     const page = parseInt(req.query.page as string) || 1;
     const pageSize = parseInt(req.query.pageSize as string) || 10;
     try {
-      const { rows, count } = await storeUseCase.getAll(page, pageSize);
-      const storesDTO = storeMapper.toDTOs(rows);
+      const { rows, count} = await subCategoryUseCase.getAll(page, pageSize);
+      const subCategoriesDTO = subCategoryMapper.toDTOs(rows);
 
       // total pages
       const totalPages = Math.ceil(count / pageSize);
 
       res.json({
-        data: storesDTO,
+        data: subCategoriesDTO,
         message: "Success",
         validationErrors: [],
         success: true,
         currentPage: page,
-        totalPages,
+        totalPages
       });
     } catch (error: any) {
       res.status(400).json({
@@ -82,20 +82,20 @@ export class StoresController {
     }
   }
 
-  async getStoreById(
+  async getSubCategoryById(
     req: Request,
-    res: Response<IStoreResponse>
+    res: Response<ISubCategoryResponse>
   ): Promise<void> {
     try {
       const id = req.params.id;
 
-      const store = await storeUseCase.getStoreById(id);
-      if (!store) {
-        throw new NotFoundException("Store", id);
+      const subCategory = await subCategoryUseCase.getSubCategoryById(id);
+      if (!subCategory) {
+        throw new NotFoundException("SubCategory", id);
       }
-      const storeDTO = storeMapper.toDTO(store);
+      const subCategoryDTO = subCategoryMapper.toDTO(subCategory);
       res.json({
-        data: storeDTO,
+        data: subCategoryDTO,
         message: "Success",
         validationErrors: [],
         success: true,
@@ -110,11 +110,11 @@ export class StoresController {
     }
   }
 
-  async updateStore(
+  async updateSubCategory(
     req: Request,
-    res: Response<IStoreResponse>
+    res: Response<ISubCategoryResponse>
   ): Promise<void> {
-    const dto = new StoreRequestDto(req.body);
+    const dto = new SubCategoryRequestDto(req.body);
     const validationErrors = await validate(dto);
 
     if (validationErrors.length > 0) {
@@ -128,17 +128,17 @@ export class StoresController {
       try {
         const id = req.params.id;
 
-        const obj: IStore = {
-          ...emptyStore,
+        const obj: ISubCategory = {
+          ...emptySubCategory,
           ...req.body,
           id: id,
         };
-        const updatedStore = await storeUseCase.updateStore(obj);
-        const storeDto = storeMapper.toDTO(updatedStore);
+        const updatedSubCategory = await subCategoryUseCase.updateSubCategory(obj);
+        const subCategoryDto = subCategoryMapper.toDTO(updatedSubCategory);
 
         res.json({
-          data: storeDto,
-          message: "Store Updated Successfully!",
+          data: subCategoryDto,
+          message: "SubCategory Updated Successfully!",
           validationErrors: [],
           success: true,
         });
@@ -153,14 +153,14 @@ export class StoresController {
     }
   }
 
-  async deleteStore(
+  async deleteSubCategory(
     req: Request,
-    res: Response<IStoreResponse>
+    res: Response<ISubCategoryResponse>
   ): Promise<void> {
     try {
       const id = req.params.id;
 
-      await storeUseCase.deleteStore(id);
+      await subCategoryUseCase.deleteSubCategory(id);
 
       res.status(204).json({
         message: `Operation successfully completed!`,

@@ -22,6 +22,7 @@ import productRouter from "./presentation/routes/product.route";
 import storeRouter from "./presentation/routes/store.route";
 import branchRouter from "./presentation/routes/branch.route";
 import { mainFunction } from "./shared/helper/google-map-api";
+import subCategoryRouter from "./presentation/routes/sub-category.route";
 
 dotenv.config();
 /**
@@ -90,6 +91,7 @@ app.get("/api", (req: Request, res: Response) => {
 });
 
 app.use("/api/categories", categoryRouter);
+app.use("/api/sub-categories", subCategoryRouter);
 app.use("/api/tags", tagRouter);
 app.use("/api/roles", roleRouter);
 app.use("/api/user-documents", userDocRouter);
