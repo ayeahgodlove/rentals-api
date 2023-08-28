@@ -47,6 +47,7 @@ const tag_route_1 = __importDefault(require("./presentation/routes/tag.route"));
 const product_route_1 = __importDefault(require("./presentation/routes/product.route"));
 const store_route_1 = __importDefault(require("./presentation/routes/store.route"));
 const branch_route_1 = __importDefault(require("./presentation/routes/branch.route"));
+const sub_category_route_1 = __importDefault(require("./presentation/routes/sub-category.route"));
 dotenv.config();
 /**
  * App Variables
@@ -98,6 +99,7 @@ app.get("/api", (req, res) => {
     res.send("Express + TypeScript Server");
 });
 app.use("/api/categories", category_route_1.default);
+app.use("/api/sub-categories", sub_category_route_1.default);
 app.use("/api/tags", tag_route_1.default);
 app.use("/api/roles", role_route_1.default);
 app.use("/api/user-documents", user_doc_route_1.default);

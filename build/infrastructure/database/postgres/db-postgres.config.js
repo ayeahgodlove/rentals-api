@@ -41,6 +41,7 @@ const store_1 = require("../../../data/entities/store");
 const product_image_1 = require("../../../data/entities/product-image");
 const product_1 = require("../../../data/entities/product");
 const tag_1 = require("../../../data/entities/tag");
+const sub_category_1 = require("../../../data/entities/sub-category");
 dotenv.config();
 class PostgresDbConfig {
     _sequelize;
@@ -57,6 +58,7 @@ class PostgresDbConfig {
             dialect: "postgres",
             models: [
                 category_1.Category,
+                sub_category_1.SubCategory,
                 user_1.User,
                 user_doc_1.UserDoc,
                 role_1.Role,
