@@ -1,18 +1,22 @@
-import Passport from "passport";
 import {
   Strategy as JwtStrategy,
   ExtractJwt,
   StrategyOptions,
 } from "passport-jwt";
 import { User } from "../../data/entities/user";
-import { RoleMapper } from "../../presentation/mappers/mapper";
+import Passport from "passport";
+
+export const SECRET_KEY = "mysecretkey";
 
 export const jwtOptions: StrategyOptions = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: "mysecretekey", // Replace with your actual secret key
+  secretOrKey: SECRET_KEY, // Replace with your actual secret key
 };
 
-const roleMapper = new RoleMapper();
+export const header = {
+  alg: "HS256",
+  typ: "JWT",
+};
 
 Passport.use(
   new JwtStrategy(jwtOptions, async (jwtPayload, done) => {

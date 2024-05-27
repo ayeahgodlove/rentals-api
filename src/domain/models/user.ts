@@ -1,5 +1,6 @@
+import { Role } from "../../data/entities/role";
 import { IBaseResponse } from "./base-response";
-
+import { IRole } from "./role";
 export interface IUser {
   id: string;
   firstname: string;
@@ -17,6 +18,8 @@ export interface IUser {
   createdAt: Date;
   updatedAt: Date;
   verified: boolean;
+
+  roles?: Role[] | IRole[]
 }
 
 export const emptyUser: IUser = {
