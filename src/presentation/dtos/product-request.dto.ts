@@ -1,12 +1,10 @@
 
-import { IsNotEmpty, IsNumber, IsString, Length } from "class-validator";
+import { IsNotEmpty, IsNumber, IsString, IsArray } from "class-validator";
 import { IProduct, emptyProduct } from "../../domain/models/product";
 import { nanoid } from "nanoid";
-
 export class ProductRequestDto {
   @IsNotEmpty()
   @IsString()
-  @Length(4, 128)
   name: string;
 
   @IsNotEmpty()
@@ -16,10 +14,6 @@ export class ProductRequestDto {
   @IsNotEmpty()
   @IsString()
   description: string;
-
-  @IsNotEmpty()
-  @IsString()
-  longDescription: string;
 
   @IsNotEmpty()
   @IsNumber()
@@ -45,11 +39,15 @@ export class ProductRequestDto {
   @IsNotEmpty()
   availabilityEndTime: Date;
 
+  
+  @IsNotEmpty()
+  @IsArray()
+  images: string[];
+
   constructor(data: IProduct) {
     this.name = data.name;
     this.storeId = data.storeId;
     this.description = data.description;
-    this.longDescription = data.longDescription;
     this.condition = data.condition;
     this.amount = data.amount;
     this.durationOfRentage = data.durationOfRentage;
@@ -57,6 +55,7 @@ export class ProductRequestDto {
     this.availabilityEndDate = data.availabilityEndDate;
     this.availabilityEndTime = data.availabilityEndTime;
     this.availabilityStartTime = data.availabilityStartTime;
+    this.images = data.images
   }
 
   toData(): IProduct {
@@ -66,7 +65,6 @@ export class ProductRequestDto {
       storeId: this.storeId,
       name: this.name,
       description: this.description,
-      longDescription: this.longDescription,
       amount: this.amount,
       durationOfRentage: this.durationOfRentage,
       condition: this.condition,
@@ -74,6 +72,7 @@ export class ProductRequestDto {
       availabilityEndTime: this.availabilityEndTime,
       availabilityStartDate: this.availabilityStartDate,
       availabilityStartTime: this.availabilityStartTime,
+      images: this.images
     };
   }
 
@@ -83,7 +82,6 @@ export class ProductRequestDto {
       name: data.name,
       storeId: data.storeId,
       description: data.description,
-      longDescription: data.longDescription,
       amount: data.amount,
       durationOfRentage: data.durationOfRentage,
       condition: data.condition,
@@ -91,6 +89,7 @@ export class ProductRequestDto {
       availabilityEndTime: data.availabilityEndTime,
       availabilityStartDate: data.availabilityStartDate,
       availabilityStartTime: data.availabilityStartTime,
+      images: data.images
     };
   }
 }

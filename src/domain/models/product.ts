@@ -7,7 +7,6 @@ export interface IProduct {
   amount: number;
 
   description: string;
-  longDescription: string;
 
   durationOfRentage: number;
   condition: string;
@@ -23,7 +22,6 @@ export const emptyProduct: IProduct = {
   name: "",
   storeId: "",
   description: "",
-  longDescription: "",
   amount: 0,
   durationOfRentage: 0,
   condition: "",
@@ -31,7 +29,7 @@ export const emptyProduct: IProduct = {
   availabilityEndDate: new Date(),
   availabilityStartTime: new Date(),
   availabilityEndTime: new Date(),
-  images: []
+  images: [] 
 };
 
 export interface IProductResponse extends IBaseResponse {
