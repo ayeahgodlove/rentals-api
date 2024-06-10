@@ -14,7 +14,6 @@ import { Review } from "../../../data/entities/review";
 import { UserDoc } from "../../../data/entities/user-doc";
 import { Branch } from "../../../data/entities/branch";
 import { Store } from "../../../data/entities/store";
-import { ProductImage } from "../../../data/entities/product-image";
 import { Product } from "../../../data/entities/product";
 import { Tag } from "../../../data/entities/tag";
 import { SubCategory } from "../../../data/entities/sub-category";
@@ -42,7 +41,6 @@ export class PostgresDbConfig {
         Branch,
         Store,
         Product,
-        ProductImage,
         Review,
         Tag
       ],

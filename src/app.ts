@@ -22,6 +22,7 @@ import productRouter from "./presentation/routes/product.route";
 import storeRouter from "./presentation/routes/store.route";
 import branchRouter from "./presentation/routes/branch.route";
 import subCategoryRouter from "./presentation/routes/sub-category.route";
+import uploadRouter from "./presentation/routes/upload.route";
 
 dotenv.config();
 /**
@@ -95,7 +96,7 @@ db.connection()
     app.use("/api/products", productRouter);
     app.use("/api/stores", storeRouter);
     app.use("/api/branches", branchRouter);
-
+    app.use("/api/uploads", uploadRouter);
     // middleware interceptions
     app.use(notFoundHandler);
 

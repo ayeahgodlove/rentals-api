@@ -8,13 +8,14 @@ export interface IProduct {
 
   description: string;
   longDescription: string;
-  
+
   durationOfRentage: number;
   condition: string;
   availabilityStartDate: Date;
   availabilityEndDate: Date;
   availabilityStartTime: Date;
   availabilityEndTime: Date;
+  images: string[];
 }
 
 export const emptyProduct: IProduct = {
@@ -29,7 +30,8 @@ export const emptyProduct: IProduct = {
   availabilityStartDate: new Date(),
   availabilityEndDate: new Date(),
   availabilityStartTime: new Date(),
-  availabilityEndTime: new Date()
+  availabilityEndTime: new Date(),
+  images: []
 };
 
 export interface IProductResponse extends IBaseResponse {

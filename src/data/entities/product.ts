@@ -3,12 +3,10 @@ import {
   Model,
   Column,
   DataType,
-  HasMany,
   BelongsTo,
   ForeignKey,
 } from "sequelize-typescript";
 import { IProduct } from "../../domain/models/product";
-import { ProductImage } from "./product-image";
 import { Store } from "./store";
 
 @Table({
@@ -16,7 +14,7 @@ import { Store } from "./store";
   paranoid: true,
   tableName: "product",
   modelName: "Product",
-}) 
+})
 export class Product extends Model<IProduct> {
   @Column({
     type: DataType.STRING(20),
@@ -28,7 +26,7 @@ export class Product extends Model<IProduct> {
   @ForeignKey(() => Store) // foreign key
   @Column
   storeId!: string;
-  
+
   @Column({
     type: DataType.STRING(128),
     allowNull: false,
@@ -88,8 +86,13 @@ export class Product extends Model<IProduct> {
   availabilityEndTime!: Date;
 
   // relationships
-  @HasMany(() => ProductImage)
-  productImages!: ProductImage[];
+
+  @Column({
+    type: DataType.ARRAY(DataType.STRING),
+    allowNull: false,
+    unique: false,
+  })
+  images!: string[];
 
   @BelongsTo(() => Store, "storeId")
   store!: Store;
