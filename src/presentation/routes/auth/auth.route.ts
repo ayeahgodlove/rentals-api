@@ -1,4 +1,3 @@
-// src/infrastructure/routes/category-routes.ts
 import { Router } from "express";
 import { IUser } from "../../../domain/models/user";
 import bcrypt from "bcrypt";
