@@ -16,10 +16,6 @@ class StoresController {
     async createStore(req, res) {
         const dto = new store_request_dto_1.StoreRequestDto(req.body);
         const validationErrors = await (0, class_validator_1.validate)(dto);
-        const { filename } = req.file;
-        if (!filename) {
-            throw new Error("Please select file!");
-        }
         if (validationErrors.length > 0) {
             res.status(400).json({
                 validationErrors: (0, displayValidationErrors_1.displayValidationErrors)(validationErrors),
@@ -30,7 +26,7 @@ class StoresController {
         }
         else {
             try {
-                const storeResponse = await storeUseCase.createStore(dto.toData(filename));
+                const storeResponse = await storeUseCase.createStore(dto.toData());
                 res.status(201).json({
                     data: storeResponse.toJSON(),
                     message: "Store created Successfully!",

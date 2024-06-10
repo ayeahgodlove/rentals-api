@@ -3,16 +3,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.jwtOptions = void 0;
-const passport_1 = __importDefault(require("passport"));
+exports.header = exports.jwtOptions = exports.SECRET_KEY = void 0;
 const passport_jwt_1 = require("passport-jwt");
 const user_1 = require("../../data/entities/user");
-const mapper_1 = require("../../presentation/mappers/mapper");
+const passport_1 = __importDefault(require("passport"));
+exports.SECRET_KEY = "mysecretkey";
 exports.jwtOptions = {
     jwtFromRequest: passport_jwt_1.ExtractJwt.fromAuthHeaderAsBearerToken(),
-    secretOrKey: "mysecretekey", // Replace with your actual secret key
+    secretOrKey: exports.SECRET_KEY, // Replace with your actual secret key
 };
-const roleMapper = new mapper_1.RoleMapper();
+exports.header = {
+    alg: "HS256",
+    typ: "JWT",
+};
 passport_1.default.use(new passport_jwt_1.Strategy(exports.jwtOptions, async (jwtPayload, done) => {
     try {
         // Find the user associated with the JWT token

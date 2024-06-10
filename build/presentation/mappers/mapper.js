@@ -1,7 +1,7 @@
 "use strict";
 // src/presentation/mappers/category-mapper.ts
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ReviewMapper = exports.RoleMapper = exports.UserDocMapper = exports.ProductImageMapper = exports.ProductMapper = exports.StoreMapper = exports.BranchMapper = exports.TagMapper = exports.UserMapper = exports.SubCategoryMapper = exports.CategoryMapper = void 0;
+exports.ReviewMapper = exports.RoleMapper = exports.UserDocMapper = exports.ProductMapper = exports.StoreMapper = exports.BranchMapper = exports.TagMapper = exports.UserMapper = exports.SubCategoryMapper = exports.CategoryMapper = void 0;
 class CategoryMapper {
     toDTO(category) {
         const entity = category.toJSON();
@@ -100,20 +100,6 @@ class ProductMapper {
     }
 }
 exports.ProductMapper = ProductMapper;
-class ProductImageMapper {
-    toDTO(productImage) {
-        const entity = productImage.toJSON();
-        return entity;
-    }
-    toDTOs(productImages) {
-        const _productImages = productImages.map((productImage) => {
-            const entity = productImage.toJSON();
-            return entity;
-        });
-        return _productImages;
-    }
-}
-exports.ProductImageMapper = ProductImageMapper;
 class UserDocMapper {
     toDTO(userDoc) {
         const entity = userDoc.toJSON();

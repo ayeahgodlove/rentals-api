@@ -18,8 +18,6 @@ import { IStore } from "../../domain/models/store";
 import { Store } from "../../data/entities/store";
 import { Product } from "../../data/entities/product";
 import { IProduct } from "../../domain/models/product";
-import { ProductImage } from "../../data/entities/product-image";
-import { IProductImage } from "../../domain/models/product-image";
 import { SubCategory } from "../../data/entities/sub-category";
 import { ISubCategory } from "../../domain/models/sub-category";
 
@@ -118,19 +116,6 @@ export class ProductMapper {
       return entity;
     });
     return _products;
-  }
-}
-export class ProductImageMapper {
-  toDTO(productImage: ProductImage): IProductImage {
-    const entity = productImage.toJSON<IProductImage>();
-    return entity;
-  }
-  toDTOs(productImages: ProductImage[]): IProductImage[] {
-    const _productImages = productImages.map((productImage) => {
-      const entity = productImage.toJSON<IProductImage>();
-      return entity;
-    });
-    return _productImages;
   }
 }
 export class UserDocMapper {

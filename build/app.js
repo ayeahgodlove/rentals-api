@@ -48,6 +48,7 @@ const product_route_1 = __importDefault(require("./presentation/routes/product.r
 const store_route_1 = __importDefault(require("./presentation/routes/store.route"));
 const branch_route_1 = __importDefault(require("./presentation/routes/branch.route"));
 const sub_category_route_1 = __importDefault(require("./presentation/routes/sub-category.route"));
+const upload_route_1 = __importDefault(require("./presentation/routes/upload.route"));
 dotenv.config();
 /**
  * App Variables
@@ -56,65 +57,64 @@ if (!process.env.PORT) {
     process.exit(1);
 }
 const PORT = parseInt(process.env.PORT, 10);
-const app = (0, express_1.default)();
-/**
- *  App Configuration
- */
-// Function to serve all static files
-// inside public directory.
-app.use(express_1.default.static('public'));
-app.use(express_1.default.static(path_1.default.join(__dirname, 'public')));
-// app.use('/uploads/avatars', express.static('avatars'));
-// enable the use of request body parsing middleware
-app
-    .use(express_1.default.urlencoded({
-    extended: true,
-}))
-    .use(express_1.default.json({ limit: "50kb" }))
-    .use((0, cors_1.default)({
-    origin: "*",
-    credentials: true,
-}))
-    .use((0, cookie_parser_1.default)())
-    .use((0, helmet_1.default)())
-    .use((0, express_session_1.default)({
-    // store: store,
-    secret: `${process.env.SESSION_SECRET}`,
-    resave: false,
-    saveUninitialized: false,
-    cookie: { secure: false, maxAge: 24 * 60 * 60 * 1000 },
-}))
-    .use(authz_middleware_1.default.initialize())
-    .use(authz_middleware_1.default.authenticate("session"))
-    .use(authz_middleware_1.default.session());
 const db = new db_postgres_config_1.PostgresDbConfig();
-db.connection();
-// authentication
-app.use("/", auth_route_1.authRoutes);
-// route  endpoints 
-app.get("/", (req, res) => {
-    res.send("Welcome to Rent Kojo REST API");
-});
-app.get("/api", (req, res) => {
-    res.send("Express + TypeScript Server");
-});
-app.use("/api/categories", category_route_1.default);
-app.use("/api/sub-categories", sub_category_route_1.default);
-app.use("/api/tags", tag_route_1.default);
-app.use("/api/roles", role_route_1.default);
-app.use("/api/user-documents", user_doc_route_1.default);
-app.use("/api/reviews", review_route_1.default);
-app.use("/api/users", user_route_1.default);
-app.use("/api/products", product_route_1.default);
-app.use("/api/stores", store_route_1.default);
-app.use("/api/branches", branch_route_1.default);
-// mainFunction();
-// middleware interceptions
-app.use(error_middleware_1.errorHandler);
-app.use(not_found_middleware_1.notFoundHandler);
-/**
- * Server Activation
- */
-app.listen(PORT, () => {
-    console.log(`⚡️[server]: Listening on port ${PORT}`);
+db.connection()
+    .then(() => {
+    const app = (0, express_1.default)();
+    /**
+     *  App Configuration
+     */
+    // Serve static files from the public folder
+    app.use(express_1.default.static("public"));
+    app.use(express_1.default.static(path_1.default.join(__dirname, "public")));
+    const corsOptions = {
+        origin: "*",
+        credentials: true,
+    };
+    app.use((0, cors_1.default)(corsOptions));
+    app
+        .use(express_1.default.urlencoded({
+        extended: true,
+    }))
+        .use(express_1.default.json({ limit: "50kb" }))
+        .use((0, cookie_parser_1.default)())
+        .use((0, helmet_1.default)())
+        .use((0, express_session_1.default)({
+        // store: store,
+        secret: `${process.env.SESSION_SECRET}`,
+        resave: false,
+        saveUninitialized: false,
+        cookie: { secure: false, maxAge: 24 * 60 * 60 * 1000 },
+    }))
+        .use(authz_middleware_1.default.initialize())
+        .use(authz_middleware_1.default.authenticate("session"))
+        .use(authz_middleware_1.default.session());
+    app.use(error_middleware_1.errorHandler);
+    // authentication
+    app.use("/auth", auth_route_1.authRoutes);
+    app.get("/api", (req, res) => {
+        res.send("Express + TypeScript Server");
+    });
+    app.use("/api/categories", category_route_1.default);
+    app.use("/api/sub-categories", sub_category_route_1.default);
+    app.use("/api/tags", tag_route_1.default);
+    app.use("/api/roles", role_route_1.default);
+    app.use("/api/user-documents", user_doc_route_1.default);
+    app.use("/api/reviews", review_route_1.default);
+    app.use("/api/users", user_route_1.default);
+    app.use("/api/products", product_route_1.default);
+    app.use("/api/stores", store_route_1.default);
+    app.use("/api/branches", branch_route_1.default);
+    app.use("/api/uploads", upload_route_1.default);
+    // middleware interceptions
+    app.use(not_found_middleware_1.notFoundHandler);
+    /**
+     * Server Activation
+     */
+    app.listen(PORT, () => {
+        console.log(`⚡️[server]: Listening on port ${PORT}`);
+    });
+})
+    .catch((erro) => {
+    console.log("error: ", erro);
 });

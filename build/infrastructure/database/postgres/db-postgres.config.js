@@ -38,7 +38,6 @@ const review_1 = require("../../../data/entities/review");
 const user_doc_1 = require("../../../data/entities/user-doc");
 const branch_1 = require("../../../data/entities/branch");
 const store_1 = require("../../../data/entities/store");
-const product_image_1 = require("../../../data/entities/product-image");
 const product_1 = require("../../../data/entities/product");
 const tag_1 = require("../../../data/entities/tag");
 const sub_category_1 = require("../../../data/entities/sub-category");
@@ -65,7 +64,6 @@ class PostgresDbConfig {
                 branch_1.Branch,
                 store_1.Store,
                 product_1.Product,
-                product_image_1.ProductImage,
                 review_1.Review,
                 tag_1.Tag
             ],

@@ -6,12 +6,12 @@ exports.emptyProduct = {
     name: "",
     storeId: "",
     description: "",
-    longDescription: "",
     amount: 0,
     durationOfRentage: 0,
     condition: "",
     availabilityStartDate: new Date(),
     availabilityEndDate: new Date(),
     availabilityStartTime: new Date(),
-    availabilityEndTime: new Date()
+    availabilityEndTime: new Date(),
+    images: []
 };

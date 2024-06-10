@@ -17,22 +17,19 @@ const nanoid_1 = require("nanoid");
 class StoreRequestDto {
     name;
     location;
-    // @IsNotEmpty()
-    // @IsString()
-    // @Length(4, 255)
-    // imageBannerUrl: string;
+    imageBannerUrl;
     constructor(data) {
         this.name = data.name;
         this.location = data.location;
-        // this.imageBannerUrl = data.imageBannerUrl;
+        this.imageBannerUrl = data.imageBannerUrl;
     }
-    toData(filename) {
+    toData() {
         return {
             ...store_1.emptyStore,
             id: (0, nanoid_1.nanoid)(10),
             name: this.name,
             location: this.location,
-            imageBannerUrl: filename
+            imageBannerUrl: this.imageBannerUrl,
         };
     }
     toUpdateData(data) {
@@ -40,20 +37,23 @@ class StoreRequestDto {
             id: data.id,
             name: data.name,
             location: data.location,
-            imageBannerUrl: data.imageBannerUrl
+            imageBannerUrl: data.imageBannerUrl,
         };
     }
 }
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsString)(),
-    (0, class_validator_1.Length)(4, 128),
     __metadata("design:type", String)
 ], StoreRequestDto.prototype, "name", void 0);
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsString)(),
-    (0, class_validator_1.Length)(4, 128),
     __metadata("design:type", String)
 ], StoreRequestDto.prototype, "location", void 0);
+__decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], StoreRequestDto.prototype, "imageBannerUrl", void 0);
 exports.StoreRequestDto = StoreRequestDto;

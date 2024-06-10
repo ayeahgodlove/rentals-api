@@ -11,14 +11,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Product = void 0;
 const sequelize_typescript_1 = require("sequelize-typescript");
-const product_image_1 = require("./product-image");
 const store_1 = require("./store");
 let Product = class Product extends sequelize_typescript_1.Model {
     storeId;
     name;
     amount;
     description;
-    longDescription;
     durationOfRentage;
     condition;
     availabilityStartDate;
@@ -26,7 +24,7 @@ let Product = class Product extends sequelize_typescript_1.Model {
     availabilityStartTime;
     availabilityEndTime;
     // relationships
-    productImages;
+    images;
     store;
 };
 __decorate([
@@ -68,13 +66,6 @@ __decorate([
 ], Product.prototype, "description", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.TEXT,
-        allowNull: false,
-    }),
-    __metadata("design:type", String)
-], Product.prototype, "longDescription", void 0);
-__decorate([
-    (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.INTEGER,
         allowNull: false,
         defaultValue: 0,
@@ -113,9 +104,13 @@ __decorate([
     __metadata("design:type", Date)
 ], Product.prototype, "availabilityEndTime", void 0);
 __decorate([
-    (0, sequelize_typescript_1.HasMany)(() => product_image_1.ProductImage),
+    (0, sequelize_typescript_1.Column)({
+        type: sequelize_typescript_1.DataType.ARRAY(sequelize_typescript_1.DataType.STRING),
+        allowNull: false,
+        unique: false,
+    }),
     __metadata("design:type", Array)
-], Product.prototype, "productImages", void 0);
+], Product.prototype, "images", void 0);
 __decorate([
     (0, sequelize_typescript_1.BelongsTo)(() => store_1.Store, "storeId"),
     __metadata("design:type", store_1.Store)

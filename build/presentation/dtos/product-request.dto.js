@@ -17,7 +17,6 @@ class ProductRequestDto {
     name;
     storeId;
     description;
-    longDescription;
     amount;
     durationOfRentage;
     condition;
@@ -25,11 +24,11 @@ class ProductRequestDto {
     availabilityEndDate;
     availabilityStartTime;
     availabilityEndTime;
+    images;
     constructor(data) {
         this.name = data.name;
         this.storeId = data.storeId;
         this.description = data.description;
-        this.longDescription = data.longDescription;
         this.condition = data.condition;
         this.amount = data.amount;
         this.durationOfRentage = data.durationOfRentage;
@@ -37,6 +36,7 @@ class ProductRequestDto {
         this.availabilityEndDate = data.availabilityEndDate;
         this.availabilityEndTime = data.availabilityEndTime;
         this.availabilityStartTime = data.availabilityStartTime;
+        this.images = data.images;
     }
     toData() {
         return {
@@ -45,7 +45,6 @@ class ProductRequestDto {
             storeId: this.storeId,
             name: this.name,
             description: this.description,
-            longDescription: this.longDescription,
             amount: this.amount,
             durationOfRentage: this.durationOfRentage,
             condition: this.condition,
@@ -53,6 +52,7 @@ class ProductRequestDto {
             availabilityEndTime: this.availabilityEndTime,
             availabilityStartDate: this.availabilityStartDate,
             availabilityStartTime: this.availabilityStartTime,
+            images: this.images
         };
     }
     toUpdateData(data) {
@@ -61,7 +61,6 @@ class ProductRequestDto {
             name: data.name,
             storeId: data.storeId,
             description: data.description,
-            longDescription: data.longDescription,
             amount: data.amount,
             durationOfRentage: data.durationOfRentage,
             condition: data.condition,
@@ -69,13 +68,13 @@ class ProductRequestDto {
             availabilityEndTime: data.availabilityEndTime,
             availabilityStartDate: data.availabilityStartDate,
             availabilityStartTime: data.availabilityStartTime,
+            images: data.images
         };
     }
 }
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsString)(),
-    (0, class_validator_1.Length)(4, 128),
     __metadata("design:type", String)
 ], ProductRequestDto.prototype, "name", void 0);
 __decorate([
@@ -88,11 +87,6 @@ __decorate([
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], ProductRequestDto.prototype, "description", void 0);
-__decorate([
-    (0, class_validator_1.IsNotEmpty)(),
-    (0, class_validator_1.IsString)(),
-    __metadata("design:type", String)
-], ProductRequestDto.prototype, "longDescription", void 0);
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsNumber)(),
@@ -124,4 +118,9 @@ __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", Date)
 ], ProductRequestDto.prototype, "availabilityEndTime", void 0);
+__decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsArray)(),
+    __metadata("design:type", Array)
+], ProductRequestDto.prototype, "images", void 0);
 exports.ProductRequestDto = ProductRequestDto;
